@@ -1,12 +1,12 @@
-﻿using BE;
-using DAL;
+﻿using TalentFinder.BE;
+using TalentFinder.DAL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL
+namespace TalentFinder.BLL
 {
 	public class UsuarioManager
 	{

@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GUI
+namespace TalentFinder.GUI
 {
 	public partial class FrmPanelControl : Form
 	{

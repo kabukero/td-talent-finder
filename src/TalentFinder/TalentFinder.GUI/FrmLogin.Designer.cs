@@ -1,4 +1,4 @@
-﻿namespace GUI
+﻿namespace TalentFinder.GUI
 {
 	partial class FrmLogin
 	{

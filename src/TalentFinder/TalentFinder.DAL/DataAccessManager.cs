@@ -4,7 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
 
-namespace DAL
+namespace TalentFinder.DAL
 {
 	internal class DataAccessManager
 	{

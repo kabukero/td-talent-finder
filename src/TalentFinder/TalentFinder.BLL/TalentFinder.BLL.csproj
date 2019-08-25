@@ -7,8 +7,8 @@
     <ProjectGuid>{153C9766-7628-465B-B1AE-CC8F8F6EE6B7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BLL</RootNamespace>
-    <AssemblyName>BLL</AssemblyName>
+    <RootNamespace>TalentFinder.BLL</RootNamespace>
+    <AssemblyName>TalentFinder.BLL</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -45,13 +45,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BE\BE.csproj">
+    <ProjectReference Include="..\TalentFinder.BE\TalentFinder.BE.csproj">
       <Project>{151A542B-48B2-4B0C-AEBA-9704112D576E}</Project>
-      <Name>BE</Name>
+      <Name>TalentFinder.BE</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DAL\DAL.csproj">
+    <ProjectReference Include="..\TalentFinder.DAL\TalentFinder.DAL.csproj">
       <Project>{511BE9C1-0E9E-466C-92FB-FABB8FBCD7CC}</Project>
-      <Name>DAL</Name>
+      <Name>TalentFinder.DAL</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
