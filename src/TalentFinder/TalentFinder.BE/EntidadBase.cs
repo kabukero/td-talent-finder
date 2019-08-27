@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
-	public class Usuario : EntidadBase
+	public class EntidadBase
 	{
-		public string UserName { get; set; }
-		public string UserPassword { get; set; }
+		public int Id { get; set; }
 	}
 }

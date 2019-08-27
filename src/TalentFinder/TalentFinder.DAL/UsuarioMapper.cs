@@ -11,24 +11,35 @@ namespace TalentFinder.DAL
 {
 	public class UsuarioMapper
 	{
-		public bool Login(Usuario usuario)
+		public int ExisteUsuario(Usuario usuario)
 		{
-			bool r = true;
-
 			DataAccessManager da = new DataAccessManager();
 			da.Abrir();
-
 			List<SqlParameter> parametros = new List<SqlParameter>();
 			parametros.Add(da.CrearParametro("@UserName", usuario.UserName));
-			parametros.Add(da.CrearParametro("@UserPassword", usuario.Password));
 			int f = da.LeerEscalar("LoginUsuario", parametros);
-
-			if(f == 0)
-				r = false;
-
 			da.Cerrar();
+			return f;
+		}
 
-			return r;
+		public Usuario GetUsuario(string userName)
+		{
+			Usuario usuario = null;
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			List<SqlParameter> parametros = new List<SqlParameter>();
+			parametros.Add(da.CrearParametro("@UserName", userName));
+			DataTable tabla = da.Leer("GetUsuario", parametros);
+			if(tabla.Rows.Count > 0)
+			{
+				DataRow registro = tabla.Rows[0];
+				usuario = new Usuario();
+				usuario.Id = int.Parse(registro["Id"].ToString());
+				usuario.UserName = registro["UserName"].ToString();
+				usuario.UserPassword = registro["UserPassword"].ToString();
+			}
+			da.Cerrar();
+			return usuario;
 		}
 	}
 }

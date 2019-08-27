@@ -5,11 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TalentFinder.Seguridad;
 
 namespace TalentFinder.BLL
 {
 	public class UsuarioManager
 	{
+		private const int CantidadMaximaIntentos = 3;
 		public int CantidadIntentosLogin { get; set; }
 
 		public UsuarioManager()
@@ -17,36 +19,51 @@ namespace TalentFinder.BLL
 			CantidadIntentosLogin = 0;
 		}
 
-		public bool Login(Usuario usuario)
+		public bool ValidarUsuario(Usuario usuario)
 		{
 			CantidadIntentosLogin++;
+
+			// validar si el usuario esta registrado
 			UsuarioMapper mapper = new UsuarioMapper();
-			return mapper.Login(usuario);
+			int f = mapper.ExisteUsuario(usuario);
+
+			if(f != 1)
+				return false;
+
+			// validar password
+			Usuario UsuarioEncontrado = mapper.GetUsuario(usuario.UserName);
+			if(UsuarioEncontrado == null)
+				return false;
+
+			string hash = EncryptorManager.GetPasswordHash(UsuarioEncontrado.UserPassword);
+			if(!EncryptorManager.VerifyPasswordHash(UsuarioEncontrado.UserPassword, hash))
+				return false;
+
+			return true;
 		}
 
 		public Usuario CrearUsuarioLogin(string usuario, string password)
 		{
-			return new Usuario() { UserName = usuario, Password = password };
+			return new Usuario() { UserName = usuario, UserPassword = password };
 		}
 
 		public bool ValidarLogin(Usuario usuario)
 		{
-			bool r = true;
-			if(string.IsNullOrEmpty(usuario.UserName))
-				r = false;
+			if(string.IsNullOrEmpty(usuario.UserName) || usuario.UserName.Length > 50)
+				return false;
 
-			if(string.IsNullOrEmpty(usuario.Password))
-				r = false;
+			if(string.IsNullOrEmpty(usuario.UserPassword) || usuario.UserPassword.Length > 50)
+				return false;
 
-			if(!Login(usuario))
-				r = false;
+			if(!ValidarUsuario(usuario))
+				return false;
 
-			return r;
+			return true;
 		}
 
 		public bool SuperoMaximoIntentosLogin()
 		{
-			return CantidadIntentosLogin == 3;
+			return CantidadIntentosLogin == CantidadMaximaIntentos;
 		}
 	}
 }

@@ -53,6 +53,10 @@
       <Project>{511BE9C1-0E9E-466C-92FB-FABB8FBCD7CC}</Project>
       <Name>TalentFinder.DAL</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TalentFinder.Seguridad\TalentFinder.Seguridad.csproj">
+      <Project>{3AF91E98-D073-427E-8EF4-9AE7357E713E}</Project>
+      <Name>TalentFinder.Seguridad</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
