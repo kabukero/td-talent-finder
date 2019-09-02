@@ -42,9 +42,7 @@ namespace TalentFinder.Seguridad
 				int iterations = Convert.ToInt32(parts[0]);
 
 				using(Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, saltBytes, iterations))
-				{
 					derived = pbkdf2.GetBytes(HashByteSize);
-				}
 
 				string new_hash = string.Format("{0}:{1}:{2}", Iterations, Convert.ToBase64String(derived), Convert.ToBase64String(saltBytes));
 

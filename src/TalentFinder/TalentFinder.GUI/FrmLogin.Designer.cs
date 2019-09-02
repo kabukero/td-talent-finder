@@ -35,6 +35,7 @@
 			this.BtnIngresar = new System.Windows.Forms.Button();
 			this.BtnCancelar = new System.Windows.Forms.Button();
 			this.LblTitulo = new System.Windows.Forms.Label();
+			this.BtnRegistrarse = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// LblUsuario
@@ -74,7 +75,7 @@
 			// 
 			// BtnIngresar
 			// 
-			this.BtnIngresar.Location = new System.Drawing.Point(131, 226);
+			this.BtnIngresar.Location = new System.Drawing.Point(59, 226);
 			this.BtnIngresar.Name = "BtnIngresar";
 			this.BtnIngresar.Size = new System.Drawing.Size(118, 62);
 			this.BtnIngresar.TabIndex = 2;
@@ -84,11 +85,11 @@
 			// 
 			// BtnCancelar
 			// 
-			this.BtnCancelar.Location = new System.Drawing.Point(274, 226);
+			this.BtnCancelar.Location = new System.Drawing.Point(332, 226);
 			this.BtnCancelar.Name = "BtnCancelar";
 			this.BtnCancelar.Size = new System.Drawing.Size(118, 62);
 			this.BtnCancelar.TabIndex = 3;
-			this.BtnCancelar.Text = "Cancelar";
+			this.BtnCancelar.Text = "Salir";
 			this.BtnCancelar.UseVisualStyleBackColor = true;
 			this.BtnCancelar.Click += new System.EventHandler(this.BtnCancelar_Click);
 			// 
@@ -102,11 +103,22 @@
 			this.LblTitulo.TabIndex = 5;
 			this.LblTitulo.Text = "Ingrese sus credenciales";
 			// 
+			// BtnRegistrarse
+			// 
+			this.BtnRegistrarse.Location = new System.Drawing.Point(198, 226);
+			this.BtnRegistrarse.Name = "BtnRegistrarse";
+			this.BtnRegistrarse.Size = new System.Drawing.Size(118, 62);
+			this.BtnRegistrarse.TabIndex = 6;
+			this.BtnRegistrarse.Text = "Registrarse";
+			this.BtnRegistrarse.UseVisualStyleBackColor = true;
+			this.BtnRegistrarse.Click += new System.EventHandler(this.BtnRegistrarse_Click);
+			// 
 			// FrmLogin
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(503, 330);
+			this.Controls.Add(this.BtnRegistrarse);
 			this.Controls.Add(this.LblTitulo);
 			this.Controls.Add(this.BtnCancelar);
 			this.Controls.Add(this.BtnIngresar);
@@ -133,5 +145,6 @@
 		private System.Windows.Forms.Button BtnIngresar;
 		private System.Windows.Forms.Button BtnCancelar;
 		private System.Windows.Forms.Label LblTitulo;
+		private System.Windows.Forms.Button BtnRegistrarse;
 	}
 }

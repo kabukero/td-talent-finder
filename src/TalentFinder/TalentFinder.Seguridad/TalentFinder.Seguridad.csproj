@@ -43,6 +43,13 @@
   <ItemGroup>
     <Compile Include="EncryptorManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SessionManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TalentFinder.BE\TalentFinder.BE.csproj">
+      <Project>{151A542B-48B2-4B0C-AEBA-9704112D576E}</Project>
+      <Name>TalentFinder.BE</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

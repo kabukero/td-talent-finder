@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using TalentFinder.Seguridad;
 
 namespace TalentFinder.GUI
 {
@@ -20,6 +14,11 @@ namespace TalentFinder.GUI
 		private void salirToolStripMenuItem_Click(object sender, EventArgs e)
 		{
 			Application.Exit();
+		}
+
+		private void FrmPanelControl_Load(object sender, EventArgs e)
+		{
+			LblUsuarioLogueado.Text = Program.usuarioSesion.UsuarioLogueado.UserName;
 		}
 	}
 }

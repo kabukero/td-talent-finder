@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using TalentFinder.BE;
 using TalentFinder.BLL;
+using TalentFinder.Seguridad;
 
 namespace TalentFinder.GUI
 {
@@ -30,15 +24,15 @@ namespace TalentFinder.GUI
 			Usuario usuario = usuarioManager.CrearUsuarioLogin(TxtUsuario.Text, TxtPassword.Text);
 			if(usuarioManager.ValidarLogin(usuario))
 			{
+				// crear sesion usuario logueado
+				Program.usuarioSesion = SessionManager.GetUsuarioSesion();
+				Program.usuarioSesion.UsuarioLogueado = usuario;
 				GoToPanelDeControl();
 			}
 			else
 			{
-				if(usuarioManager.SuperoMaximoIntentosLogin())
-				{
-					// TODO: deshabilitar usuario
+				if(usuarioManager.SuperoMaximoIntentosLogin(usuario))
 					Application.Exit();
-				}
 				else
 				{
 					LimpiarForm();
@@ -56,6 +50,13 @@ namespace TalentFinder.GUI
 		private void GoToPanelDeControl()
 		{
 			FrmPanelControl frm = new FrmPanelControl();
+			frm.Show();
+			this.Hide();
+		}
+
+		private void BtnRegistrarse_Click(object sender, EventArgs e)
+		{
+			FrmRegistrarse frm = new FrmRegistrarse();
 			frm.Show();
 			this.Hide();
 		}

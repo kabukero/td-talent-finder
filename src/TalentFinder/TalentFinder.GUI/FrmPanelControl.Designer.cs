@@ -33,6 +33,7 @@
 			this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
+			this.LblUsuarioLogueado = new System.Windows.Forms.Label();
 			this.menuStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.SuspendLayout();
@@ -58,7 +59,7 @@
 			// salirToolStripMenuItem
 			// 
 			this.salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-			this.salirToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+			this.salirToolStripMenuItem.Size = new System.Drawing.Size(96, 22);
 			this.salirToolStripMenuItem.Text = "Salir";
 			this.salirToolStripMenuItem.Click += new System.EventHandler(this.salirToolStripMenuItem_Click);
 			// 
@@ -72,11 +73,21 @@
 			this.pictureBox1.TabIndex = 1;
 			this.pictureBox1.TabStop = false;
 			// 
+			// LblUsuarioLogueado
+			// 
+			this.LblUsuarioLogueado.AutoSize = true;
+			this.LblUsuarioLogueado.Location = new System.Drawing.Point(573, 34);
+			this.LblUsuarioLogueado.Name = "LblUsuarioLogueado";
+			this.LblUsuarioLogueado.Size = new System.Drawing.Size(49, 24);
+			this.LblUsuarioLogueado.TabIndex = 2;
+			this.LblUsuarioLogueado.Text = "User";
+			// 
 			// FrmPanelControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(660, 482);
+			this.Controls.Add(this.LblUsuarioLogueado);
 			this.Controls.Add(this.pictureBox1);
 			this.Controls.Add(this.menuStrip1);
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -85,6 +96,7 @@
 			this.Name = "FrmPanelControl";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Panel Control";
+			this.Load += new System.EventHandler(this.FrmPanelControl_Load);
 			this.menuStrip1.ResumeLayout(false);
 			this.menuStrip1.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -99,5 +111,6 @@
 		private System.Windows.Forms.ToolStripMenuItem archivoToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
 		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.Label LblUsuarioLogueado;
 	}
 }

@@ -1,10 +1,5 @@
 ﻿using TalentFinder.BE;
 using TalentFinder.DAL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TalentFinder.Seguridad;
 
 namespace TalentFinder.BLL
@@ -22,22 +17,19 @@ namespace TalentFinder.BLL
 		public bool ValidarUsuario(Usuario usuario)
 		{
 			CantidadIntentosLogin++;
+			UsuarioMapper mapper = new UsuarioMapper();
 
 			// validar si el usuario esta registrado
-			UsuarioMapper mapper = new UsuarioMapper();
-			int f = mapper.ExisteUsuario(usuario);
-
-			if(f != 1)
-				return false;
-
-			// validar password
 			Usuario UsuarioEncontrado = mapper.GetUsuario(usuario.UserName);
 			if(UsuarioEncontrado == null)
 				return false;
 
-			string hash = EncryptorManager.GetPasswordHash(UsuarioEncontrado.UserPassword);
-			if(!EncryptorManager.VerifyPasswordHash(UsuarioEncontrado.UserPassword, hash))
+			// validar password
+			if(!EncryptorManager.VerifyPasswordHash(usuario.UserPassword, UsuarioEncontrado.UserPassword))
 				return false;
+
+			// set id usuario
+			usuario.Id = UsuarioEncontrado.Id;
 
 			return true;
 		}
@@ -61,9 +53,21 @@ namespace TalentFinder.BLL
 			return true;
 		}
 
-		public bool SuperoMaximoIntentosLogin()
+		public bool SuperoMaximoIntentosLogin(Usuario usuario)
 		{
-			return CantidadIntentosLogin == CantidadMaximaIntentos;
+			bool r = CantidadIntentosLogin == CantidadMaximaIntentos;
+			if(r)
+				DeshabilitarUsuario(usuario);
+			return r;
+		}
+
+		public int DeshabilitarUsuario(Usuario usuario)
+		{
+			UsuarioMapper mapper = new UsuarioMapper();
+			int f = mapper.ExisteUsuario(usuario);
+			if(f > 0)
+				f = mapper.DeshabilitarUsuario(usuario);
+			return f;
 		}
 	}
 }

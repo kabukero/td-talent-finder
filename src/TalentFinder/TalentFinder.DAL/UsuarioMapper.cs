@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using TalentFinder.BE;
@@ -40,6 +36,17 @@ namespace TalentFinder.DAL
 			}
 			da.Cerrar();
 			return usuario;
+		}
+
+		public int DeshabilitarUsuario(Usuario usuario)
+		{
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			List<SqlParameter> parametros = new List<SqlParameter>();
+			parametros.Add(da.CrearParametro("@UserName", usuario.UserName));
+			int f = da.Escribir("DeshabilitarUsuario", parametros);
+			da.Cerrar();
+			return f;
 		}
 	}
 }
