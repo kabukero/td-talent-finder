@@ -1,3 +1,8 @@
+************************************************************
+.NET FRAMEWORK VERSION UAI LAB: .NET Framework 4.5.2
+************************************************************
+
+administrador
 geozed
 123456
 4096:wizXm5gjr+/o4kk0vwSJvAEQSSwMBYGG0M5avlZbZYU=:6S4KgHmnH3rucUPNjXxBR4F8kK96EijJYXMOS+pcmZM=

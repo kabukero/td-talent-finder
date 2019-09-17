@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using TalentFinder.BE;
@@ -47,6 +48,24 @@ namespace TalentFinder.DAL
 			int f = da.Escribir("DeshabilitarUsuario", parametros);
 			da.Cerrar();
 			return f;
+		}
+
+		public List<Usuario> GetUsuarios()
+		{
+			List<Usuario> lista = new List<Usuario>();
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			DataTable tabla = da.Leer("GetUsuarios", null);
+			da.Cerrar();
+
+			foreach(DataRow fila in tabla.Rows)
+			{
+				Usuario usuario = new Usuario();
+				usuario.Id = int.Parse(fila["Id"].ToString());
+				usuario.UserName = fila["UserName"].ToString();
+				lista.Add(usuario);
+			}
+			return lista;
 		}
 	}
 }

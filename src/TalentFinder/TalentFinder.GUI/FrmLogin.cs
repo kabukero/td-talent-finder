@@ -2,13 +2,14 @@
 using System.Windows.Forms;
 using TalentFinder.BE;
 using TalentFinder.BLL;
-using TalentFinder.Seguridad;
 
 namespace TalentFinder.GUI
 {
 	public partial class FrmLogin : Form
 	{
 		private UsuarioManager usuarioManager = new UsuarioManager();
+		private BitacoraManager bitacoraManager = new BitacoraManager();
+		private PerfilPermisoManager perfilPermisoManager = new PerfilPermisoManager();
 		public FrmLogin()
 		{
 			InitializeComponent();
@@ -24,9 +25,7 @@ namespace TalentFinder.GUI
 			Usuario usuario = usuarioManager.CrearUsuarioLogin(TxtUsuario.Text, TxtPassword.Text);
 			if(usuarioManager.ValidarLogin(usuario))
 			{
-				// crear sesion usuario logueado
-				Program.usuarioSesion = SessionManager.GetUsuarioSesion();
-				Program.usuarioSesion.UsuarioLogueado = usuario;
+				bitacoraManager.RegistrarEntrada(usuario, perfilPermisoManager.GetPermiso((int)Permisos.LOGIN_SISTEMA), "Ingresó al sistema");
 				GoToPanelDeControl();
 			}
 			else
@@ -50,15 +49,14 @@ namespace TalentFinder.GUI
 		private void GoToPanelDeControl()
 		{
 			FrmPanelControl frm = new FrmPanelControl();
+			frm.IsMdiContainer = true;
 			frm.Show();
 			this.Hide();
 		}
 
-		private void BtnRegistrarse_Click(object sender, EventArgs e)
+		private void FrmLogin_Load(object sender, EventArgs e)
 		{
-			FrmRegistrarse frm = new FrmRegistrarse();
-			frm.Show();
-			this.Hide();
+
 		}
 	}
 }

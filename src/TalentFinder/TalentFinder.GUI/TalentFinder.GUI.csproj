@@ -8,10 +8,11 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>TalentFinder.GUI</RootNamespace>
     <AssemblyName>TalentFinder.GUI</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,6 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrmGestionEmpresa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmGestionEmpresa.Designer.cs">
+      <DependentUpon>FrmGestionEmpresa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmHome.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmHome.Designer.cs">
+      <DependentUpon>FrmHome.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,22 +71,37 @@
     <Compile Include="FrmPanelControl.Designer.cs">
       <DependentUpon>FrmPanelControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmRegistrarse.cs">
+    <Compile Include="FrmGestionPerfilesPermisos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmRegistrarse.Designer.cs">
-      <DependentUpon>FrmRegistrarse.cs</DependentUpon>
+    <Compile Include="FrmGestionPerfilesPermisos.Designer.cs">
+      <DependentUpon>FrmGestionPerfilesPermisos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmGestionUsuariosPerfilesPermisos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmGestionUsuariosPerfilesPermisos.Designer.cs">
+      <DependentUpon>FrmGestionUsuariosPerfilesPermisos.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmGestionEmpresa.resx">
+      <DependentUpon>FrmGestionEmpresa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmHome.resx">
+      <DependentUpon>FrmHome.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmPanelControl.resx">
       <DependentUpon>FrmPanelControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FrmRegistrarse.resx">
-      <DependentUpon>FrmRegistrarse.cs</DependentUpon>
+    <EmbeddedResource Include="FrmGestionPerfilesPermisos.resx">
+      <DependentUpon>FrmGestionPerfilesPermisos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmGestionUsuariosPerfilesPermisos.resx">
+      <DependentUpon>FrmGestionUsuariosPerfilesPermisos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

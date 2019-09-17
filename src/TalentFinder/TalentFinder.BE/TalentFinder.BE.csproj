@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TalentFinder.BE</RootNamespace>
     <AssemblyName>TalentFinder.BE</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,7 +42,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AvisoLaboral.cs" />
+    <Compile Include="Bitacora.cs" />
+    <Compile Include="DigitoVerificadorVertical.cs" />
+    <Compile Include="Empresa.cs" />
     <Compile Include="EntidadBase.cs" />
+    <Compile Include="Perfil.cs" />
+    <Compile Include="Permiso.cs" />
+    <Compile Include="PermisoComponent.cs" />
+    <Compile Include="PermisoPermiso.cs" />
+    <Compile Include="Permisos.cs" />
+    <Compile Include="Persona.cs" />
+    <Compile Include="Postulacion.cs" />
+    <Compile Include="Profesional.cs" />
+    <Compile Include="Reclutador.cs" />
+    <Compile Include="TablaSistema.cs" />
+    <Compile Include="TablasSistema.cs" />
+    <Compile Include="TipoPermiso.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
