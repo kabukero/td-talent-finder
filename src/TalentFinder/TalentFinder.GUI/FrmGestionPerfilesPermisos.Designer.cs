@@ -40,22 +40,20 @@
 			this.BtnAgregarPermiso = new System.Windows.Forms.Button();
 			this.LblPerfiles = new System.Windows.Forms.Label();
 			this.LblPermisos = new System.Windows.Forms.Label();
-			this.LblPerfil = new System.Windows.Forms.Label();
 			this.BtnEditar = new System.Windows.Forms.Button();
 			this.BtnEliminar = new System.Windows.Forms.Button();
+			this.gbPerfil = new System.Windows.Forms.GroupBox();
+			this.gbPerfil.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// TvwPerfilesPermisos
 			// 
-			this.TvwPerfilesPermisos.AllowDrop = true;
+			this.TvwPerfilesPermisos.HideSelection = false;
 			this.TvwPerfilesPermisos.Location = new System.Drawing.Point(10, 36);
 			this.TvwPerfilesPermisos.Name = "TvwPerfilesPermisos";
 			this.TvwPerfilesPermisos.Size = new System.Drawing.Size(491, 586);
 			this.TvwPerfilesPermisos.TabIndex = 0;
-			this.TvwPerfilesPermisos.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.TvwPerfilesPermisos_ItemDrag);
-			this.TvwPerfilesPermisos.Click += new System.EventHandler(this.TvwPerfilesPermisos_Click);
-			this.TvwPerfilesPermisos.DragDrop += new System.Windows.Forms.DragEventHandler(this.TvwPerfilesPermisos_DragDrop);
-			this.TvwPerfilesPermisos.DragEnter += new System.Windows.Forms.DragEventHandler(this.TvwPerfilesPermisos_DragEnter);
+			this.TvwPerfilesPermisos.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.TvwPerfilesPermisos_AfterSelect);
 			// 
 			// LblFamilias
 			// 
@@ -69,7 +67,7 @@
 			// LblDescripcion
 			// 
 			this.LblDescripcion.AutoSize = true;
-			this.LblDescripcion.Location = new System.Drawing.Point(616, 38);
+			this.LblDescripcion.Location = new System.Drawing.Point(6, 31);
 			this.LblDescripcion.Name = "LblDescripcion";
 			this.LblDescripcion.Size = new System.Drawing.Size(110, 24);
 			this.LblDescripcion.TabIndex = 8;
@@ -77,14 +75,14 @@
 			// 
 			// TxtDescripcion
 			// 
-			this.TxtDescripcion.Location = new System.Drawing.Point(734, 36);
+			this.TxtDescripcion.Location = new System.Drawing.Point(122, 28);
 			this.TxtDescripcion.Name = "TxtDescripcion";
-			this.TxtDescripcion.Size = new System.Drawing.Size(273, 29);
-			this.TxtDescripcion.TabIndex = 9;
+			this.TxtDescripcion.Size = new System.Drawing.Size(475, 29);
+			this.TxtDescripcion.TabIndex = 0;
 			// 
 			// BtnCrear
 			// 
-			this.BtnCrear.Location = new System.Drawing.Point(599, 74);
+			this.BtnCrear.Location = new System.Drawing.Point(91, 63);
 			this.BtnCrear.Name = "BtnCrear";
 			this.BtnCrear.Size = new System.Drawing.Size(113, 40);
 			this.BtnCrear.TabIndex = 12;
@@ -94,7 +92,7 @@
 			// 
 			// BtnCancelar
 			// 
-			this.BtnCancelar.Location = new System.Drawing.Point(970, 74);
+			this.BtnCancelar.Location = new System.Drawing.Point(462, 63);
 			this.BtnCancelar.Name = "BtnCancelar";
 			this.BtnCancelar.Size = new System.Drawing.Size(113, 40);
 			this.BtnCancelar.TabIndex = 13;
@@ -143,7 +141,7 @@
 			// LblPerfiles
 			// 
 			this.LblPerfiles.AutoSize = true;
-			this.LblPerfiles.Location = new System.Drawing.Point(624, 126);
+			this.LblPerfiles.Location = new System.Drawing.Point(624, 128);
 			this.LblPerfiles.Name = "LblPerfiles";
 			this.LblPerfiles.Size = new System.Drawing.Size(71, 24);
 			this.LblPerfiles.TabIndex = 18;
@@ -152,24 +150,15 @@
 			// LblPermisos
 			// 
 			this.LblPermisos.AutoSize = true;
-			this.LblPermisos.Location = new System.Drawing.Point(934, 126);
+			this.LblPermisos.Location = new System.Drawing.Point(934, 128);
 			this.LblPermisos.Name = "LblPermisos";
 			this.LblPermisos.Size = new System.Drawing.Size(88, 24);
 			this.LblPermisos.TabIndex = 19;
 			this.LblPermisos.Text = "Permisos";
 			// 
-			// LblPerfil
-			// 
-			this.LblPerfil.AutoSize = true;
-			this.LblPerfil.Location = new System.Drawing.Point(808, 9);
-			this.LblPerfil.Name = "LblPerfil";
-			this.LblPerfil.Size = new System.Drawing.Size(51, 24);
-			this.LblPerfil.TabIndex = 20;
-			this.LblPerfil.Text = "Perfil";
-			// 
 			// BtnEditar
 			// 
-			this.BtnEditar.Location = new System.Drawing.Point(724, 74);
+			this.BtnEditar.Location = new System.Drawing.Point(216, 63);
 			this.BtnEditar.Name = "BtnEditar";
 			this.BtnEditar.Size = new System.Drawing.Size(113, 40);
 			this.BtnEditar.TabIndex = 21;
@@ -179,7 +168,7 @@
 			// 
 			// BtnEliminar
 			// 
-			this.BtnEliminar.Location = new System.Drawing.Point(848, 74);
+			this.BtnEliminar.Location = new System.Drawing.Point(340, 63);
 			this.BtnEliminar.Name = "BtnEliminar";
 			this.BtnEliminar.Size = new System.Drawing.Size(113, 40);
 			this.BtnEliminar.TabIndex = 22;
@@ -187,24 +176,33 @@
 			this.BtnEliminar.UseVisualStyleBackColor = true;
 			this.BtnEliminar.Click += new System.EventHandler(this.BtnEliminar_Click);
 			// 
+			// gbPerfil
+			// 
+			this.gbPerfil.Controls.Add(this.LblDescripcion);
+			this.gbPerfil.Controls.Add(this.BtnEliminar);
+			this.gbPerfil.Controls.Add(this.TxtDescripcion);
+			this.gbPerfil.Controls.Add(this.BtnEditar);
+			this.gbPerfil.Controls.Add(this.BtnCrear);
+			this.gbPerfil.Controls.Add(this.BtnCancelar);
+			this.gbPerfil.Location = new System.Drawing.Point(507, 9);
+			this.gbPerfil.Name = "gbPerfil";
+			this.gbPerfil.Size = new System.Drawing.Size(635, 114);
+			this.gbPerfil.TabIndex = 23;
+			this.gbPerfil.TabStop = false;
+			this.gbPerfil.Text = "Perfil";
+			// 
 			// FrmGestionPerfilesPermisos
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1156, 634);
-			this.Controls.Add(this.BtnEliminar);
-			this.Controls.Add(this.BtnEditar);
-			this.Controls.Add(this.LblPerfil);
+			this.ClientSize = new System.Drawing.Size(1154, 634);
+			this.Controls.Add(this.gbPerfil);
 			this.Controls.Add(this.LblPermisos);
 			this.Controls.Add(this.LblPerfiles);
 			this.Controls.Add(this.BtnAgregarPermiso);
 			this.Controls.Add(this.BtnAgregarPerfil);
 			this.Controls.Add(this.LstPermisos);
 			this.Controls.Add(this.LstPerfiles);
-			this.Controls.Add(this.BtnCancelar);
-			this.Controls.Add(this.BtnCrear);
-			this.Controls.Add(this.TxtDescripcion);
-			this.Controls.Add(this.LblDescripcion);
 			this.Controls.Add(this.LblFamilias);
 			this.Controls.Add(this.TvwPerfilesPermisos);
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -214,6 +212,8 @@
 			this.Text = "Gestión Perfiles Permisos";
 			this.Load += new System.EventHandler(this.FrmGestionPerfilesPermisos_Load);
 			this.Shown += new System.EventHandler(this.FrmGestionPerfilesPermisos_Shown);
+			this.gbPerfil.ResumeLayout(false);
+			this.gbPerfil.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -233,8 +233,8 @@
 		private System.Windows.Forms.Button BtnAgregarPermiso;
 		private System.Windows.Forms.Label LblPerfiles;
 		private System.Windows.Forms.Label LblPermisos;
-		private System.Windows.Forms.Label LblPerfil;
 		private System.Windows.Forms.Button BtnEditar;
 		private System.Windows.Forms.Button BtnEliminar;
+		private System.Windows.Forms.GroupBox gbPerfil;
 	}
 }

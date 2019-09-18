@@ -3,6 +3,7 @@
 ************************************************************
 
 administrador
+operador
 geozed
 123456
 4096:wizXm5gjr+/o4kk0vwSJvAEQSSwMBYGG0M5avlZbZYU=:6S4KgHmnH3rucUPNjXxBR4F8kK96EijJYXMOS+pcmZM=

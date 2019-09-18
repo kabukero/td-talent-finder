@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AvisoLaboral.cs" />
+    <Compile Include="Backup.cs" />
     <Compile Include="Bitacora.cs" />
     <Compile Include="DigitoVerificadorVertical.cs" />
     <Compile Include="Empresa.cs" />

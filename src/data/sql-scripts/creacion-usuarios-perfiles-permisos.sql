@@ -26,7 +26,8 @@ INSERT INTO Permiso (Nombre,TipoPermisoId) VALUES
 ('Administrador de Sistema',1),('Gestion Sistema',1),('Gestion Usuarios',1),('Gestion Perfiles',1),
 ('Leer usuario',2),('Crear usuario',2),('Editar usuario',2),('Eliminar usuario',2),
 ('Leer perfil',2),('Crear perfil',2),('Editar perfil',2),('Eliminar perfil',2),
-('Operador de Sistema',1),('Login Sistema',2)
+('Operador de Sistema',1),('Login Sistema',2),
+('Gestión Empresa',1),('Leer Empresa',2),('Crear Empresa',2),('Editar Empresa',2),('Eliminar Empresa',2)
 GO
 SELECT * FROM Permiso
 GO
@@ -36,11 +37,11 @@ INSERT INTO PermisoPermiso (PermisoId,PermisoPadreId) VALUES
 (6,5),(7,6),
 (9,8),(10,9),(12,10),(13,10),(14,10),(15,10),(21,10),
 (11,9),(16,11),(17,11),(18,11),(19,11),
-(20,1),(10,20)
+(20,1),(10,20),(22,1),(23,22),(24,22),(25,22),(26,22)
 GO
 INSERT INTO UsuarioPermiso (UsuarioId,PermisoId) VALUES
-(5,9),(5,10),(5,11),(5,12),(5,13),(5,14),(5,15),(5,16),(5,17),(5,18),(5,19),(5,21)
-
+(5,9),(5,10),(5,11),(5,12),(5,13),(5,14),(5,15),(5,16),(5,17),(5,18),(5,19),(5,21),
+(5,22),(5,23),(5,24),(5,25),(5,26)
 GO
 
 CREATE PROCEDURE AgregarUsuarioPermiso(@UsuarioId AS INT,@PermisoId AS INT)

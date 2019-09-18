@@ -31,6 +31,13 @@ namespace TalentFinder.BLL
 		}
 		public int Editar(Empresa empresa)
 		{
+			Empresa empresaActual = GetEmpresa(empresa.Id);
+
+			// control de cambios
+			if(empresaActual.FechaActualizacion != null && empresa.FechaActualizacion != null && empresaActual.FechaActualizacion > empresa.FechaActualizacion)
+				return -1;
+
+			empresa.FechaActualizacion = DateTime.Now;
 			empresa.DVH = digitoVerificadorManager.CalcularDVH(empresa);
 			int f = empresaMapper.Editar(empresa);
 
@@ -48,6 +55,11 @@ namespace TalentFinder.BLL
 		public List<Empresa> GetAllEmpresas()
 		{
 			return empresaMapper.GetAllEmpresas();
+		}
+
+		public Empresa GetEmpresa(int Id)
+		{
+			return empresaMapper.GetEmpresa(Id);
 		}
 	}
 }

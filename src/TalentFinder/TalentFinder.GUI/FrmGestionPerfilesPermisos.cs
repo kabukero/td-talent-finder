@@ -17,12 +17,10 @@ namespace TalentFinder.GUI
 		private UsuarioManager usuarioManager = new UsuarioManager();
 		private PerfilPermisoManager perfilPermisoManager = new PerfilPermisoManager();
 		private TipoPermisoManager TipoPermisoManager = new TipoPermisoManager();
-
 		public FrmGestionPerfilesPermisos()
 		{
 			InitializeComponent();
 		}
-
 		private void CargarLstPermisos()
 		{
 			LstPermisos.DataSource = null;
@@ -37,11 +35,37 @@ namespace TalentFinder.GUI
 		}
 		private void CargarTreeView()
 		{
+			SetTreeView();
 			TvwPerfilesPermisos.Nodes.Clear();
 			CargarNodos(perfilPermisoManager.GetAllPerfilesPermisos(), null);
 			TvwPerfilesPermisos.ExpandAll();
 		}
+		private void SetTreeView()
+		{
+			TvwPerfilesPermisos.HideSelection = false;
+			TvwPerfilesPermisos.DrawMode = TreeViewDrawMode.OwnerDrawText;
 
+			TvwPerfilesPermisos.DrawNode += (o, e) =>
+			{
+				if(e.Node == e.Node.TreeView.SelectedNode)
+				{
+					Font font = e.Node.NodeFont ?? e.Node.TreeView.Font;
+					Rectangle r = e.Bounds;
+					r.Offset(0, 1);
+					Brush brush = e.Node.TreeView.Focused ? SystemBrushes.Highlight : Brushes.Gray;
+					e.Graphics.FillRectangle(brush, e.Bounds);
+					TextRenderer.DrawText(e.Graphics, e.Node.Text, font, r, SystemColors.HighlightText, TextFormatFlags.GlyphOverhangPadding);
+				}
+				else
+					e.DrawDefault = true;
+			};
+
+			TvwPerfilesPermisos.MouseDown += (o, e) =>
+			{
+				TreeNode node = TvwPerfilesPermisos.GetNodeAt(e.Location);
+				if(node != null && node.Bounds.Contains(e.Location)) TvwPerfilesPermisos.SelectedNode = node;
+			};
+		}
 		private void CargarNodos(List<PermisoComponent> perfilesPermisos, TreeNode Padre)
 		{
 			foreach(PermisoComponent p in perfilesPermisos)
@@ -61,167 +85,12 @@ namespace TalentFinder.GUI
 				}
 			}
 		}
-
 		private TreeNode CrearNodo(PermisoComponent p)
 		{
 			TreeNode nodo = new TreeNode(p.Nombre);
 			nodo.Tag = p;
 			return nodo;
 		}
-
-		private void TvwPerfilesPermisos_ItemDrag(object sender, ItemDragEventArgs e)
-		{
-			DoDragDrop(e.Item, DragDropEffects.Move);
-		}
-
-		private void TvwPerfilesPermisos_DragEnter(object sender, DragEventArgs e)
-		{
-			e.Effect = DragDropEffects.Move;
-		}
-
-		private void TvwPerfilesPermisos_DragDrop(object sender, DragEventArgs e)
-		{
-			if(ModifierKeys == Keys.Control)
-			{
-				MessageBox.Show("with CTRL");
-				return;
-			}
-			// Retrieve the client coordinates of the drop location.
-			// Obtener las coordenadas del nodo destino seleccionado
-			Point targetPoint = TvwPerfilesPermisos.PointToClient(new Point(e.X, e.Y));
-
-			// Retrieve the node at the drop location.
-			// Obtener el nodo destino seleccionado segun las coordenadas destino
-			TreeNode targetNode = TvwPerfilesPermisos.GetNodeAt(targetPoint);
-
-			// Retrieve the node that was dragged.
-			// Obtener el nodo origen seleccionado
-			TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
-
-			// Verificar que haya un nodo seleccionado
-			if(draggedNode == null)
-			{
-				return;
-			}
-
-			// Did the user drop on a valid target node?
-			// Validar Nodo destino
-			if(targetNode == null)
-			{
-				// The user dropped the node on the treeview control instead
-				// of another node so lets place the node at the bottom of the tree.
-				// El usuario dropped el nodo sobre el treeview en vez
-				// seleccionar un nodo destino
-				draggedNode.Remove();
-				TvwPerfilesPermisos.Nodes.Add(draggedNode);
-				draggedNode.Expand();
-			}
-			else
-			{
-				TreeNode parentNode = targetNode;
-
-				// Confirm that the node at the drop location is not 
-				// the dragged node and that target node isn't null
-				// (for example if you drag outside the control)
-				// Validar que el nodo origen y destino no sean iguales
-				// Validar que haya seleccionado un nodo destino
-				if(!draggedNode.Equals(targetNode) && targetNode != null)
-				{
-					bool canDrop = true;
-
-					// Crawl our way up from the node we dropped on to find out if
-					// if the target node is our parent. 
-					// Validar que el nodo destino no sea padre del nodo origen
-					while(canDrop && (parentNode != null))
-					{
-						canDrop = !Object.ReferenceEquals(draggedNode, parentNode);
-						parentNode = parentNode.Parent;
-					}
-
-					// Is this a valid drop location?
-					if(canDrop)
-					{
-						// Yes. Move the node, expand it, and select it.
-						draggedNode.Remove();
-						targetNode.Nodes.Add(draggedNode);
-						targetNode.Expand();
-					}
-				}
-			}
-
-			// Optional: Select the dropped node and navigate (however you do it)
-			TvwPerfilesPermisos.SelectedNode = draggedNode;
-			// NavigateToContent(draggedNode.Tag);
-		}
-
-		private void FrmGestionPerfilesPermisos_Load(object sender, EventArgs e)
-		{
-			CargarTreeView();
-			CargarLstPermisos();
-			CargarLstPerfiles();
-		}
-
-		private void TvwPerfilesPermisos_Click(object sender, EventArgs e)
-		{
-			//TreeNode nodo = TvwPerfilesPermisos.SelectedNode;
-			//if(nodo != null)
-			//	reut
-		}
-
-		private void FrmGestionPerfilesPermisos_Shown(object sender, EventArgs e)
-		{
-			TvwPerfilesPermisos.SelectedNode = null;
-		}
-
-		private void BtnGuardar_Click(object sender, EventArgs e)
-		{
-			if(string.IsNullOrEmpty(TxtDescripcion.Text))
-			{
-				MessageBox.Show("Ingrese el nombre del perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-			Perfil perfil = new Perfil();
-			perfil.Nombre = TxtDescripcion.Text;
-			perfil.PermisoPadreId = 1; // nodo raiz
-
-			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
-
-			if(selectedNode != null)
-			{
-				PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
-				perfil.PermisoPadreId = permisoComponent.Id;
-			}
-
-			int f = perfilPermisoManager.AgregarPerfil(perfil);
-
-			if(f == -1)
-				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			else
-				CargarTreeView();
-		}
-
-		private void BtnCancelar_Click(object sender, EventArgs e)
-		{
-			//TreeNode node = GetRootParentNode();
-			//if(node == null)
-			//{
-			//	//while(node.Parent != null)
-			//	//{
-			//	//	node = node.Parent;
-			//	//}
-			//	//MessageBox.Show(node.Text);
-			//	MessageBox.Show("nodo raiz");
-			//}
-			//else
-			//	MessageBox.Show(GetRootParentNode(node).Text);
-
-			TvwPerfilesPermisos.SelectedNode = null;
-			LstPerfiles.ClearSelected();
-			LstPermisos.ClearSelected();
-			TxtDescripcion.Clear();
-		}
-
 		private TreeNode GetRootParentNode()
 		{
 			TreeNode node = TvwPerfilesPermisos.SelectedNode;
@@ -235,36 +104,43 @@ namespace TalentFinder.GUI
 			}
 			return null;
 		}
-
 		private TreeNode GetRootParentNode(TreeNode node)
 		{
 			if(node.Parent == null)
 				return node;
 			return GetRootParentNode(node.Parent);
 		}
-
-		//private bool IsNodeParent()
-		//{
-		//	TreeNode node = TvwPerfilesPermisos.SelectedNode;
-
-		//	if(node != null)
-		//	{
-		//		if(node.Parent == null)
-		//			return false;
-		//		else
-		//			return IsNodeParent(node);
-		//	}
-		//	return false;
-		//}
-
-		//private bool IsNodeParent(TreeNode node)
-		//{
-		//	if(node.Parent == null)
-		//		return false;
-		//	else if(node)
-		//	return GetRootParentNode(node.Parent);
-		//}
-
+		private void ClearForm()
+		{
+			TvwPerfilesPermisos.SelectedNode = null;
+			LstPerfiles.ClearSelected();
+			LstPermisos.ClearSelected();
+			TxtDescripcion.Clear();
+		}
+		private void FillForm()
+		{
+			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
+			if(selectedNode == null)
+			{
+				TxtDescripcion.Clear();
+				return;
+			}
+			PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
+			if(permisoComponent is Perfil)
+				TxtDescripcion.Text = permisoComponent.Nombre;
+			else
+				TxtDescripcion.Clear();
+		}
+		private void FrmGestionPerfilesPermisos_Load(object sender, EventArgs e)
+		{
+			CargarTreeView();
+			CargarLstPermisos();
+			CargarLstPerfiles();
+		}
+		private void FrmGestionPerfilesPermisos_Shown(object sender, EventArgs e)
+		{
+			TvwPerfilesPermisos.SelectedNode = null;
+		}
 		private void BtnAgregarPermiso_Click(object sender, EventArgs e)
 		{
 			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
@@ -283,20 +159,24 @@ namespace TalentFinder.GUI
 				return;
 			}
 
+			PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
+			if(!(permisoComponent is Perfil))
+			{
+				MessageBox.Show("No puede agregar un permiso a un permiso. Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
 			PermisoPermiso permisoPermiso = new PermisoPermiso();
 			permisoPermiso.PermisoId = permiso.Id;
-			PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
 			permisoPermiso.PermisoPadreId = permisoComponent.Id;
 
 			int f = perfilPermisoManager.AgregarPermisoPermiso(permisoPermiso);
 
 			if(f == -1)
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			else
-				CargarTreeView();
-
+			CargarTreeView();
+			ClearForm();
 		}
-
 		private void BtnAgregarPerfil_Click(object sender, EventArgs e)
 		{
 			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
@@ -318,13 +198,7 @@ namespace TalentFinder.GUI
 
 			if(perfil == null)
 			{
-				MessageBox.Show("Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-			if(perfil.Id == permisoComponent.Id)
-			{
-				MessageBox.Show("Seleccione otro perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show("No puede agregar un perfil a un permiso. Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
@@ -342,44 +216,103 @@ namespace TalentFinder.GUI
 
 			if(f == -1)
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			else
-				CargarTreeView();
-
+			CargarTreeView();
+			ClearForm();
 		}
+		private void BtnGuardar_Click(object sender, EventArgs e)
+		{
+			if(string.IsNullOrEmpty(TxtDescripcion.Text))
+			{
+				MessageBox.Show("Ingrese el nombre del perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
 
+			Perfil perfil = new Perfil();
+			perfil.Nombre = TxtDescripcion.Text;
+			perfil.PermisoPadreId = 1; // nodo raiz
+
+			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
+
+			if(selectedNode != null)
+			{
+				PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
+				if(!(permisoComponent is Perfil))
+				{
+					MessageBox.Show("No puede agregar un perfil a un permiso. Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+				perfil.PermisoPadreId = permisoComponent.Id;
+			}
+
+			int f = perfilPermisoManager.AgregarPerfil(perfil);
+
+			if(f == -1)
+				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			CargarTreeView();
+			ClearForm();
+		}
 		private void BtnEditar_Click(object sender, EventArgs e)
 		{
-			TreeNode node = TvwPerfilesPermisos.SelectedNode;
-			if(node == null)
+			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
+			if(selectedNode == null)
 			{
 				MessageBox.Show("Seleccione un perfil", "Editar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
-			Perfil perfil = (Perfil)node.Tag;
+			PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
+			if(!(permisoComponent is Perfil))
+			{
+				MessageBox.Show("Seleccione un perfil", "Editar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+
+			}
+
+			Perfil perfil = (Perfil)selectedNode.Tag;
 			perfil.Nombre = TxtDescripcion.Text;
 			int f = perfilPermisoManager.EditarPerfil(perfil);
 			if(f == -1)
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			else
-				CargarTreeView();
+			CargarTreeView();
+			ClearForm();
 		}
-
 		private void BtnEliminar_Click(object sender, EventArgs e)
 		{
-			TreeNode node = TvwPerfilesPermisos.SelectedNode;
-			if(node == null)
+			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
+			if(selectedNode == null)
+			{
+				MessageBox.Show("Seleccione un perfil", "Eliminar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			if(selectedNode.Nodes != null && selectedNode.Nodes.Count > 0)
+			{
+				MessageBox.Show("No puede eliminar el perfil ya que tiene otros perfiles y permisos asociados", "Eliminar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
+			if(!(permisoComponent is Perfil))
 			{
 				MessageBox.Show("Seleccione un perfil", "Editar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
 			}
 
-			Perfil perfil = (Perfil)node.Tag;
+			Perfil perfil = (Perfil)selectedNode.Tag;
 			int f = perfilPermisoManager.EliminarPerfil(perfil);
 			if(f == -1)
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			else
-				CargarTreeView();
+			CargarTreeView();
+			ClearForm();
+		}
+		private void BtnCancelar_Click(object sender, EventArgs e)
+		{
+			ClearForm();
+		}
+
+		private void TvwPerfilesPermisos_AfterSelect(object sender, TreeViewEventArgs e)
+		{
+			FillForm();
 		}
 	}
 }

@@ -106,5 +106,32 @@ namespace TalentFinder.DAL
 			}
 			return lista;
 		}
+
+		public Empresa GetEmpresa(int Id)
+		{
+			Empresa empresa = null;
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			List<SqlParameter> parametros = new List<SqlParameter>();
+			parametros.Add(da.CrearParametro("@Id", empresa.Id));
+			DataTable tabla = da.Leer("GetAllEmpresas", parametros);
+			da.Cerrar();
+
+			foreach(DataRow fila in tabla.Rows)
+			{
+				empresa = new Empresa();
+				empresa.Id = int.Parse(fila["Id"].ToString());
+				empresa.RazonSocial = fila["RazonSocial"].ToString();
+				empresa.Direccion = fila["Direccion"].ToString();
+				empresa.Telefono = fila["Telefono"].ToString();
+				empresa.Email = fila["Email"].ToString();
+				empresa.CUIT = fila["CUIT"].ToString();
+				empresa.FechaCreacion = DateTime.Parse(fila["FechaCreacion"].ToString());
+				if(fila["FechaActualizacion"] != DBNull.Value)
+					empresa.FechaActualizacion = DateTime.Parse(fila["FechaActualizacion"].ToString());
+				empresa.DVH = Int64.Parse(fila["DVH"].ToString());
+			}
+			return empresa;
+		}
 	}
 }

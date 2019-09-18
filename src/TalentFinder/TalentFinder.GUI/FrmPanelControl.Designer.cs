@@ -45,6 +45,7 @@
 			this.gestiónUsuariosPerfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.gestiónEmpresaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.verListadoEmpresasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.gestiónBackupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -146,7 +147,8 @@
 			// 
 			this.administraciónToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gestiónPerfilesToolStripMenuItem,
-            this.gestiónUsuariosPerfilesToolStripMenuItem});
+            this.gestiónUsuariosPerfilesToolStripMenuItem,
+            this.gestiónBackupToolStripMenuItem});
 			this.administraciónToolStripMenuItem.Name = "administraciónToolStripMenuItem";
 			this.administraciónToolStripMenuItem.Size = new System.Drawing.Size(100, 20);
 			this.administraciónToolStripMenuItem.Text = "Administración";
@@ -179,6 +181,13 @@
 			this.verListadoEmpresasToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
 			this.verListadoEmpresasToolStripMenuItem.Text = "Ver listado empresas";
 			this.verListadoEmpresasToolStripMenuItem.Click += new System.EventHandler(this.verListadoEmpresasToolStripMenuItem_Click);
+			// 
+			// gestiónBackupToolStripMenuItem
+			// 
+			this.gestiónBackupToolStripMenuItem.Name = "gestiónBackupToolStripMenuItem";
+			this.gestiónBackupToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+			this.gestiónBackupToolStripMenuItem.Text = "Gestión Backup";
+			this.gestiónBackupToolStripMenuItem.Click += new System.EventHandler(this.gestiónBackupToolStripMenuItem_Click);
 			// 
 			// FrmPanelControl
 			// 
@@ -221,5 +230,6 @@
 		private System.Windows.Forms.ToolStripMenuItem gestiónUsuariosPerfilesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem gestiónEmpresaToolStripMenuItem;
 		private System.Windows.Forms.ToolStripMenuItem verListadoEmpresasToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem gestiónBackupToolStripMenuItem;
 	}
 }
