@@ -36,7 +36,7 @@ namespace TalentFinder.BLL
 					}
 				}
 			}
-			List<PermisoComponent> permisoComponentsAux = permisoComponents.Where(x => x.PermisoPadreId == -1).ToList();
+			List<PermisoComponent> permisoComponentsAux = permisoComponents.Where(x => x.PermisoPadreId == (int)Permisos.ROOT).ToList();
 			return permisoComponentsAux;
 		}
 		public List<PermisoComponent> GetAllPerfilesPermisosPorUsuario(Usuario usuario)
@@ -97,6 +97,11 @@ namespace TalentFinder.BLL
 		public Permiso GetPermiso(int Id)
 		{
 			return new Permiso() { Id = Id };
+		}
+
+		public int QuitarPermisoPermisos(List<PermisoPermiso> permisoPermisos)
+		{
+			return perfilPermisoMapper.QuitarPermisoPermiso(permisoPermisos);
 		}
 	}
 }

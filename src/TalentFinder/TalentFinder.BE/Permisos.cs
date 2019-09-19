@@ -8,6 +8,7 @@ namespace TalentFinder.BE
 {
 	public enum Permisos
 	{
+		ROOT = 1,
 		PUBLICAR_AVISO_LABORAL = 4,
 		POSTULARSE_A_AVISO_LABORAL = 7,
 		LEER_USUARIO = 12,

@@ -110,12 +110,27 @@ namespace TalentFinder.GUI
 				return node;
 			return GetRootParentNode(node.Parent);
 		}
+		public void AddChildren(List<TreeNode> Nodes, TreeNode Node)
+		{
+			foreach(TreeNode thisNode in Node.Nodes)
+			{
+				Nodes.Add(thisNode);
+				AddChildren(Nodes, thisNode);
+			}
+		}
 		private void ClearForm()
 		{
 			TvwPerfilesPermisos.SelectedNode = null;
 			LstPerfiles.ClearSelected();
 			LstPermisos.ClearSelected();
 			TxtDescripcion.Clear();
+		}
+		private void EnableDisableFieldsForm(bool enable)
+		{
+			TxtDescripcion.Enabled = enable;
+			BtnCrear.Enabled = enable;
+			BtnEditar.Enabled = enable;
+			BtnEliminar.Enabled = enable;
 		}
 		private void FillForm()
 		{
@@ -127,9 +142,10 @@ namespace TalentFinder.GUI
 			}
 			PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
 			if(permisoComponent is Perfil)
-				TxtDescripcion.Text = permisoComponent.Nombre;
+				EnableDisableFieldsForm(true);
 			else
-				TxtDescripcion.Clear();
+				EnableDisableFieldsForm(false);
+			TxtDescripcion.Text = permisoComponent.Nombre;
 		}
 		private void FrmGestionPerfilesPermisos_Load(object sender, EventArgs e)
 		{
@@ -276,6 +292,35 @@ namespace TalentFinder.GUI
 			CargarTreeView();
 			ClearForm();
 		}
+		private void BtnQuitar_Click(object sender, EventArgs e)
+		{
+			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
+			if(selectedNode == null)
+			{
+				MessageBox.Show("Seleccione un perfil o permiso", "Quitar Perfil / Permiso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			List<TreeNode> Nodes = new List<TreeNode>();
+			Nodes.Add(selectedNode);
+			AddChildren(Nodes, selectedNode);
+			List<PermisoPermiso> permisoPermisos = new List<PermisoPermiso>();
+
+			foreach(TreeNode node in Nodes)
+			{
+				PermisoComponent permisoComponent = (PermisoComponent)node.Tag;
+				PermisoPermiso permisoPermiso = new PermisoPermiso();
+				permisoPermiso.PermisoId = permisoComponent.Id;
+				permisoPermiso.PermisoPadreId = permisoComponent.PermisoPadreId;
+				permisoPermisos.Add(permisoPermiso);
+			}
+
+			int f = perfilPermisoManager.QuitarPermisoPermisos(permisoPermisos);
+			if(f == -1)
+				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			CargarTreeView();
+			ClearForm();
+		}
 		private void BtnEliminar_Click(object sender, EventArgs e)
 		{
 			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
@@ -309,7 +354,6 @@ namespace TalentFinder.GUI
 		{
 			ClearForm();
 		}
-
 		private void TvwPerfilesPermisos_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			FillForm();

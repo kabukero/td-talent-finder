@@ -21,16 +21,18 @@ namespace TalentFinder.DAL
 			DataTable tabla = da.Leer("GetAllPerfilesPermisos", null);
 			foreach(DataRow fila in tabla.Rows)
 			{
-				if(int.Parse(fila["TipoPermisoId"].ToString()) == 1) // perfil
+				if(int.Parse(fila["TipoPermisoId"].ToString()) == (int)TiposPermiso.PERFIL) // perfil
 					permisoComponent = new Perfil();
 				else // permiso
 					permisoComponent = new Permiso();
 				permisoComponent.Id = int.Parse(fila["Id"].ToString());
 				permisoComponent.Nombre = fila["Nombre"].ToString();
-				if(int.Parse(fila["PermisoPadreId"].ToString()) == RootId)
-					permisoComponent.PermisoPadreId = -1;
-				else
-					permisoComponent.PermisoPadreId = int.Parse(fila["PermisoPadreId"].ToString());
+
+				//if(int.Parse(fila["PermisoPadreId"].ToString()) == RootId)
+				//	permisoComponent.PermisoPadreId = -1;
+				//else
+				//	permisoComponent.PermisoPadreId = int.Parse(fila["PermisoPadreId"].ToString());
+				permisoComponent.PermisoPadreId = int.Parse(fila["PermisoPadreId"].ToString());
 				permisoComponents.Add(permisoComponent);
 			}
 			da.Cerrar();
@@ -83,27 +85,6 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
-
-		public int AgregarPerfil(Perfil perfil)
-		{
-			int f = 0;
-			DataAccessManager da = new DataAccessManager();
-			da.Abrir();
-			try
-			{
-				List<SqlParameter> parametros = new List<SqlParameter>();
-				parametros.Add(da.CrearParametro("@Nombre", perfil.Nombre));
-				parametros.Add(da.CrearParametro("@PermisoPadreId", perfil.PermisoPadreId));
-				f = da.Escribir("CrearPerfil", parametros);
-			}
-			catch(Exception ex)
-			{
-				f = -1;
-			}
-			da.Cerrar();
-			return f;
-		}
-
 		public List<Permiso> GetAllPermisos()
 		{
 			List<Permiso> permisos = new List<Permiso>();
@@ -120,7 +101,6 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return permisos;
 		}
-
 		public List<Perfil> GetAllPerfiles()
 		{
 			List<Perfil> perfiles = new List<Perfil>();
@@ -137,7 +117,6 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return perfiles;
 		}
-
 		public int AgregarPermisoPermiso(PermisoPermiso permisoPermiso)
 		{
 			int f = 0;
@@ -157,7 +136,25 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
-
+		public int AgregarPerfil(Perfil perfil)
+		{
+			int f = 0;
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			try
+			{
+				List<SqlParameter> parametros = new List<SqlParameter>();
+				parametros.Add(da.CrearParametro("@Nombre", perfil.Nombre));
+				parametros.Add(da.CrearParametro("@PermisoPadreId", perfil.PermisoPadreId));
+				f = da.Escribir("CrearPerfil", parametros);
+			}
+			catch(Exception ex)
+			{
+				f = -1;
+			}
+			da.Cerrar();
+			return f;
+		}
 		public int EditarPerfil(Perfil perfil)
 		{
 			int f = 0;
@@ -174,10 +171,12 @@ namespace TalentFinder.DAL
 			{
 				f = -1;
 			}
-			da.Cerrar();
+			finally
+			{
+				da.Cerrar();
+			}
 			return f;
 		}
-
 		public int EliminarPerfil(Perfil perfil)
 		{
 			int f = 0;
@@ -194,6 +193,34 @@ namespace TalentFinder.DAL
 				f = -1;
 			}
 			da.Cerrar();
+			return f;
+		}
+		public int QuitarPermisoPermiso(List<PermisoPermiso> permisoPermisos)
+		{
+			int f = 0;
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			da.IniciarTx();
+			try
+			{
+				foreach(PermisoPermiso permisoPermiso in permisoPermisos)
+				{
+					List<SqlParameter> parametros = new List<SqlParameter>();
+					parametros.Add(da.CrearParametro("@PermisoId", permisoPermiso.PermisoId));
+					parametros.Add(da.CrearParametro("@PermisoPadreId", permisoPermiso.PermisoPadreId));
+					f = da.Escribir("QuitarPermisoPermiso", parametros);
+				}
+				da.ConfirmarTx();
+			}
+			catch(Exception ex)
+			{
+				da.CancelarTx();
+				f = -1;
+			}
+			finally
+			{
+				da.Cerrar();
+			}
 			return f;
 		}
 	}

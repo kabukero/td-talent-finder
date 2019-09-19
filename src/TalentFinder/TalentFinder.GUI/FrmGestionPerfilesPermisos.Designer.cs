@@ -43,6 +43,7 @@
 			this.BtnEditar = new System.Windows.Forms.Button();
 			this.BtnEliminar = new System.Windows.Forms.Button();
 			this.gbPerfil = new System.Windows.Forms.GroupBox();
+			this.BtnQuitar = new System.Windows.Forms.Button();
 			this.gbPerfil.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -82,7 +83,7 @@
 			// 
 			// BtnCrear
 			// 
-			this.BtnCrear.Location = new System.Drawing.Point(91, 63);
+			this.BtnCrear.Location = new System.Drawing.Point(10, 63);
 			this.BtnCrear.Name = "BtnCrear";
 			this.BtnCrear.Size = new System.Drawing.Size(113, 40);
 			this.BtnCrear.TabIndex = 12;
@@ -92,7 +93,7 @@
 			// 
 			// BtnCancelar
 			// 
-			this.BtnCancelar.Location = new System.Drawing.Point(462, 63);
+			this.BtnCancelar.Location = new System.Drawing.Point(497, 63);
 			this.BtnCancelar.Name = "BtnCancelar";
 			this.BtnCancelar.Size = new System.Drawing.Size(113, 40);
 			this.BtnCancelar.TabIndex = 13;
@@ -158,7 +159,7 @@
 			// 
 			// BtnEditar
 			// 
-			this.BtnEditar.Location = new System.Drawing.Point(216, 63);
+			this.BtnEditar.Location = new System.Drawing.Point(135, 63);
 			this.BtnEditar.Name = "BtnEditar";
 			this.BtnEditar.Size = new System.Drawing.Size(113, 40);
 			this.BtnEditar.TabIndex = 21;
@@ -168,7 +169,7 @@
 			// 
 			// BtnEliminar
 			// 
-			this.BtnEliminar.Location = new System.Drawing.Point(340, 63);
+			this.BtnEliminar.Location = new System.Drawing.Point(378, 63);
 			this.BtnEliminar.Name = "BtnEliminar";
 			this.BtnEliminar.Size = new System.Drawing.Size(113, 40);
 			this.BtnEliminar.TabIndex = 22;
@@ -178,6 +179,7 @@
 			// 
 			// gbPerfil
 			// 
+			this.gbPerfil.Controls.Add(this.BtnQuitar);
 			this.gbPerfil.Controls.Add(this.LblDescripcion);
 			this.gbPerfil.Controls.Add(this.BtnEliminar);
 			this.gbPerfil.Controls.Add(this.TxtDescripcion);
@@ -191,11 +193,21 @@
 			this.gbPerfil.TabStop = false;
 			this.gbPerfil.Text = "Perfil";
 			// 
+			// BtnQuitar
+			// 
+			this.BtnQuitar.Location = new System.Drawing.Point(255, 63);
+			this.BtnQuitar.Name = "BtnQuitar";
+			this.BtnQuitar.Size = new System.Drawing.Size(113, 40);
+			this.BtnQuitar.TabIndex = 23;
+			this.BtnQuitar.Text = "Quitar";
+			this.BtnQuitar.UseVisualStyleBackColor = true;
+			this.BtnQuitar.Click += new System.EventHandler(this.BtnQuitar_Click);
+			// 
 			// FrmGestionPerfilesPermisos
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1154, 634);
+			this.ClientSize = new System.Drawing.Size(1300, 634);
 			this.Controls.Add(this.gbPerfil);
 			this.Controls.Add(this.LblPermisos);
 			this.Controls.Add(this.LblPerfiles);
@@ -236,5 +248,6 @@
 		private System.Windows.Forms.Button BtnEditar;
 		private System.Windows.Forms.Button BtnEliminar;
 		private System.Windows.Forms.GroupBox gbPerfil;
+		private System.Windows.Forms.Button BtnQuitar;
 	}
 }
