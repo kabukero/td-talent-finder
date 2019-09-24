@@ -48,6 +48,7 @@
     <Compile Include="DataAccessManager.cs" />
     <Compile Include="DigitoVerificadorMapper.cs" />
     <Compile Include="EmpresaMapper.cs" />
+    <Compile Include="IdiomaMapper.cs" />
     <Compile Include="PerfilPermisoMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TipoPermisoMapper.cs" />

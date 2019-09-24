@@ -46,7 +46,9 @@
     <Compile Include="BitacoraManager.cs" />
     <Compile Include="DigitoVerificadorManager.cs" />
     <Compile Include="EmpresaManager.cs" />
+    <Compile Include="IdiomaManager.cs" />
     <Compile Include="PerfilPermisoManager.cs" />
+    <Compile Include="SistemaManager.cs" />
     <Compile Include="TipoPermisoManager.cs" />
     <Compile Include="UsuarioManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

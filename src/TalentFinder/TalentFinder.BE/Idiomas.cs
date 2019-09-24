@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TalentFinder.Service
+namespace TalentFinder.BE
 {
-    public class Class1
-    {
-    }
+	public enum Idiomas
+	{
+		ESPAÑOL = 1,
+		INGLES,
+		FRANCES
+	}
 }

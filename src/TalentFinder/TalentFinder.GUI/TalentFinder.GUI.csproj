@@ -90,6 +90,7 @@
     <Compile Include="FrmGestionUsuariosPerfilesPermisos.Designer.cs">
       <DependentUpon>FrmGestionUsuariosPerfilesPermisos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\IdiomaHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmGestionBackup.resx">
@@ -137,7 +138,16 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="img\france.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\spain.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="img\talent-finder-logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="img\usa.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
@@ -155,5 +165,6 @@
       <Name>TalentFinder.Seguridad</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

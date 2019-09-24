@@ -48,6 +48,10 @@
     <Compile Include="DigitoVerificadorVertical.cs" />
     <Compile Include="Empresa.cs" />
     <Compile Include="EntidadBase.cs" />
+    <Compile Include="Frase.cs" />
+    <Compile Include="Idioma.cs" />
+    <Compile Include="IdiomaFrase.cs" />
+    <Compile Include="Idiomas.cs" />
     <Compile Include="Perfil.cs" />
     <Compile Include="Permiso.cs" />
     <Compile Include="PermisoComponent.cs" />
@@ -63,6 +67,12 @@
     <Compile Include="TiposPermiso.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TalentFinder.Service\TalentFinder.Service.csproj">
+      <Project>{719BA543-8B74-4FA1-B7C6-555C5F57D286}</Project>
+      <Name>TalentFinder.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

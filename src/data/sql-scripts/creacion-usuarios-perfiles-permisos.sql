@@ -83,3 +83,43 @@ END
 
 INSERT INTO Idioma (Nombre) VALUES ('Español'),('Inglés'),('Portugués')
 INSERT INTO Frase (Tag) VALUES ('Español'),('Inglés'),('Portugués')
+
+
+DELETE FROM IdiomaFrase
+DELETE FROM Frase
+DELETE FROM Idioma
+DBCC CHECKIDENT ('Idioma', RESEED, 0)
+INSERT INTO Idioma (Nombre) VALUES ('Español'),('Inglés'),('Francés')
+GO
+INSERT INTO Frase (Tag) VALUES
+('ingreso_sistema'),
+('selecione_idioma'),
+('ingresar'),
+('salir'),
+('ingrese_credenciales'),
+('usuario'),
+('clave')
+
+GO
+INSERT INTO IdiomaFrase (IdiomaId,Tag,Traduccion) VALUES
+(1,'ingreso_sistema','Talent Finder - Ingreso al sistema'),
+(2,'ingreso_sistema','Talent Finder - Login System'),
+(3,'ingreso_sistema','Talent Finder - Login système'),
+(1,'selecione_idioma','Seleccione Idioma'),
+(2,'selecione_idioma','Choose Language'),
+(3,'selecione_idioma','Choisir la langue'),
+(1,'ingresar','Ingresar'),
+(2,'ingresar','Login'),
+(3,'ingresar','Login'),
+(1,'salir','Salir'),
+(2,'salir','Logout'),
+(3,'salir','Quitter'),
+(1,'ingrese_credenciales','Ingrese sus credenciales'),
+(2,'ingrese_credenciales','Enter your credentials'),
+(3,'ingrese_credenciales','Entrez vos identifiants'),
+(1,'usuario','Usuario'),
+(2,'usuario','User'),
+(3,'usuario','Utilisateur'),
+(1,'clave','Contraseña'),
+(2,'clave','Password'),
+(3,'clave','Mot de passe')
