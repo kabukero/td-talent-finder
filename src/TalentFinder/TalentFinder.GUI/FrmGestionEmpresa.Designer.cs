@@ -35,11 +35,11 @@
 			this.BtnEditar = new System.Windows.Forms.Button();
 			this.BtnAgregar = new System.Windows.Forms.Button();
 			this.TxtDireccion = new System.Windows.Forms.TextBox();
-			this.label3 = new System.Windows.Forms.Label();
+			this.LblDireccion = new System.Windows.Forms.Label();
 			this.TxtCUIT = new System.Windows.Forms.TextBox();
-			this.label2 = new System.Windows.Forms.Label();
+			this.LblCuit = new System.Windows.Forms.Label();
 			this.TxtTelefono = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
+			this.LblTelefono = new System.Windows.Forms.Label();
 			this.TxtRazonSocial = new System.Windows.Forms.TextBox();
 			this.LblRazonSocial = new System.Windows.Forms.Label();
 			this.DgvEmpresas = new System.Windows.Forms.DataGridView();
@@ -55,11 +55,11 @@
 			this.gbEmpresa.Controls.Add(this.BtnEditar);
 			this.gbEmpresa.Controls.Add(this.BtnAgregar);
 			this.gbEmpresa.Controls.Add(this.TxtDireccion);
-			this.gbEmpresa.Controls.Add(this.label3);
+			this.gbEmpresa.Controls.Add(this.LblDireccion);
 			this.gbEmpresa.Controls.Add(this.TxtCUIT);
-			this.gbEmpresa.Controls.Add(this.label2);
+			this.gbEmpresa.Controls.Add(this.LblCuit);
 			this.gbEmpresa.Controls.Add(this.TxtTelefono);
-			this.gbEmpresa.Controls.Add(this.label1);
+			this.gbEmpresa.Controls.Add(this.LblTelefono);
 			this.gbEmpresa.Controls.Add(this.TxtRazonSocial);
 			this.gbEmpresa.Controls.Add(this.LblRazonSocial);
 			this.gbEmpresa.Location = new System.Drawing.Point(3, 17);
@@ -124,14 +124,14 @@
 			this.TxtDireccion.Size = new System.Drawing.Size(448, 29);
 			this.TxtDireccion.TabIndex = 1;
 			// 
-			// label3
+			// LblDireccion
 			// 
-			this.label3.AutoSize = true;
-			this.label3.Location = new System.Drawing.Point(547, 33);
-			this.label3.Name = "label3";
-			this.label3.Size = new System.Drawing.Size(90, 24);
-			this.label3.TabIndex = 2;
-			this.label3.Text = "Dirección";
+			this.LblDireccion.AutoSize = true;
+			this.LblDireccion.Location = new System.Drawing.Point(547, 33);
+			this.LblDireccion.Name = "LblDireccion";
+			this.LblDireccion.Size = new System.Drawing.Size(90, 24);
+			this.LblDireccion.TabIndex = 2;
+			this.LblDireccion.Text = "Dirección";
 			// 
 			// TxtCUIT
 			// 
@@ -141,14 +141,14 @@
 			this.TxtCUIT.Size = new System.Drawing.Size(242, 29);
 			this.TxtCUIT.TabIndex = 4;
 			// 
-			// label2
+			// LblCuit
 			// 
-			this.label2.AutoSize = true;
-			this.label2.Location = new System.Drawing.Point(787, 82);
-			this.label2.Name = "label2";
-			this.label2.Size = new System.Drawing.Size(52, 24);
-			this.label2.TabIndex = 4;
-			this.label2.Text = "CUIT";
+			this.LblCuit.AutoSize = true;
+			this.LblCuit.Location = new System.Drawing.Point(787, 82);
+			this.LblCuit.Name = "LblCuit";
+			this.LblCuit.Size = new System.Drawing.Size(52, 24);
+			this.LblCuit.TabIndex = 4;
+			this.LblCuit.Text = "CUIT";
 			// 
 			// TxtTelefono
 			// 
@@ -158,14 +158,14 @@
 			this.TxtTelefono.Size = new System.Drawing.Size(242, 29);
 			this.TxtTelefono.TabIndex = 2;
 			// 
-			// label1
+			// LblTelefono
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(38, 82);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(85, 24);
-			this.label1.TabIndex = 2;
-			this.label1.Text = "Teléfono";
+			this.LblTelefono.AutoSize = true;
+			this.LblTelefono.Location = new System.Drawing.Point(38, 82);
+			this.LblTelefono.Name = "LblTelefono";
+			this.LblTelefono.Size = new System.Drawing.Size(85, 24);
+			this.LblTelefono.TabIndex = 2;
+			this.LblTelefono.Text = "Teléfono";
 			// 
 			// TxtRazonSocial
 			// 
@@ -205,6 +205,7 @@
 			this.Name = "FrmGestionEmpresa";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Gestion Empresa";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmGestionEmpresa_FormClosing);
 			this.Load += new System.EventHandler(this.FrmGestionEmpresa_Load);
 			this.Shown += new System.EventHandler(this.FrmGestionEmpresa_Shown);
 			this.gbEmpresa.ResumeLayout(false);
@@ -218,11 +219,11 @@
 
 		private System.Windows.Forms.GroupBox gbEmpresa;
 		private System.Windows.Forms.TextBox TxtDireccion;
-		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label LblDireccion;
 		private System.Windows.Forms.TextBox TxtCUIT;
-		private System.Windows.Forms.Label label2;
+		private System.Windows.Forms.Label LblCuit;
 		private System.Windows.Forms.TextBox TxtTelefono;
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label LblTelefono;
 		private System.Windows.Forms.TextBox TxtRazonSocial;
 		private System.Windows.Forms.Label LblRazonSocial;
 		private System.Windows.Forms.DataGridView DgvEmpresas;

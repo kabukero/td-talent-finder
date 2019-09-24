@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TalentFinder.BE;
 using TalentFinder.BLL;
+using TalentFinder.GUI.Helpers;
 
 namespace TalentFinder.GUI
 {
@@ -19,6 +20,15 @@ namespace TalentFinder.GUI
 		public FrmGestionBackup()
 		{
 			InitializeComponent();
+		}
+
+		private void InitFormControls()
+		{
+			this.Tag = new Frase() { Tag = "gestion_backup" };
+			LblTitulo.Tag = new Frase() { Tag = "seleccione_dir_destino_bkp" };
+			LblCarpetaDestinoBackup.Tag = new Frase() { Tag = "carpeta_destino" };
+			BtnSeleccionarCarpeta.Tag = new Frase() { Tag = "seleccione_carpeta" };
+			BtnRealizarBackup.Tag = new Frase() { Tag = "realizar_backup" };
 		}
 
 		private void BtnRealizarBackup_Click(object sender, EventArgs e)
@@ -64,6 +74,21 @@ namespace TalentFinder.GUI
 		private void FrmGestionBackup_Load(object sender, EventArgs e)
 		{
 			LblCarpetaDestinoBackup.Text = "Carpeta destino backup: " + ConfigurationManager.AppSettings["PathBackupFile"].ToString();
+
+			// iniciar controles de formulario
+			InitFormControls();
+
+			// suscribir a evento
+			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
+			IdiomaSubject.Attach(this);
+
+			// disparar evento
+			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
+		}
+
+		private void FrmGestionBackup_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			IdiomaSubject.Detach(this);
 		}
 	}
 }

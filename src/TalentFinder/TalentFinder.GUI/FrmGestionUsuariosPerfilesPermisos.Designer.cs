@@ -34,7 +34,7 @@
 			this.BtnGuardar = new System.Windows.Forms.Button();
 			this.BtnSalir = new System.Windows.Forms.Button();
 			this.LblUsuarios = new System.Windows.Forms.Label();
-			this.LblFamilias = new System.Windows.Forms.Label();
+			this.LblPerfilesPermisos = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// TvwPerfilesPermisos
@@ -92,21 +92,21 @@
 			this.LblUsuarios.TabIndex = 5;
 			this.LblUsuarios.Text = "Usuarios";
 			// 
-			// LblFamilias
+			// LblPerfilesPermisos
 			// 
-			this.LblFamilias.AutoSize = true;
-			this.LblFamilias.Location = new System.Drawing.Point(323, 49);
-			this.LblFamilias.Name = "LblFamilias";
-			this.LblFamilias.Size = new System.Drawing.Size(165, 24);
-			this.LblFamilias.TabIndex = 6;
-			this.LblFamilias.Text = "Perfiles - Permisos";
+			this.LblPerfilesPermisos.AutoSize = true;
+			this.LblPerfilesPermisos.Location = new System.Drawing.Point(323, 49);
+			this.LblPerfilesPermisos.Name = "LblPerfilesPermisos";
+			this.LblPerfilesPermisos.Size = new System.Drawing.Size(165, 24);
+			this.LblPerfilesPermisos.TabIndex = 6;
+			this.LblPerfilesPermisos.Text = "Perfiles - Permisos";
 			// 
 			// FrmGestionUsuariosPerfilesPermisos
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(982, 549);
-			this.Controls.Add(this.LblFamilias);
+			this.Controls.Add(this.LblPerfilesPermisos);
 			this.Controls.Add(this.LblUsuarios);
 			this.Controls.Add(this.BtnSalir);
 			this.Controls.Add(this.BtnGuardar);
@@ -118,7 +118,8 @@
 			this.Name = "FrmGestionUsuariosPerfilesPermisos";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Gestión Perfiles Permisos Usuarios";
-			this.Load += new System.EventHandler(this.FrmUsuarioFamiliaPatente_Load);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmGestionUsuariosPerfilesPermisos_FormClosing);
+			this.Load += new System.EventHandler(this.FrmUsuarioPerfilPermiso_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -132,6 +133,6 @@
 		private System.Windows.Forms.Button BtnGuardar;
 		private System.Windows.Forms.Button BtnSalir;
 		private System.Windows.Forms.Label LblUsuarios;
-		private System.Windows.Forms.Label LblFamilias;
+		private System.Windows.Forms.Label LblPerfilesPermisos;
 	}
 }

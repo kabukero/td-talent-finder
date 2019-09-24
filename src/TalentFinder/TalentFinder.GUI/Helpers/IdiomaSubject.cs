@@ -9,18 +9,45 @@ using TalentFinder.BLL;
 
 namespace TalentFinder.GUI.Helpers
 {
-	public class IdiomaHelper
+	public static class IdiomaSubject
 	{
 		public delegate void CambiarIdiomaEventHandler(Control parent, Idioma idioma);
-		public event CambiarIdiomaEventHandler CambiarIdioma;
+		public static event CambiarIdiomaEventHandler CambiarIdioma;
+		public static List<Control> Controls;
 
-		public void CambiarIdiomaControlesFormulario(Control control, Idioma idioma)
+		static IdiomaSubject()
 		{
-			if(this.CambiarIdioma != null)
-				this.CambiarIdioma(control, idioma);
+			Controls = new List<Control>();
 		}
 
-		public void CambiarTextoControlFormSegunIdioma(Control parentControl, Idioma idioma)
+		public static void Attach(Control control)
+		{
+			Controls.Add(control);
+		}
+
+		public static void Detach(Control control)
+		{
+			Controls.Remove(control);
+		}
+
+		public static void Notify(Idioma idioma)
+		{
+			foreach(Control control in Controls)
+			{
+				CambiarIdiomaControlesFormulario(control, idioma);
+			}
+		}
+
+		public static void CambiarIdiomaControlesFormulario(Control control, Idioma idioma)
+		{
+			if(CambiarIdioma != null)
+			{
+				CambiarIdioma(control, idioma);
+				SistemaManager.Idioma = idioma;
+			}
+		}
+
+		public static void CambiarTextoControlFormSegunIdioma(Control parentControl, Idioma idioma)
 		{
 			if(!string.IsNullOrEmpty(parentControl.Text) && parentControl.Tag != null)
 				CambiarTextoControlForm(parentControl, idioma);
@@ -29,14 +56,13 @@ namespace TalentFinder.GUI.Helpers
 			{
 				if(control.GetType() == typeof(Label) || control.GetType() == typeof(Button) || control.GetType() == typeof(GroupBox) && !string.IsNullOrEmpty(control.Text) && control.Tag != null)
 					CambiarTextoControlForm(control, idioma);
-					//MessageBox.Show(control.Name);
 
 				if(control.GetType() == typeof(GroupBox))
 					CambiarTextoControlFormSegunIdioma(control, idioma);
 			}
 		}
 
-		private void CambiarTextoControlForm(Control control, Idioma idioma)
+		public static void CambiarTextoControlForm(Control control, Idioma idioma)
 		{
 			Frase frase = (Frase)control.Tag;
 			if(frase != null && !string.IsNullOrEmpty(frase.Tag))

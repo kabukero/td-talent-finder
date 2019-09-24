@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TalentFinder.BE;
 using TalentFinder.BLL;
+using TalentFinder.GUI.Helpers;
 
 namespace TalentFinder.GUI
 {
@@ -22,10 +23,30 @@ namespace TalentFinder.GUI
 			InitializeComponent();
 		}
 
-		private void FrmUsuarioFamiliaPatente_Load(object sender, EventArgs e)
+		private void InitFormControls()
+		{
+			this.Tag = new Frase() { Tag = "gestion_perfiles_permisos_usuarios" };
+			LblTitulo.Tag = new Frase() { Tag = "seleccione_dir_destino_bkp" };
+			LblUsuarios.Tag = new Frase() { Tag = "usuarios" };
+			LblPerfilesPermisos.Tag = new Frase() { Tag = "perfiles_permisos" };
+			BtnGuardar.Tag = new Frase() { Tag = "guardar" };
+			BtnSalir.Tag = new Frase() { Tag = "salir" };
+		}
+
+		private void FrmUsuarioPerfilPermiso_Load(object sender, EventArgs e)
 		{
 			CargarLstUsuarios();
 			CargarTreeView();
+
+			// iniciar controles de formulario
+			InitFormControls();
+
+			// suscribir a evento
+			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
+			IdiomaSubject.Attach(this);
+
+			// disparar evento
+			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
 		}
 
 		private void CargarLstUsuarios()
@@ -127,6 +148,7 @@ namespace TalentFinder.GUI
 
 			Usuario usuario = (Usuario)LstUsuarios.SelectedItem;
 			List<TreeNode> treeNodes = new List<TreeNode>();
+			treeNodes.Clear();
 			List<PermisoComponent> perfilesPermisos = new List<PermisoComponent>();
 			FindCheckedNodes(treeNodes, TvwPerfilesPermisos.Nodes);
 
@@ -150,6 +172,11 @@ namespace TalentFinder.GUI
 		private void BtnSalir_Click(object sender, EventArgs e)
 		{
 			this.Hide();
+		}
+
+		private void FrmGestionUsuariosPerfilesPermisos_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			IdiomaSubject.Detach(this);
 		}
 	}
 }

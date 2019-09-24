@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using TalentFinder.BE;
 using TalentFinder.BLL;
+using TalentFinder.GUI.Helpers;
 
 namespace TalentFinder.GUI
 {
@@ -147,11 +148,38 @@ namespace TalentFinder.GUI
 				EnableDisableFieldsForm(false);
 			TxtDescripcion.Text = permisoComponent.Nombre;
 		}
+		private void InitFormControls()
+		{
+			this.Tag = new Frase() { Tag = "gestion_perfiles_permisos" };
+			LblPerfilesPermisos.Tag = new Frase() { Tag = "perfiles_permisos" };
+			LblPerfiles.Tag = new Frase() { Tag = "perfiles" };
+			LblPermisos.Tag = new Frase() { Tag = "permisos" };
+			gbPerfil.Tag = new Frase() { Tag = "perfil" };
+			LblDescripcion.Tag = new Frase() { Tag = "descripcion" };
+			BtnCrear.Tag = new Frase() { Tag = "crear" };
+			BtnEditar.Tag = new Frase() { Tag = "editar" };
+			BtnQuitar.Tag = new Frase() { Tag = "quitar" };
+			BtnEliminar.Tag = new Frase() { Tag = "eliminar" };
+			BtnCancelar.Tag = new Frase() { Tag = "cancelar" };
+			LblDescripcion.Tag = new Frase() { Tag = "descripcion" };
+			BtnAgregarPerfil.Tag = new Frase() { Tag = "agregar_perfil_a_perfil" };
+			BtnAgregarPermiso.Tag = new Frase() { Tag = "agregar_permiso_a_perfil" };
+		}
 		private void FrmGestionPerfilesPermisos_Load(object sender, EventArgs e)
 		{
 			CargarTreeView();
 			CargarLstPermisos();
 			CargarLstPerfiles();
+
+			// iniciar controles de formulario
+			InitFormControls();
+
+			// suscribir a evento
+			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
+			IdiomaSubject.Attach(this);
+
+			// disparar evento
+			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
 		}
 		private void FrmGestionPerfilesPermisos_Shown(object sender, EventArgs e)
 		{
@@ -357,6 +385,11 @@ namespace TalentFinder.GUI
 		private void TvwPerfilesPermisos_AfterSelect(object sender, TreeViewEventArgs e)
 		{
 			FillForm();
+		}
+
+		private void FrmGestionPerfilesPermisos_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			IdiomaSubject.Detach(this);
 		}
 	}
 }

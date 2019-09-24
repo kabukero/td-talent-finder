@@ -12,7 +12,6 @@ namespace TalentFinder.GUI
 		private BitacoraManager bitacoraManager = new BitacoraManager();
 		private PerfilPermisoManager perfilPermisoManager = new PerfilPermisoManager();
 		private IdiomaManager IdiomaManager = new IdiomaManager();
-		private IdiomaHelper IdiomaHelper = new IdiomaHelper();
 
 		public FrmLogin()
 		{
@@ -54,7 +53,7 @@ namespace TalentFinder.GUI
 			Usuario usuario = usuarioManager.CrearUsuarioLogin(TxtUsuario.Text, TxtPassword.Text);
 			if(usuarioManager.ValidarLogin(usuario))
 			{
-				bitacoraManager.RegistrarEntrada(usuario, perfilPermisoManager.GetPermiso((int)Permisos.LOGIN_SISTEMA), "Ingresó al sistema");
+				bitacoraManager.RegistrarEntrada(usuario, new TipoEvento() { Id = (int)TiposEventos.INFORMACION }, "Ingresó al sistema");
 				GoToPanelDeControl();
 			}
 			else
@@ -71,17 +70,17 @@ namespace TalentFinder.GUI
 
 		private void BtnIdiomaSpain_Click(object sender, EventArgs e)
 		{
-			IdiomaHelper.CambiarIdiomaControlesFormulario(this, SistemaManager.IdiomaManager.GetIdioma(Idiomas.ESPAÑOL));
+			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.IdiomaManager.GetIdioma(Idiomas.ESPAÑOL));
 		}
 
 		private void BtnIdiomaEnglish_Click(object sender, EventArgs e)
 		{
-			IdiomaHelper.CambiarIdiomaControlesFormulario(this, SistemaManager.IdiomaManager.GetIdioma(Idiomas.INGLES));
+			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.IdiomaManager.GetIdioma(Idiomas.INGLES));
 		}
 
 		private void BtnIdiomaFrance_Click(object sender, EventArgs e)
 		{
-			IdiomaHelper.CambiarIdiomaControlesFormulario(this, SistemaManager.IdiomaManager.GetIdioma(Idiomas.FRANCES));
+			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.IdiomaManager.GetIdioma(Idiomas.FRANCES));
 		}
 
 		private void FrmLogin_Load(object sender, EventArgs e)
@@ -90,10 +89,10 @@ namespace TalentFinder.GUI
 			InitFormControls();
 
 			// suscribir a evento
-			IdiomaHelper.CambiarIdioma += IdiomaHelper.CambiarTextoControlFormSegunIdioma;
+			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
 
 			// disparar evento
-			IdiomaHelper.CambiarIdiomaControlesFormulario(this, SistemaManager.IdiomaManager.GetIdioma(Idiomas.ESPAÑOL));
+			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
 		}
 	}
 }

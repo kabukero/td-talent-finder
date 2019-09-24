@@ -10,7 +10,7 @@ namespace TalentFinder.BE
 	{
 		public DateTime FechaCreacion { get; set; }
 		public Usuario Usuario { get; set; }
-		public Permiso Permiso { get; set; }
+		public TipoEvento TipoEvento { get; set; }
 		public string Descripcion { get; set; }
 	}
 }

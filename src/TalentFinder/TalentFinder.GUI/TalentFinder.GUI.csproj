@@ -90,7 +90,7 @@
     <Compile Include="FrmGestionUsuariosPerfilesPermisos.Designer.cs">
       <DependentUpon>FrmGestionUsuariosPerfilesPermisos.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\IdiomaHelper.cs" />
+    <Compile Include="Helpers\IdiomaSubject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FrmGestionBackup.resx">

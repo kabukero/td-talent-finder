@@ -63,7 +63,9 @@
     <Compile Include="Reclutador.cs" />
     <Compile Include="TablaSistema.cs" />
     <Compile Include="TablasSistema.cs" />
+    <Compile Include="TipoEvento.cs" />
     <Compile Include="TipoPermiso.cs" />
+    <Compile Include="TiposEventos.cs" />
     <Compile Include="TiposPermiso.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

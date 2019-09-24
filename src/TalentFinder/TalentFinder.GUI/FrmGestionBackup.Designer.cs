@@ -28,20 +28,20 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.label1 = new System.Windows.Forms.Label();
+			this.LblTitulo = new System.Windows.Forms.Label();
 			this.BtnRealizarBackup = new System.Windows.Forms.Button();
 			this.BtnSeleccionarCarpeta = new System.Windows.Forms.Button();
 			this.LblCarpetaDestinoBackup = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// label1
+			// LblTitulo
 			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(190, 43);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(372, 24);
-			this.label1.TabIndex = 0;
-			this.label1.Text = "Seleccione el directorio destino del backup";
+			this.LblTitulo.AutoSize = true;
+			this.LblTitulo.Location = new System.Drawing.Point(190, 43);
+			this.LblTitulo.Name = "LblTitulo";
+			this.LblTitulo.Size = new System.Drawing.Size(372, 24);
+			this.LblTitulo.TabIndex = 0;
+			this.LblTitulo.Text = "Seleccione el directorio destino del backup";
 			// 
 			// BtnRealizarBackup
 			// 
@@ -80,12 +80,13 @@
 			this.Controls.Add(this.LblCarpetaDestinoBackup);
 			this.Controls.Add(this.BtnSeleccionarCarpeta);
 			this.Controls.Add(this.BtnRealizarBackup);
-			this.Controls.Add(this.label1);
+			this.Controls.Add(this.LblTitulo);
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+			this.Margin = new System.Windows.Forms.Padding(6);
 			this.Name = "FrmGestionBackup";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Gestión Backup";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmGestionBackup_FormClosing);
 			this.Load += new System.EventHandler(this.FrmGestionBackup_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -94,7 +95,7 @@
 
 		#endregion
 
-		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Label LblTitulo;
 		private System.Windows.Forms.Button BtnRealizarBackup;
 		private System.Windows.Forms.Button BtnSeleccionarCarpeta;
 		private System.Windows.Forms.Label LblCarpetaDestinoBackup;

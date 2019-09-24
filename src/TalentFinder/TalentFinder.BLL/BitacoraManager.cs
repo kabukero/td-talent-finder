@@ -17,16 +17,16 @@ namespace TalentFinder.BLL
 			bitacoraMapper = new BitacoraMapper();
 		}
 
-		public int RegistrarEntrada(Usuario usuario, Permiso permiso, string descripcion = null)
+		public int RegistrarEntrada(Usuario usuario, TipoEvento TipoEvento, string descripcion = null)
 		{
-			Bitacora bitacora = GetBitacora(usuario, permiso, descripcion);
+			Bitacora bitacora = GetBitacora(usuario, TipoEvento, descripcion);
 			return bitacoraMapper.RegistrarEntrada(bitacora);
 		}
 
-		private Bitacora GetBitacora(Usuario usuario, Permiso permiso, string descripcion = null)
+		private Bitacora GetBitacora(Usuario usuario, TipoEvento TipoEvento, string descripcion = null)
 		{
 			Bitacora bitacora = new Bitacora();
-			bitacora.Permiso = permiso;
+			bitacora.TipoEvento = TipoEvento;
 			bitacora.Usuario = usuario;
 			bitacora.FechaCreacion = DateTime.Now;
 			bitacora.Descripcion = descripcion;

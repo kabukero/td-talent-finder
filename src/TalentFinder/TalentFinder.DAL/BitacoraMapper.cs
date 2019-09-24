@@ -20,7 +20,7 @@ namespace TalentFinder.DAL
 				List<SqlParameter> parametros = new List<SqlParameter>();
 				parametros.Add(da.CrearParametro("@FechaCreacion", bitacora.FechaCreacion));
 				parametros.Add(da.CrearParametro("@UsuarioId", bitacora.Usuario.Id));
-				parametros.Add(da.CrearParametro("@PermisoId", bitacora.Permiso.Id));
+				parametros.Add(da.CrearParametro("@TipoEventoId", bitacora.TipoEvento.Id));
 				parametros.Add(da.CrearParametro("@Descripcion", bitacora.Descripcion));
 				f = da.Escribir("RegistrarEntrada", parametros);
 			}

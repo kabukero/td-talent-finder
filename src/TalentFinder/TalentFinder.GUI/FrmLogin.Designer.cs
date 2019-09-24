@@ -154,7 +154,7 @@
 			this.gbSeleccionarIdioma.Controls.Add(this.BtnIdiomaSpain);
 			this.gbSeleccionarIdioma.Controls.Add(this.BtnIdiomaEnglish);
 			this.gbSeleccionarIdioma.Controls.Add(this.BtnIdiomaFrance);
-			this.gbSeleccionarIdioma.Location = new System.Drawing.Point(30, 124);
+			this.gbSeleccionarIdioma.Location = new System.Drawing.Point(28, 122);
 			this.gbSeleccionarIdioma.Name = "gbSeleccionarIdioma";
 			this.gbSeleccionarIdioma.Size = new System.Drawing.Size(511, 85);
 			this.gbSeleccionarIdioma.TabIndex = 10;

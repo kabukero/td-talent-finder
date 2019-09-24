@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using TalentFinder.BE;
 using TalentFinder.BLL;
+using TalentFinder.GUI.Helpers;
 
 namespace TalentFinder.GUI
 {
@@ -13,6 +14,26 @@ namespace TalentFinder.GUI
 		{
 			InitializeComponent();
 		}
+
+		private void InitFormControls()
+		{
+			this.Tag = new Frase() { Tag = "gestion_empresa" };
+			gbEmpresa.Tag = new Frase() { Tag = "empresa" };
+			BtnAgregar.Tag = new Frase() { Tag = "agregar" };
+			BtnEditar.Tag = new Frase() { Tag = "editar" };
+			BtnEliminar.Tag = new Frase() { Tag = "eliminar" };
+			LblRazonSocial.Tag = new Frase() { Tag = "razon_social" };
+			LblDireccion.Tag = new Frase() { Tag = "direccion" };
+			LblTelefono.Tag = new Frase() { Tag = "telefono" };
+			LblEmail.Tag = new Frase() { Tag = "email" };
+			LblCuit.Tag = new Frase() { Tag = "cuit" };
+			DgvEmpresas.Columns["RazonSocial"].Tag = new Frase() { Tag = "razon_social" };
+			DgvEmpresas.Columns["Direccion"].Tag = new Frase() { Tag = "direccion" };
+			DgvEmpresas.Columns["Telefono"].Tag = new Frase() { Tag = "telefono" };
+			DgvEmpresas.Columns["Email"].Tag = new Frase() { Tag = "email" };
+			DgvEmpresas.Columns["CUIT"].Tag = new Frase() { Tag = "cuit" };
+		}
+
 		private void SetGrilla()
 		{
 			DgvEmpresas.Columns.Add("RazonSocial", "Razón Social");
@@ -184,10 +205,25 @@ namespace TalentFinder.GUI
 			SetGrilla();
 			CargarEmpresas();
 			AplicarPermiso();
+
+			// iniciar controles de formulario
+			InitFormControls();
+
+			// suscribir a evento
+			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
+			IdiomaSubject.Attach(this);
+
+			// disparar evento
+			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
 		}
 		private void FrmGestionEmpresa_Shown(object sender, EventArgs e)
 		{
 			DgvEmpresas.ClearSelection();
+		}
+
+		private void FrmGestionEmpresa_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			IdiomaSubject.Detach(this);
 		}
 	}
 }
