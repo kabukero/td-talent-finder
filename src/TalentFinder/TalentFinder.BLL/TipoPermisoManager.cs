@@ -10,13 +10,7 @@ namespace TalentFinder.BLL
 {
 	public class TipoPermisoManager
 	{
-		private TipoPermisoMapper TipoPermisoMapper;
-
-		public TipoPermisoManager()
-		{
-			TipoPermisoMapper = new TipoPermisoMapper();
-		}
-
+		private TipoPermisoMapper TipoPermisoMapper = new TipoPermisoMapper();
 		public List<TipoPermiso> GetAllTiposPermiso()
 		{
 			List<TipoPermiso> lista = TipoPermisoMapper.GetAllTiposPermiso();

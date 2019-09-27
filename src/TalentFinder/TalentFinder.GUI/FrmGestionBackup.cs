@@ -21,7 +21,6 @@ namespace TalentFinder.GUI
 		{
 			InitializeComponent();
 		}
-
 		private void InitFormControls()
 		{
 			this.Tag = new Frase() { Tag = "gestion_backup" };
@@ -30,7 +29,6 @@ namespace TalentFinder.GUI
 			BtnSeleccionarCarpeta.Tag = new Frase() { Tag = "seleccione_carpeta" };
 			BtnRealizarBackup.Tag = new Frase() { Tag = "realizar_backup" };
 		}
-
 		private void BtnRealizarBackup_Click(object sender, EventArgs e)
 		{
 			//if(string.IsNullOrEmpty(PathBackupFile))
@@ -44,21 +42,21 @@ namespace TalentFinder.GUI
 				backup.PathBackupFile = ConfigurationManager.AppSettings["PathBackupFile"].ToString();
 			else
 				backup.PathBackupFile = PathBackupFile;
-
 			int f = backupManager.RelizarBackup(backup);
 
 			if(f == 1)
 			{
+				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.INFORMACION }, string.Format("Se realizó un backup en el siguiente directorio: {0} ", backup.PathBackupFile));
 				MessageBox.Show("El backup se realizó correctamente", "Gestión Backup", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 			else
 			{
+				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.ERROR }, string.Format("Ocurrió un error al intentar realizar un backup en el siguiente directorio: {0} ", backup.PathBackupFile));
 				MessageBox.Show("Vuelva a intentar más tarde", "Gestión Backup", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			PathBackupFile = string.Empty;
 			LblCarpetaDestinoBackup.Text = "Carpeta destino backup: ";
 		}
-
 		private void BtnSeleccionarCarpeta_Click(object sender, EventArgs e)
 		{
 			FolderBrowserDialog folderDlg = new FolderBrowserDialog();
@@ -70,7 +68,6 @@ namespace TalentFinder.GUI
 				LblCarpetaDestinoBackup.Text = "Carpeta destino backup: " + PathBackupFile;
 			}
 		}
-
 		private void FrmGestionBackup_Load(object sender, EventArgs e)
 		{
 			LblCarpetaDestinoBackup.Text = "Carpeta destino backup: " + ConfigurationManager.AppSettings["PathBackupFile"].ToString();
@@ -85,7 +82,6 @@ namespace TalentFinder.GUI
 			// disparar evento
 			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
 		}
-
 		private void FrmGestionBackup_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			IdiomaSubject.Detach(this);

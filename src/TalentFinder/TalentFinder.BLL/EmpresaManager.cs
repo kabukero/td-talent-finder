@@ -10,23 +10,20 @@ namespace TalentFinder.BLL
 {
 	public class EmpresaManager
 	{
-		private DigitoVerificadorManager digitoVerificadorManager;
-		private EmpresaMapper empresaMapper;
-
-		public EmpresaManager()
-		{
-			digitoVerificadorManager = new DigitoVerificadorManager();
-			digitoVerificadorManager.EmpresaManager = this;
-			empresaMapper = new EmpresaMapper();
-		}
-
+		private EmpresaMapper empresaMapper = new EmpresaMapper();
 		public int Crear(Empresa empresa)
 		{
 			empresa.FechaCreacion = DateTime.Now;
-			empresa.DVH = digitoVerificadorManager.CalcularDVH(empresa);
+			empresa.FechaActualizacion = DateTime.Now;
 			int f = empresaMapper.Crear(empresa);
-			if(f == 1)
-				f = digitoVerificadorManager.GuardarDigitoVerificador(TablasSistema.TABLA_EMPRESA);
+			if(f != -1)
+			{
+				empresa.Id = f;
+				empresa.DVH = SistemaManager.DigitoVerificadorManager.CalcularDVH(empresa);
+				f = empresaMapper.EditarDVHEmpresa(empresa);
+				if(f != -1)
+					f = SistemaManager.DigitoVerificadorManager.GuardarDigitoVerificador(TablasSistema.TABLA_EMPRESA);
+			}
 			return f;
 		}
 		public int Editar(Empresa empresa)
@@ -34,29 +31,28 @@ namespace TalentFinder.BLL
 			Empresa empresaActual = GetEmpresa(empresa.Id);
 
 			// control de cambios
-			if(empresaActual.FechaActualizacion != null && empresa.FechaActualizacion != null && empresaActual.FechaActualizacion > empresa.FechaActualizacion)
+			if(empresaActual.FechaActualizacion > empresa.FechaActualizacion)
 				return -1;
 
 			empresa.FechaActualizacion = DateTime.Now;
-			empresa.DVH = digitoVerificadorManager.CalcularDVH(empresa);
+			empresa.DVH = SistemaManager.DigitoVerificadorManager.CalcularDVH(empresa);
 			int f = empresaMapper.Editar(empresa);
 
 			if(f == 1)
-				f = digitoVerificadorManager.GuardarDigitoVerificador(TablasSistema.TABLA_EMPRESA);
+				f = SistemaManager.DigitoVerificadorManager.GuardarDigitoVerificador(TablasSistema.TABLA_EMPRESA);
 			return f;
 		}
 		public int Eliminar(Empresa empresa)
 		{
 			int f = empresaMapper.Eliminar(empresa);
 			if(f == 1)
-				f = digitoVerificadorManager.GuardarDigitoVerificador(TablasSistema.TABLA_EMPRESA);
+				f = SistemaManager.DigitoVerificadorManager.GuardarDigitoVerificador(TablasSistema.TABLA_EMPRESA);
 			return f;
 		}
 		public List<Empresa> GetAllEmpresas()
 		{
 			return empresaMapper.GetAllEmpresas();
 		}
-
 		public Empresa GetEmpresa(int Id)
 		{
 			return empresaMapper.GetEmpresa(Id);

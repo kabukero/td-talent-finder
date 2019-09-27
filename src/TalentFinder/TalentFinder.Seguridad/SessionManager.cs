@@ -5,7 +5,6 @@ namespace TalentFinder.Seguridad
 	public class SessionManager
 	{
 		private static SessionManager instanciaSesion;
-
 		private Usuario usuarioLogueado;
 		public Usuario UsuarioLogueado
 		{
@@ -18,19 +17,16 @@ namespace TalentFinder.Seguridad
 				usuarioLogueado = value;
 			}
 		}
-
 		private SessionManager()
 		{
 			UsuarioLogueado = null;
 		}
-
 		public static SessionManager GetUsuarioSesion()
 		{
 			if(instanciaSesion == null)
 				instanciaSesion = new SessionManager();
 			return instanciaSesion;
 		}
-
 		public bool EstaElUsuarioLogueado()
 		{
 			return UsuarioLogueado != null;

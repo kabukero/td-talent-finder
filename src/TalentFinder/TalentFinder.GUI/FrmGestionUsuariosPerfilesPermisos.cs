@@ -15,14 +15,10 @@ namespace TalentFinder.GUI
 {
 	public partial class FrmGestionUsuariosPerfilesPermisos : Form
 	{
-		private UsuarioManager usuarioManager = new UsuarioManager();
-		private PerfilPermisoManager perfilPermisoManager = new PerfilPermisoManager();
-
 		public FrmGestionUsuariosPerfilesPermisos()
 		{
 			InitializeComponent();
 		}
-
 		private void InitFormControls()
 		{
 			this.Tag = new Frase() { Tag = "gestion_perfiles_permisos_usuarios" };
@@ -32,39 +28,20 @@ namespace TalentFinder.GUI
 			BtnGuardar.Tag = new Frase() { Tag = "guardar" };
 			BtnSalir.Tag = new Frase() { Tag = "salir" };
 		}
-
-		private void FrmUsuarioPerfilPermiso_Load(object sender, EventArgs e)
-		{
-			CargarLstUsuarios();
-			CargarTreeView();
-
-			// iniciar controles de formulario
-			InitFormControls();
-
-			// suscribir a evento
-			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
-			IdiomaSubject.Attach(this);
-
-			// disparar evento
-			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
-		}
-
 		private void CargarLstUsuarios()
 		{
 			LstUsuarios.DataSource = null;
-			LstUsuarios.DataSource = usuarioManager.GetUsuarios();
+			LstUsuarios.DataSource = SistemaManager.UsuarioManager.GetUsuarios();
 			LstUsuarios.ClearSelected();
 		}
-
 		private void CargarTreeView()
 		{
 			TvwPerfilesPermisos.Nodes.Clear();
 			TvwPerfilesPermisos.CheckBoxes = true;
-			List<PermisoComponent> perfilesPermisos = perfilPermisoManager.GetAllPerfilesPermisos();
+			List<PermisoComponent> perfilesPermisos = SistemaManager.PerfilPermisoManager.GetAllPerfilesPermisos();
 			CargarNodos(perfilesPermisos, null);
 			TvwPerfilesPermisos.ExpandAll();
 		}
-
 		private void CargarNodos(List<PermisoComponent> perfilesPermisos, TreeNode Padre)
 		{
 			foreach(PermisoComponent p in perfilesPermisos)
@@ -84,28 +61,24 @@ namespace TalentFinder.GUI
 				}
 			}
 		}
-
 		private TreeNode CrearNodo(PermisoComponent p)
 		{
 			TreeNode nodo = new TreeNode(p.Nombre);
 			nodo.Tag = p;
 			return nodo;
 		}
-
 		private void LstUsuarios_Click(object sender, EventArgs e)
 		{
 			CargarPerfilesPermisosUsuarioSeleccionado();
 		}
-
 		private void CargarPerfilesPermisosUsuarioSeleccionado()
 		{
 			if(LstUsuarios.Items.Count == 0 || LstUsuarios.SelectedItem == null)
 				return;
 			Usuario usuario = (Usuario)LstUsuarios.SelectedItem;
-			List<PermisoComponent> perfilesPermisos = perfilPermisoManager.GetAllPerfilesPermisosPorUsuario(usuario);
+			List<PermisoComponent> perfilesPermisos = SistemaManager.PerfilPermisoManager.GetAllPerfilesPermisosPorUsuario(usuario);
 			RecorrerNodos(TvwPerfilesPermisos.Nodes, perfilesPermisos);
 		}
-
 		private void RecorrerNodos(TreeNodeCollection nodes, List<PermisoComponent> perfilesPermisos)
 		{
 			UncheckedAllNodes(nodes);
@@ -118,7 +91,6 @@ namespace TalentFinder.GUI
 				RecorrerNodos(nodo.Nodes, perfilesPermisos);
 			}
 		}
-
 		private void UncheckedAllNodes(TreeNodeCollection nodes)
 		{
 			foreach(TreeNode node in nodes)
@@ -127,7 +99,6 @@ namespace TalentFinder.GUI
 				UncheckedAllNodes(node.Nodes);
 			}
 		}
-
 		private void FindCheckedNodes(List<TreeNode> checked_nodes, TreeNodeCollection nodes)
 		{
 			foreach(TreeNode node in nodes)
@@ -140,7 +111,6 @@ namespace TalentFinder.GUI
 				FindCheckedNodes(checked_nodes, node.Nodes);
 			}
 		}
-
 		private void BtnGuardar_Click(object sender, EventArgs e)
 		{
 			if(LstUsuarios.Items.Count == 0 || LstUsuarios.SelectedItem == null)
@@ -148,7 +118,6 @@ namespace TalentFinder.GUI
 
 			Usuario usuario = (Usuario)LstUsuarios.SelectedItem;
 			List<TreeNode> treeNodes = new List<TreeNode>();
-			treeNodes.Clear();
 			List<PermisoComponent> perfilesPermisos = new List<PermisoComponent>();
 			FindCheckedNodes(treeNodes, TvwPerfilesPermisos.Nodes);
 
@@ -157,7 +126,7 @@ namespace TalentFinder.GUI
 				perfilesPermisos.Add((PermisoComponent)nodo.Tag);
 			}
 
-			int f = perfilPermisoManager.GuardarUsuarioPerfilesPermisos(perfilesPermisos, usuario);
+			int f = SistemaManager.PerfilPermisoManager.GuardarUsuarioPerfilesPermisos(perfilesPermisos, usuario);
 			if(f == -1)
 			{
 				MessageBox.Show("Ha ocurrido un error. Vuelva a intentar mas tarde", "Usuarios Pemrisos", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -166,14 +135,28 @@ namespace TalentFinder.GUI
 			{
 				MessageBox.Show("Los permisos se guardaron correctamente", "Usuarios Pemrisos", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				CargarTreeView();
+				LstUsuarios.ClearSelected();
 			}
 		}
-
 		private void BtnSalir_Click(object sender, EventArgs e)
 		{
 			this.Hide();
 		}
+		private void FrmUsuarioPerfilPermiso_Load(object sender, EventArgs e)
+		{
+			CargarLstUsuarios();
+			CargarTreeView();
 
+			// iniciar controles de formulario
+			InitFormControls();
+
+			// suscribir a evento
+			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
+			IdiomaSubject.Attach(this);
+
+			// disparar evento
+			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
+		}
 		private void FrmGestionUsuariosPerfilesPermisos_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			IdiomaSubject.Detach(this);

@@ -24,9 +24,9 @@ namespace TalentFinder.DAL
 				parametros.Add(da.CrearParametro("@Telefono", empresa.Telefono));
 				parametros.Add(da.CrearParametro("@Email", empresa.Email));
 				parametros.Add(da.CrearParametro("@CUIT", empresa.CUIT));
-				parametros.Add(da.CrearParametro("@FechaCreacion", empresa.FechaCreacion));
-				parametros.Add(da.CrearParametro("@DVH", empresa.DVH));
-				f = da.Escribir("CrearEmpresa", parametros);
+				parametros.Add(da.CrearParametro("@FechaCreacion", empresa.FechaCreacionFormateada));
+				parametros.Add(da.CrearParametro("@FechaActualizacion", empresa.FechaCreacionFormateada));
+				f = da.LeerEscalar("CrearEmpresa", parametros);
 			}
 			catch(Exception ex)
 			{
@@ -35,7 +35,6 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
-
 		public int Editar(Empresa empresa)
 		{
 			int f = 0;
@@ -50,7 +49,7 @@ namespace TalentFinder.DAL
 				parametros.Add(da.CrearParametro("@Telefono", empresa.Telefono));
 				parametros.Add(da.CrearParametro("@Email", empresa.Email));
 				parametros.Add(da.CrearParametro("@CUIT", empresa.CUIT));
-				parametros.Add(da.CrearParametro("@FechaActualizacion", empresa.FechaActualizacion));
+				parametros.Add(da.CrearParametro("@FechaActualizacion", empresa.FechaActualizacionFormateada));
 				parametros.Add(da.CrearParametro("@DVH", empresa.DVH));
 				f = da.Escribir("EditarEmpresa", parametros);
 			}
@@ -61,7 +60,25 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
-
+		public int EditarDVHEmpresa(Empresa empresa)
+		{
+			int f = 0;
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			try
+			{
+				List<SqlParameter> parametros = new List<SqlParameter>();
+				parametros.Add(da.CrearParametro("@EmpresaId", empresa.Id));
+				parametros.Add(da.CrearParametro("@DVH", empresa.DVH));
+				f = da.Escribir("EditarDVHEmpresa", parametros);
+			}
+			catch(Exception ex)
+			{
+				f = -1;
+			}
+			da.Cerrar();
+			return f;
+		}
 		public int Eliminar(Empresa empresa)
 		{
 			int f = 0;
@@ -80,7 +97,6 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
-
 		public List<Empresa> GetAllEmpresas()
 		{
 			List<Empresa> lista = new List<Empresa>();
@@ -99,22 +115,24 @@ namespace TalentFinder.DAL
 				empresa.Email = fila["Email"].ToString();
 				empresa.CUIT = fila["CUIT"].ToString();
 				empresa.FechaCreacion = DateTime.Parse(fila["FechaCreacion"].ToString());
+
 				if(fila["FechaActualizacion"] != DBNull.Value)
 					empresa.FechaActualizacion = DateTime.Parse(fila["FechaActualizacion"].ToString());
-				empresa.DVH = Int64.Parse(fila["DVH"].ToString());
+
+				if(fila["DVH"] != DBNull.Value)
+					empresa.DVH = Int64.Parse(fila["DVH"].ToString());
 				lista.Add(empresa);
 			}
 			return lista;
 		}
-
 		public Empresa GetEmpresa(int Id)
 		{
 			Empresa empresa = null;
 			DataAccessManager da = new DataAccessManager();
 			da.Abrir();
 			List<SqlParameter> parametros = new List<SqlParameter>();
-			parametros.Add(da.CrearParametro("@Id", empresa.Id));
-			DataTable tabla = da.Leer("GetAllEmpresas", parametros);
+			parametros.Add(da.CrearParametro("@EmpresaId", Id));
+			DataTable tabla = da.Leer("GetEmpresa", parametros);
 			da.Cerrar();
 
 			foreach(DataRow fila in tabla.Rows)

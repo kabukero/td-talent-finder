@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
@@ -14,7 +10,24 @@ namespace TalentFinder.BE
 		public string Email { get; set; }
 		public string CUIT { get; set; }
 		public DateTime FechaCreacion { get; set; }
+
+		public String FechaCreacionFormateada
+		{
+			get
+			{
+				return FechaCreacion.ToString("yyyy/MM/dd HH:mm:ss");
+			}
+		}
 		public DateTime FechaActualizacion { get; set; }
+
+		public String FechaActualizacionFormateada
+		{
+			get
+			{
+				return FechaActualizacion.ToString("yyyy/MM/dd HH:mm:ss");
+			}
+		}
+
 		public Int64 DVH { get; set; }
 	}
 }

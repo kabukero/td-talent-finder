@@ -45,10 +45,6 @@ namespace TalentFinder.BLL
 			// cargar permisos usuario
 			usuario.PermisoComponent = perfilPermisoManager.GetAllPerfilesPermisosPorUsuario(usuario);
 
-			////// validar permiso de login
-			////if(!perfilPermisoManager.TienePermiso(Permisos.LOGIN_SISTEMA, usuario.PermisoComponent))
-			//	return false;
-
 			// crear sesion usuario logueado
 			SessionManager usuarioSesion = SessionManager.GetUsuarioSesion();
 			usuarioSesion.UsuarioLogueado = usuario;

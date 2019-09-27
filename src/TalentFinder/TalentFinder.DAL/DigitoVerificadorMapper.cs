@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TalentFinder.BE;
 
 namespace TalentFinder.DAL
@@ -20,7 +18,6 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
-
 		public int CrearDVV(DigitoVerificadorVertical digitoVerificadorVertical)
 		{
 			int f = 0;
@@ -41,7 +38,6 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
-
 		public int EditarDVV(DigitoVerificadorVertical digitoVerificadorVertical)
 		{
 			int f = 0;
@@ -61,6 +57,28 @@ namespace TalentFinder.DAL
 			}
 			da.Cerrar();
 			return f;
+		}
+		public DigitoVerificadorVertical GetDVV(TablasSistema tablasSistema)
+		{
+			DataAccessManager da = new DataAccessManager();
+			DigitoVerificadorVertical digitoVerificadorVertical = null;
+			da.Abrir();
+			List<SqlParameter> parametros = new List<SqlParameter>();
+			parametros.Add(da.CrearParametro("@TablaSistemaId", (int)tablasSistema));
+			DataTable tabla = da.Leer("GetDVV", parametros);
+
+			foreach(DataRow fila in tabla.Rows)
+			{
+				digitoVerificadorVertical = new DigitoVerificadorVertical();
+				digitoVerificadorVertical.Id = int.Parse(fila["Id"].ToString());
+				digitoVerificadorVertical.TablaSistema = new TablaSistema() { Id = int.Parse(fila["TablaSistemaId"].ToString()) };
+				digitoVerificadorVertical.FechaCreacion = DateTime.Parse(fila["FechaCreacion"].ToString());
+				if(fila["FechaActualizacion"] != DBNull.Value)
+					digitoVerificadorVertical.FechaActualizacion = DateTime.Parse(fila["FechaActualizacion"].ToString());
+				digitoVerificadorVertical.DVV = int.Parse(fila["DVV"].ToString());
+			}
+			da.Cerrar();
+			return digitoVerificadorVertical;
 		}
 	}
 }

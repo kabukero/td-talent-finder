@@ -15,9 +15,6 @@ namespace TalentFinder.GUI
 {
 	public partial class FrmGestionPerfilesPermisos : Form
 	{
-		private UsuarioManager usuarioManager = new UsuarioManager();
-		private PerfilPermisoManager perfilPermisoManager = new PerfilPermisoManager();
-		private TipoPermisoManager TipoPermisoManager = new TipoPermisoManager();
 		public FrmGestionPerfilesPermisos()
 		{
 			InitializeComponent();
@@ -25,20 +22,20 @@ namespace TalentFinder.GUI
 		private void CargarLstPermisos()
 		{
 			LstPermisos.DataSource = null;
-			LstPermisos.DataSource = perfilPermisoManager.GetAllPermisos();
+			LstPermisos.DataSource = SistemaManager.PerfilPermisoManager.GetAllPermisos();
 			LstPermisos.ClearSelected();
 		}
 		private void CargarLstPerfiles()
 		{
 			LstPerfiles.DataSource = null;
-			LstPerfiles.DataSource = perfilPermisoManager.GetAllPerfiles();
+			LstPerfiles.DataSource = SistemaManager.PerfilPermisoManager.GetAllPerfiles();
 			LstPerfiles.ClearSelected();
 		}
 		private void CargarTreeView()
 		{
 			SetTreeView();
 			TvwPerfilesPermisos.Nodes.Clear();
-			CargarNodos(perfilPermisoManager.GetAllPerfilesPermisos(), null);
+			CargarNodos(SistemaManager.PerfilPermisoManager.GetAllPerfilesPermisos(), null);
 			TvwPerfilesPermisos.ExpandAll();
 		}
 		private void SetTreeView()
@@ -214,7 +211,7 @@ namespace TalentFinder.GUI
 			permisoPermiso.PermisoId = permiso.Id;
 			permisoPermiso.PermisoPadreId = permisoComponent.Id;
 
-			int f = perfilPermisoManager.AgregarPermisoPermiso(permisoPermiso);
+			int f = SistemaManager.PerfilPermisoManager.AgregarPermisoPermiso(permisoPermiso);
 
 			if(f == -1)
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -256,7 +253,7 @@ namespace TalentFinder.GUI
 			permisoPermiso.PermisoId = perfil.Id;
 			permisoPermiso.PermisoPadreId = permisoComponent.Id;
 
-			int f = perfilPermisoManager.AgregarPermisoPermiso(permisoPermiso);
+			int f = SistemaManager.PerfilPermisoManager.AgregarPermisoPermiso(permisoPermiso);
 
 			if(f == -1)
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -273,7 +270,7 @@ namespace TalentFinder.GUI
 
 			Perfil perfil = new Perfil();
 			perfil.Nombre = TxtDescripcion.Text;
-			perfil.PermisoPadreId = 1; // nodo raiz
+			perfil.PermisoPadreId = (int)Permisos.ROOT; // nodo raiz
 
 			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
 
@@ -288,11 +285,12 @@ namespace TalentFinder.GUI
 				perfil.PermisoPadreId = permisoComponent.Id;
 			}
 
-			int f = perfilPermisoManager.AgregarPerfil(perfil);
+			int f = SistemaManager.PerfilPermisoManager.AgregarPerfil(perfil);
 
 			if(f == -1)
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			CargarTreeView();
+			CargarLstPerfiles();
 			ClearForm();
 		}
 		private void BtnEditar_Click(object sender, EventArgs e)
@@ -314,10 +312,11 @@ namespace TalentFinder.GUI
 
 			Perfil perfil = (Perfil)selectedNode.Tag;
 			perfil.Nombre = TxtDescripcion.Text;
-			int f = perfilPermisoManager.EditarPerfil(perfil);
+			int f = SistemaManager.PerfilPermisoManager.EditarPerfil(perfil);
 			if(f == -1)
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			CargarTreeView();
+			CargarLstPerfiles();
 			ClearForm();
 		}
 		private void BtnQuitar_Click(object sender, EventArgs e)
@@ -343,10 +342,11 @@ namespace TalentFinder.GUI
 				permisoPermisos.Add(permisoPermiso);
 			}
 
-			int f = perfilPermisoManager.QuitarPermisoPermisos(permisoPermisos);
+			int f = SistemaManager.PerfilPermisoManager.QuitarPermisoPermisos(permisoPermisos);
 			if(f == -1)
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			CargarTreeView();
+			CargarLstPerfiles();
 			ClearForm();
 		}
 		private void BtnEliminar_Click(object sender, EventArgs e)
@@ -372,10 +372,11 @@ namespace TalentFinder.GUI
 			}
 
 			Perfil perfil = (Perfil)selectedNode.Tag;
-			int f = perfilPermisoManager.EliminarPerfil(perfil);
+			int f = SistemaManager.PerfilPermisoManager.EliminarPerfil(perfil);
 			if(f == -1)
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			CargarTreeView();
+			CargarLstPerfiles();
 			ClearForm();
 		}
 		private void BtnCancelar_Click(object sender, EventArgs e)
@@ -386,7 +387,6 @@ namespace TalentFinder.GUI
 		{
 			FillForm();
 		}
-
 		private void FrmGestionPerfilesPermisos_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			IdiomaSubject.Detach(this);

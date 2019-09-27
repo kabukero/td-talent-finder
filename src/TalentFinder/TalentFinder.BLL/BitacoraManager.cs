@@ -10,19 +10,12 @@ namespace TalentFinder.BLL
 {
 	public class BitacoraManager
 	{
-		private BitacoraMapper bitacoraMapper;
-
-		public BitacoraManager()
-		{
-			bitacoraMapper = new BitacoraMapper();
-		}
-
+		private BitacoraMapper bitacoraMapper = new BitacoraMapper();
 		public int RegistrarEntrada(Usuario usuario, TipoEvento TipoEvento, string descripcion = null)
 		{
 			Bitacora bitacora = GetBitacora(usuario, TipoEvento, descripcion);
 			return bitacoraMapper.RegistrarEntrada(bitacora);
 		}
-
 		private Bitacora GetBitacora(Usuario usuario, TipoEvento TipoEvento, string descripcion = null)
 		{
 			Bitacora bitacora = new Bitacora();

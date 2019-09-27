@@ -8,13 +8,10 @@ namespace TalentFinder.GUI
 {
 	public partial class FrmGestionEmpresa : Form
 	{
-		private EmpresaManager empresaManager = new EmpresaManager();
-		private FrmPanelControl frmParent;
 		public FrmGestionEmpresa()
 		{
 			InitializeComponent();
 		}
-
 		private void InitFormControls()
 		{
 			this.Tag = new Frase() { Tag = "gestion_empresa" };
@@ -33,7 +30,6 @@ namespace TalentFinder.GUI
 			DgvEmpresas.Columns["Email"].Tag = new Frase() { Tag = "email" };
 			DgvEmpresas.Columns["CUIT"].Tag = new Frase() { Tag = "cuit" };
 		}
-
 		private void SetGrilla()
 		{
 			DgvEmpresas.Columns.Add("RazonSocial", "Razón Social");
@@ -69,7 +65,7 @@ namespace TalentFinder.GUI
 		private void CargarEmpresas()
 		{
 			DgvEmpresas.DataSource = null;
-			DgvEmpresas.DataSource = empresaManager.GetAllEmpresas();
+			DgvEmpresas.DataSource = SistemaManager.EmpresaManager.GetAllEmpresas();
 			DgvEmpresas.ClearSelection();
 		}
 		private void FillForm(Empresa empresa)
@@ -119,8 +115,8 @@ namespace TalentFinder.GUI
 		}
 		private void AplicarPermiso()
 		{
-			if(frmParent.PerfilPermisoManager.TienePermiso(Permisos.CREAR_EMPRESA, frmParent.SessionManager.UsuarioLogueado.PermisoComponent) ||
-				frmParent.PerfilPermisoManager.TienePermiso(Permisos.EDITAR_EMPRESA, frmParent.SessionManager.UsuarioLogueado.PermisoComponent))
+			if(SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.CREAR_EMPRESA, SistemaManager.SessionManager.UsuarioLogueado.PermisoComponent) ||
+				SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.EDITAR_EMPRESA, SistemaManager.SessionManager.UsuarioLogueado.PermisoComponent))
 			{
 				TxtRazonSocial.Enabled = true;
 				TxtDireccion.Enabled = true;
@@ -128,9 +124,9 @@ namespace TalentFinder.GUI
 				TxtEmail.Enabled = true;
 				TxtCUIT.Enabled = true;
 			}
-			BtnAgregar.Visible = frmParent.PerfilPermisoManager.TienePermiso(Permisos.CREAR_EMPRESA, frmParent.SessionManager.UsuarioLogueado.PermisoComponent);
-			BtnEditar.Visible = frmParent.PerfilPermisoManager.TienePermiso(Permisos.EDITAR_EMPRESA, frmParent.SessionManager.UsuarioLogueado.PermisoComponent);
-			BtnEliminar.Visible = frmParent.PerfilPermisoManager.TienePermiso(Permisos.ELIMINAR_EMPRESA, frmParent.SessionManager.UsuarioLogueado.PermisoComponent);
+			BtnAgregar.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.CREAR_EMPRESA, SistemaManager.SessionManager.UsuarioLogueado.PermisoComponent);
+			BtnEditar.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.EDITAR_EMPRESA, SistemaManager.SessionManager.UsuarioLogueado.PermisoComponent);
+			BtnEliminar.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.ELIMINAR_EMPRESA, SistemaManager.SessionManager.UsuarioLogueado.PermisoComponent);
 		}
 		private void DgvEmpresas_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
@@ -152,10 +148,17 @@ namespace TalentFinder.GUI
 			empresa.Telefono = TxtTelefono.Text;
 			empresa.Email = TxtEmail.Text;
 			empresa.CUIT = TxtCUIT.Text;
-			if(empresaManager.Crear(empresa) == -1)
+
+			if(SistemaManager.EmpresaManager.Crear(empresa) == -1)
+			{
+				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.ERROR }, string.Format("Ocurrió un error al intentar crear la empresa {0} ", empresa.RazonSocial));
 				MessageBox.Show("Vuelva a intentar más tarde por favor", "Empresa", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 			else
+			{
+				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.INFORMACION }, string.Format("Se creo la empresa {0} ", empresa.RazonSocial));
 				MessageBox.Show("La empresa se creó correctamente", "Empresa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 
 			CargarEmpresas();
 			ClearForm();
@@ -176,10 +179,16 @@ namespace TalentFinder.GUI
 			empresa.Email = TxtEmail.Text;
 			empresa.CUIT = TxtCUIT.Text;
 
-			if(empresaManager.Editar(empresa) == -1)
+			if(SistemaManager.EmpresaManager.Editar(empresa) == -1)
+			{
+				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.ERROR }, string.Format("Ocurrió un error al intentar editar la empresa {0} ", empresa.RazonSocial));
 				MessageBox.Show("Vuelva a intentar más tarde por favor", "Empresa", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 			else
+			{
+				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.INFORMACION }, string.Format("Se editó la empresa {0} ", empresa.RazonSocial));
 				MessageBox.Show("La empresa se editó correctamente", "Empresa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
 
 			CargarEmpresas();
 			ClearForm();
@@ -191,17 +200,21 @@ namespace TalentFinder.GUI
 			if(empresa == null)
 				return;
 
-			if(empresaManager.Eliminar(empresa) == -1)
+			if(SistemaManager.EmpresaManager.Eliminar(empresa) == -1)
+			{
+				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.ERROR }, string.Format("Ocurrió un error al intentar eliminar la empresa {0} ", empresa.RazonSocial));
 				MessageBox.Show("Vuelva a intentar más tarde por favor", "Empresa", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 			else
+			{
+				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.INFORMACION }, string.Format("Se eliminó la empresa {0} ", empresa.RazonSocial));
 				MessageBox.Show("La empresa se eliminó correctamente", "Empresa", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+			}
 			CargarEmpresas();
 			ClearForm();
 		}
 		private void FrmGestionEmpresa_Load(object sender, EventArgs e)
 		{
-			frmParent = (FrmPanelControl)this.MdiParent;
 			SetGrilla();
 			CargarEmpresas();
 			AplicarPermiso();
@@ -220,7 +233,6 @@ namespace TalentFinder.GUI
 		{
 			DgvEmpresas.ClearSelection();
 		}
-
 		private void FrmGestionEmpresa_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			IdiomaSubject.Detach(this);

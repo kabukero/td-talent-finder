@@ -67,7 +67,6 @@ namespace TalentFinder.BLL
 			//return pc == null;
 			return r;
 		}
-
 		public int AgregarPerfil(Perfil perfil)
 		{
 			return perfilPermisoMapper.AgregarPerfil(perfil);
@@ -84,7 +83,6 @@ namespace TalentFinder.BLL
 		{
 			return perfilPermisoMapper.AgregarPermisoPermiso(permisoPermiso);
 		}
-
 		public int EditarPerfil(Perfil perfil)
 		{
 			return perfilPermisoMapper.EditarPerfil(perfil);
@@ -93,12 +91,10 @@ namespace TalentFinder.BLL
 		{
 			return perfilPermisoMapper.EliminarPerfil(perfil);
 		}
-
 		public Permiso GetPermiso(int Id)
 		{
 			return new Permiso() { Id = Id };
 		}
-
 		public int QuitarPermisoPermisos(List<PermisoPermiso> permisoPermisos)
 		{
 			return perfilPermisoMapper.QuitarPermisoPermiso(permisoPermisos);
