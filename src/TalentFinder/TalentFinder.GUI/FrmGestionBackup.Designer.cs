@@ -32,20 +32,21 @@
 			this.BtnRealizarBackup = new System.Windows.Forms.Button();
 			this.BtnSeleccionarCarpeta = new System.Windows.Forms.Button();
 			this.LblCarpetaDestinoBackup = new System.Windows.Forms.Label();
+			this.BtnRealizarRestore = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// LblTitulo
 			// 
 			this.LblTitulo.AutoSize = true;
-			this.LblTitulo.Location = new System.Drawing.Point(190, 43);
+			this.LblTitulo.Location = new System.Drawing.Point(242, 50);
 			this.LblTitulo.Name = "LblTitulo";
-			this.LblTitulo.Size = new System.Drawing.Size(372, 24);
+			this.LblTitulo.Size = new System.Drawing.Size(294, 24);
 			this.LblTitulo.TabIndex = 0;
-			this.LblTitulo.Text = "Seleccione el directorio destino del backup";
+			this.LblTitulo.Text = "Seleccione la operación a realizar";
 			// 
 			// BtnRealizarBackup
 			// 
-			this.BtnRealizarBackup.Location = new System.Drawing.Point(409, 177);
+			this.BtnRealizarBackup.Location = new System.Drawing.Point(266, 279);
 			this.BtnRealizarBackup.Name = "BtnRealizarBackup";
 			this.BtnRealizarBackup.Size = new System.Drawing.Size(251, 65);
 			this.BtnRealizarBackup.TabIndex = 1;
@@ -55,28 +56,39 @@
 			// 
 			// BtnSeleccionarCarpeta
 			// 
-			this.BtnSeleccionarCarpeta.Location = new System.Drawing.Point(110, 177);
+			this.BtnSeleccionarCarpeta.Location = new System.Drawing.Point(266, 106);
 			this.BtnSeleccionarCarpeta.Name = "BtnSeleccionarCarpeta";
 			this.BtnSeleccionarCarpeta.Size = new System.Drawing.Size(251, 65);
 			this.BtnSeleccionarCarpeta.TabIndex = 2;
-			this.BtnSeleccionarCarpeta.Text = "Seleccionar carpeta";
+			this.BtnSeleccionarCarpeta.Text = "Seleccionar archivo";
 			this.BtnSeleccionarCarpeta.UseVisualStyleBackColor = true;
 			this.BtnSeleccionarCarpeta.Click += new System.EventHandler(this.BtnSeleccionarCarpeta_Click);
 			// 
 			// LblCarpetaDestinoBackup
 			// 
 			this.LblCarpetaDestinoBackup.AutoSize = true;
-			this.LblCarpetaDestinoBackup.Location = new System.Drawing.Point(194, 318);
+			this.LblCarpetaDestinoBackup.Location = new System.Drawing.Point(12, 412);
 			this.LblCarpetaDestinoBackup.Name = "LblCarpetaDestinoBackup";
 			this.LblCarpetaDestinoBackup.Size = new System.Drawing.Size(213, 24);
 			this.LblCarpetaDestinoBackup.TabIndex = 3;
 			this.LblCarpetaDestinoBackup.Text = "Carpeta destino backup:";
+			// 
+			// BtnRealizarRestore
+			// 
+			this.BtnRealizarRestore.Location = new System.Drawing.Point(266, 195);
+			this.BtnRealizarRestore.Name = "BtnRealizarRestore";
+			this.BtnRealizarRestore.Size = new System.Drawing.Size(251, 65);
+			this.BtnRealizarRestore.TabIndex = 4;
+			this.BtnRealizarRestore.Text = "Realizar Restore";
+			this.BtnRealizarRestore.UseVisualStyleBackColor = true;
+			this.BtnRealizarRestore.Click += new System.EventHandler(this.BtnRealizarRestore_Click);
 			// 
 			// FrmGestionBackup
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(767, 449);
+			this.Controls.Add(this.BtnRealizarRestore);
 			this.Controls.Add(this.LblCarpetaDestinoBackup);
 			this.Controls.Add(this.BtnSeleccionarCarpeta);
 			this.Controls.Add(this.BtnRealizarBackup);
@@ -99,5 +111,6 @@
 		private System.Windows.Forms.Button BtnRealizarBackup;
 		private System.Windows.Forms.Button BtnSeleccionarCarpeta;
 		private System.Windows.Forms.Label LblCarpetaDestinoBackup;
+		private System.Windows.Forms.Button BtnRealizarRestore;
 	}
 }

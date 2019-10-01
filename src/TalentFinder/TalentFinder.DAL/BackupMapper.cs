@@ -17,5 +17,18 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
+		public int RelizarRestore(Backup backup)
+		{
+			int f = 0;
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			string query = "ALTER DATABASE TalentFinder2 SET OFFLINE WITH ROLLBACK IMMEDIATE ";
+			query += string.Format(" RESTORE DATABASE TalentFinder2 FROM DISK = '{0}'", backup.PathBackupFile);
+			query += " ALTER DATABASE TalentFinder2 SET ONLINE";
+			f = da.EscribirCmdText(query);
+			da.Cerrar();
+			return f;
+		}
 	}
 }

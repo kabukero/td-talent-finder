@@ -169,7 +169,7 @@
 			this.gbAdministracionSistema.Margin = new System.Windows.Forms.Padding(2);
 			this.gbAdministracionSistema.Name = "gbAdministracionSistema";
 			this.gbAdministracionSistema.Padding = new System.Windows.Forms.Padding(2);
-			this.gbAdministracionSistema.Size = new System.Drawing.Size(197, 176);
+			this.gbAdministracionSistema.Size = new System.Drawing.Size(213, 176);
 			this.gbAdministracionSistema.TabIndex = 8;
 			this.gbAdministracionSistema.TabStop = false;
 			this.gbAdministracionSistema.Text = "Administración Sistema";
@@ -179,9 +179,9 @@
 			this.BtnGestionBackup.Location = new System.Drawing.Point(18, 132);
 			this.BtnGestionBackup.Margin = new System.Windows.Forms.Padding(2);
 			this.BtnGestionBackup.Name = "BtnGestionBackup";
-			this.BtnGestionBackup.Size = new System.Drawing.Size(145, 29);
+			this.BtnGestionBackup.Size = new System.Drawing.Size(179, 29);
 			this.BtnGestionBackup.TabIndex = 6;
-			this.BtnGestionBackup.Text = "Gestión Backup";
+			this.BtnGestionBackup.Text = "Gestión Backup  Restore";
 			this.BtnGestionBackup.UseVisualStyleBackColor = true;
 			this.BtnGestionBackup.Click += new System.EventHandler(this.BtnGestionBackup_Click);
 			// 
@@ -190,7 +190,7 @@
 			this.BtnGestionUsuarios.Location = new System.Drawing.Point(18, 89);
 			this.BtnGestionUsuarios.Margin = new System.Windows.Forms.Padding(2);
 			this.BtnGestionUsuarios.Name = "BtnGestionUsuarios";
-			this.BtnGestionUsuarios.Size = new System.Drawing.Size(145, 29);
+			this.BtnGestionUsuarios.Size = new System.Drawing.Size(179, 29);
 			this.BtnGestionUsuarios.TabIndex = 5;
 			this.BtnGestionUsuarios.Text = "Gestión Usuarios Perfiles";
 			this.BtnGestionUsuarios.UseVisualStyleBackColor = true;
@@ -201,7 +201,7 @@
 			this.BtnGestionPerfiles.Location = new System.Drawing.Point(18, 43);
 			this.BtnGestionPerfiles.Margin = new System.Windows.Forms.Padding(2);
 			this.BtnGestionPerfiles.Name = "BtnGestionPerfiles";
-			this.BtnGestionPerfiles.Size = new System.Drawing.Size(145, 29);
+			this.BtnGestionPerfiles.Size = new System.Drawing.Size(179, 29);
 			this.BtnGestionPerfiles.TabIndex = 4;
 			this.BtnGestionPerfiles.Text = "Gestión Perfiles Permisos";
 			this.BtnGestionPerfiles.UseVisualStyleBackColor = true;

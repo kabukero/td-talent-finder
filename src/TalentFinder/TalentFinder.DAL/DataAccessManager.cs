@@ -136,5 +136,29 @@ namespace TalentFinder.DAL
 			}
 			return f;
 		}
+
+		public int EscribirCmdText(string nombre)
+		{
+			int f = 1;
+			try
+			{
+				using(SqlCommand cmd = new SqlCommand(nombre, conn))
+				{
+					cmd.CommandType = CommandType.Text;
+
+					if(tx != null)
+						cmd.Transaction = tx;
+
+					cmd.ExecuteNonQuery();
+
+					return f;
+				}
+			}
+			catch(Exception ex)
+			{
+				f = -1;
+			}
+			return f;
+		}
 	}
 }

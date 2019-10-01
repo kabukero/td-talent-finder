@@ -38,7 +38,7 @@ namespace TalentFinder.GUI
 			BtnVerListadoEmpresas.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.LEER_USUARIO, perfilesPermisos);
 			BtnGestionPerfiles.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.LEER_PERFIL, perfilesPermisos);
 			BtnGestionUsuarios.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.LEER_USUARIO, perfilesPermisos);
-			BtnGestionBackup.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.REALIZAR_BACKUP, perfilesPermisos);
+			BtnGestionBackup.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.REALIZAR_BACKUP, perfilesPermisos) || SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.REALIZAR_RESTORE, perfilesPermisos);
 			BtnPostularseAviso.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.POSTULARSE_A_AVISO_LABORAL, perfilesPermisos);
 			BtnPublicarAviso.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.PUBLICAR_AVISO_LABORAL, perfilesPermisos);
 		}
