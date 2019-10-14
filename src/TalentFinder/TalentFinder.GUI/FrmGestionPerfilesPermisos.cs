@@ -118,6 +118,11 @@ namespace TalentFinder.GUI
 		}
 		private void ClearForm()
 		{
+			BtnCrear.Enabled = true;
+			BtnEditar.Enabled = true;
+			BtnQuitar.Enabled = true;
+			BtnEliminar.Enabled = true;
+			TxtDescripcion.Enabled = true;
 			TvwPerfilesPermisos.SelectedNode = null;
 			LstPerfiles.ClearSelected();
 			LstPermisos.ClearSelected();
@@ -181,6 +186,7 @@ namespace TalentFinder.GUI
 		private void FrmGestionPerfilesPermisos_Shown(object sender, EventArgs e)
 		{
 			TvwPerfilesPermisos.SelectedNode = null;
+			ClearForm();
 		}
 		private void BtnAgregarPermiso_Click(object sender, EventArgs e)
 		{

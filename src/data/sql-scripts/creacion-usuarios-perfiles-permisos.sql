@@ -1,6 +1,10 @@
 USE TalentFinder
 GO
 
+-- user: admintalentfinder
+-- pass: #asdfdiploma#
+-- sql server service NT Service\MSSQL$SQLEXPRESS2012
+
 DBCC CHECKIDENT ('TipoUsuario', RESEED, 0) -- reset identity
 INSERT INTO TipoUsuario (Nombre) VALUES ('Administrador Sistema'),('Reclutador'),('Profesional')
 INSERT INTO Usuario (UserName,UserPassword,TipoUsuarioId,Habilitado) VALUES ('operador','4096:wizXm5gjr+/o4kk0vwSJvAEQSSwMBYGG0M5avlZbZYU=:6S4KgHmnH3rucUPNjXxBR4F8kK96EijJYXMOS+pcmZM=',1,1)
@@ -26,22 +30,27 @@ INSERT INTO Permiso (Nombre,TipoPermisoId) VALUES
 ('Administrador de Sistema',1),('Gestion Sistema',1),('Gestion Usuarios',1),('Gestion Perfiles',1),
 ('Leer usuario',2),('Crear usuario',2),('Editar usuario',2),('Eliminar usuario',2),
 ('Leer perfil',2),('Crear perfil',2),('Editar perfil',2),('Eliminar perfil',2),
-('Operador de Sistema',1),('Login Sistema',2),
-('Gestión Empresa',1),('Leer Empresa',2),('Crear Empresa',2),('Editar Empresa',2),('Eliminar Empresa',2)
+('Operador de Sistema',1),
+('Gestión Empresa',1),('Leer Empresa',2),('Crear Empresa',2),('Editar Empresa',2),('Eliminar Empresa',2),
+('Realizar Backup',2),('Realizar Restore',2)
 GO
 SELECT * FROM Permiso
+GO
+DELETE FROM PermisoPermiso
 GO
 INSERT INTO PermisoPermiso (PermisoId,PermisoPadreId) VALUES
 (2,1),(5,1),(8,1),
 (3,2),(4,3),
 (6,5),(7,6),
-(9,8),(10,9),(12,10),(13,10),(14,10),(15,10),(21,10),
+(9,8),(10,9),(12,10),(13,10),(14,10),(15,10),(26,10),(27,10),
 (11,9),(16,11),(17,11),(18,11),(19,11),
-(20,1),(10,20),(22,1),(23,22),(24,22),(25,22),(26,22)
+(20,1),(26,9),(27,9)
+GO
+DELETE FROM UsuarioPermiso
 GO
 INSERT INTO UsuarioPermiso (UsuarioId,PermisoId) VALUES
 (5,9),(5,10),(5,11),(5,12),(5,13),(5,14),(5,15),(5,16),(5,17),(5,18),(5,19),(5,21),
-(5,22),(5,23),(5,24),(5,25),(5,26)
+(5,22),(5,23),(5,24),(5,25),(5,26),(5,27)
 GO
 
 CREATE PROCEDURE AgregarUsuarioPermiso(@UsuarioId AS INT,@PermisoId AS INT)

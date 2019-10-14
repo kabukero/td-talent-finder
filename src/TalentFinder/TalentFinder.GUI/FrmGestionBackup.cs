@@ -27,8 +27,8 @@ namespace TalentFinder.GUI
 		{
 			this.Tag = new Frase() { Tag = "gestion_backup" };
 			LblTitulo.Tag = new Frase() { Tag = "seleccione_dir_destino_bkp" };
-			LblCarpetaDestinoBackup.Tag = new Frase() { Tag = "carpeta_destino" };
 			BtnSeleccionarCarpeta.Tag = new Frase() { Tag = "seleccione_carpeta" };
+			BtnSeleccionarArchivo.Tag = new Frase() { Tag = "seleccione_archivo" };
 			BtnRealizarBackup.Tag = new Frase() { Tag = "realizar_backup" };
 			BtnRealizarRestore.Tag = new Frase() { Tag = "realizar_restore" };
 		}
@@ -54,10 +54,9 @@ namespace TalentFinder.GUI
 				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.ERROR }, string.Format("Ocurrió un error al intentar realizar un restore de la DB en el siguiente directorio: {0} ", backup.PathBackupFile));
 				MessageBox.Show("Vuelva a intentar más tarde", "Gestión Restore", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			PathBackupFile = string.Empty;
+			PathRestoreFile = string.Empty;
 			//LblCarpetaDestinoBackup.Text = "Carpeta destino backup: ";
 		}
-
 		private void BtnRealizarBackup_Click(object sender, EventArgs e)
 		{
 			Backup backup = new Backup();
@@ -102,8 +101,6 @@ namespace TalentFinder.GUI
 		}
 		private void FrmGestionBackup_Load(object sender, EventArgs e)
 		{
-			LblCarpetaDestinoBackup.Text = "Carpeta destino backup: " + ConfigurationManager.AppSettings["PathBackupFile"].ToString();
-
 			// iniciar controles de formulario
 			InitFormControls();
 
@@ -117,6 +114,17 @@ namespace TalentFinder.GUI
 		private void FrmGestionBackup_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			IdiomaSubject.Detach(this);
+		}
+		private void BtnSeleccionarFile_Click(object sender, EventArgs e)
+		{
+			FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+			folderDlg.ShowNewFolderButton = true;
+			DialogResult result = folderDlg.ShowDialog();
+			if(result == DialogResult.OK)
+			{
+				PathBackupFile = folderDlg.SelectedPath;
+				//LblCarpetaDestinoBackup.Text = "Carpeta destino backup: " + PathBackupFile;
+			}
 		}
 	}
 }

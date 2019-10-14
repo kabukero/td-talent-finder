@@ -14,6 +14,7 @@ namespace TalentFinder.DAL
 		public void Abrir()
 		{
 			conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionStringDB"].ConnectionString);
+			//conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionStringAdminDB"].ConnectionString);
 			conn.Open();
 		}
 

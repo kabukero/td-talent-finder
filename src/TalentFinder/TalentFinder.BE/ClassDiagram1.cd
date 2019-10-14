@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TalentFinder.BE.AvisoLaboral">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAEAAIAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>AvisoLaboral.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.Backup">
+    <Position X="25.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Backup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.Bitacora">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACIAAAAAAAAAAAAAABAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Bitacora.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.DigitoVerificadorVertical">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAgAAAAAAAAAAAAAAAAAAQEAAAAAAAA=</HashCode>
+      <FileName>DigitoVerificadorVertical.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.Empresa">
+    <Position X="23" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAICAAAAgAACAAAAAAAAAEAAAAAQAAAgAgAAA=</HashCode>
+      <FileName>Empresa.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.EntidadBase" Collapsed="true">
+    <Position X="15.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EntidadBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.Frase">
+    <Position X="9.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Frase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.Idioma">
+    <Position X="9.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAQAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>Idioma.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.IdiomaFrase">
+    <Position X="11.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAACAAAAAAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>IdiomaFrase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.Perfil">
+    <Position X="1" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAI=</HashCode>
+      <FileName>Perfil.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.Permiso">
+    <Position X="5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>Permiso.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.PermisoComponent">
+    <Position X="3" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAAAAAAEIAAAgAAAAAAAAAAAAAAgAAAAAAA=</HashCode>
+      <FileName>PermisoComponent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.PermisoPermiso">
+    <Position X="5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PermisoPermiso.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.Persona" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAgAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Persona.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.Postulacion">
+    <Position X="27.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Postulacion.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.Profesional">
+    <Position X="29.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Profesional.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.Reclutador">
+    <Position X="18.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Reclutador.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.TablaSistema" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TablaSistema.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.TipoEvento">
+    <Position X="20.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TipoEvento.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.TipoPermiso">
+    <Position X="7.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TipoPermiso.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TalentFinder.BE.Usuario">
+    <Position X="5.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAACAAAAAAAAAAAAQAAAAIAAAA=</HashCode>
+      <FileName>Usuario.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="TalentFinder.BE.Idiomas" Collapsed="true">
+    <Position X="14.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAAAAAAAAAAAAAAEBAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Idiomas.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TalentFinder.BE.Permisos" Collapsed="true">
+    <Position X="16.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAQAAEDAAEAEAAAAAAAEBAAQAADhAAgAAVA=</HashCode>
+      <FileName>Permisos.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TalentFinder.BE.TablasSistema" Collapsed="true">
+    <Position X="18" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>TablasSistema.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TalentFinder.BE.TiposEventos" Collapsed="true">
+    <Position X="14.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TiposEventos.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="TalentFinder.BE.TiposPermiso" Collapsed="true">
+    <Position X="16.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>TiposPermiso.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
