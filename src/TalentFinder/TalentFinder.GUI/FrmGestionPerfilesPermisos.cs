@@ -108,6 +108,32 @@ namespace TalentFinder.GUI
 				return node;
 			return GetRootParentNode(node.Parent);
 		}
+		private TreeNode FindNodeFromNodeToRoot(TreeNode node, PermisoComponent permisoComponentToAdd)
+		{
+			if(node == null)
+				return null;
+
+			PermisoComponent permisoComponent = (PermisoComponent)node.Tag;
+			if(permisoComponent.Id == permisoComponentToAdd.Id)
+				return node;
+			else if(node.Parent == null)
+				return null;
+			else
+				return FindNodeFromNodeToRoot(node.Parent, permisoComponentToAdd);
+		}
+		private void FindNodeFromNodeToChild(TreeNode selectedNode, PermisoComponent permisoComponentToAdd, ref TreeNode targetNode)
+		{
+			foreach(TreeNode node in selectedNode.Nodes)
+			{
+				PermisoComponent permisoComponent = (PermisoComponent)node.Tag;
+				if(permisoComponent.Id == permisoComponentToAdd.Id)
+				{
+					targetNode = node;
+					return;
+				}
+				FindNodeFromNodeToChild(node, permisoComponentToAdd, ref targetNode);
+			}
+		}
 		public void AddChildren(List<TreeNode> Nodes, TreeNode Node)
 		{
 			foreach(TreeNode thisNode in Node.Nodes)
@@ -213,6 +239,22 @@ namespace TalentFinder.GUI
 				return;
 			}
 
+			TreeNode targetNode = null;
+			FindNodeFromNodeToChild(selectedNode, permiso, ref targetNode);
+			if(targetNode != null)
+			{
+				TreeNode targetNodeParent = targetNode.Parent;
+				if(targetNodeParent != null)
+				{
+					PermisoComponent PermisoComponentParent = (PermisoComponent)targetNodeParent.Tag;
+					if(permisoComponent.Id == PermisoComponentParent.Id)
+					{
+						MessageBox.Show("El permiso ya esta cargado. Seleccione otro permiso", "Agregar Permiso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						return;
+					}
+				}
+			}
+
 			PermisoPermiso permisoPermiso = new PermisoPermiso();
 			permisoPermiso.PermisoId = permiso.Id;
 			permisoPermiso.PermisoPadreId = permisoComponent.Id;
@@ -251,8 +293,30 @@ namespace TalentFinder.GUI
 
 			if(perfil.Id == permisoComponent.Id)
 			{
-				MessageBox.Show("Seleccione otro perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show("No puede agregar el mismo perfil. Seleccione otro perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return;
+			}
+
+			if(FindNodeFromNodeToRoot(selectedNode, perfil) != null)
+			{
+				MessageBox.Show("El perfil ya es padre. Seleccione otro perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return;
+			}
+
+			TreeNode targetNode = null;
+			FindNodeFromNodeToChild(selectedNode, perfil, ref targetNode);
+			if(targetNode != null)
+			{
+				TreeNode targetNodeParent = targetNode.Parent;
+				if(targetNodeParent != null)
+				{
+					PermisoComponent PermisoComponentParent = (PermisoComponent)targetNodeParent.Tag;
+					if(permisoComponent.Id == PermisoComponentParent.Id)
+					{
+						MessageBox.Show("El perfil ya esta cargado. Seleccione otro perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						return;
+					}
+				}
 			}
 
 			PermisoPermiso permisoPermiso = new PermisoPermiso();
