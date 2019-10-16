@@ -16,6 +16,10 @@ namespace TalentFinder.BLL
 			Bitacora bitacora = GetBitacora(usuario, TipoEvento, descripcion);
 			return bitacoraMapper.RegistrarEntrada(bitacora);
 		}
+		public List<Bitacora> GetAll(TipoEvento TipoEvento, DateTime? FechaDesde, DateTime? FechaHasta)
+		{
+			return bitacoraMapper.GetAll(TipoEvento, FechaDesde, FechaHasta);
+		}
 		private Bitacora GetBitacora(Usuario usuario, TipoEvento TipoEvento, string descripcion = null)
 		{
 			Bitacora bitacora = new Bitacora();

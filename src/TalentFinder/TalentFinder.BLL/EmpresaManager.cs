@@ -22,7 +22,14 @@ namespace TalentFinder.BLL
 				empresa.DVH = SistemaManager.DigitoVerificadorManager.CalcularDVH(empresa);
 				f = empresaMapper.EditarDVHEmpresa(empresa);
 				if(f != -1)
+				{
 					f = SistemaManager.DigitoVerificadorManager.GuardarDigitoVerificador(TablasSistema.TABLA_EMPRESA);
+					if(f != -1)
+					{
+						empresa.FechaCreacionHistorico = DateTime.Now;
+						f = empresaMapper.CrearHistorico(empresa);
+					}
+				}
 			}
 			return f;
 		}
@@ -39,7 +46,14 @@ namespace TalentFinder.BLL
 			int f = empresaMapper.Editar(empresa);
 
 			if(f == 1)
+			{
 				f = SistemaManager.DigitoVerificadorManager.GuardarDigitoVerificador(TablasSistema.TABLA_EMPRESA);
+				if(f != -1)
+				{
+					empresa.FechaCreacionHistorico = DateTime.Now;
+					f = empresaMapper.CrearHistorico(empresa);
+				}
+			}
 			return f;
 		}
 		public int Eliminar(Empresa empresa)

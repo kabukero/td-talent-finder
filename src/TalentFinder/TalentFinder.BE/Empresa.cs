@@ -28,6 +28,15 @@ namespace TalentFinder.BE
 			}
 		}
 
+		public DateTime FechaCreacionHistorico { get; set; }
+		public String FechaCreacionHistoricoFormateada
+		{
+			get
+			{
+				return FechaCreacionHistorico.ToString("yyyy/MM/dd HH:mm:ss");
+			}
+		}
+
 		public Int64 DVH { get; set; }
 	}
 }

@@ -151,5 +151,31 @@ namespace TalentFinder.DAL
 			}
 			return empresa;
 		}
+
+		public int CrearHistorico(Empresa empresa)
+		{
+			int f = 0;
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			try
+			{
+				List<SqlParameter> parametros = new List<SqlParameter>();
+				parametros.Add(da.CrearParametro("@RazonSocial", empresa.RazonSocial));
+				parametros.Add(da.CrearParametro("@Direccion", empresa.Direccion));
+				parametros.Add(da.CrearParametro("@Telefono", empresa.Telefono));
+				parametros.Add(da.CrearParametro("@Email", empresa.Email));
+				parametros.Add(da.CrearParametro("@CUIT", empresa.CUIT));
+				parametros.Add(da.CrearParametro("@FechaCreacion", empresa.FechaCreacionFormateada));
+				parametros.Add(da.CrearParametro("@FechaActualizacion", empresa.FechaCreacionFormateada));
+				parametros.Add(da.CrearParametro("@FechaCreacionHistorico", empresa.FechaCreacionHistoricoFormateada));
+				f = da.LeerEscalar("CrearEmpresaHistorico", parametros);
+			}
+			catch(Exception ex)
+			{
+				f = -1;
+			}
+			da.Cerrar();
+			return f;
+		}
 	}
 }

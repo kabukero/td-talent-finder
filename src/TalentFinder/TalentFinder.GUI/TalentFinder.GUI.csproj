@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FrmBitacoraListado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmBitacoraListado.Designer.cs">
+      <DependentUpon>FrmBitacoraListado.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmGestionBackup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +99,9 @@
     <Compile Include="Helpers\IdiomaSubject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FrmBitacoraListado.resx">
+      <DependentUpon>FrmBitacoraListado.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmGestionBackup.resx">
       <DependentUpon>FrmGestionBackup.cs</DependentUpon>
     </EmbeddedResource>

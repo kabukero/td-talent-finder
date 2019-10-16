@@ -87,8 +87,6 @@ namespace TalentFinder.BLL
 		}
 		public bool VerificarIntegridadDatosSistema()
 		{
-			bool r = true;
-
 			List<Empresa> empresas = SistemaManager.EmpresaManager.GetAllEmpresas();
 
 			if(empresas == null || empresas.Count == 0)
@@ -107,7 +105,21 @@ namespace TalentFinder.BLL
 			if(dvv.DVV != DVV)
 				return false;
 
-			return r;
+			return true;
+		}
+
+		public bool VerificarIntegridadDatosEmpresa(Empresa empresa)
+		{
+			Empresa empresaActual = SistemaManager.EmpresaManager.GetEmpresa(empresa.Id);
+
+			if(empresaActual == null)
+				return true;
+
+			Int64 DVH = CalcularDVH(empresaActual);
+			if(empresaActual.DVH != DVH)
+				return false;
+
+			return true;
 		}
 	}
 }
