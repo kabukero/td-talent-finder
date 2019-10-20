@@ -9,39 +9,30 @@ using TalentFinder.BLL;
 
 namespace TalentFinder.GUI.Helpers
 {
-	public static class IdiomaSubjectOld
+	public class GUIHelper
 	{
-		public delegate void CambiarIdiomaEventHandler(Control parent, Idioma idioma);
-		public static event CambiarIdiomaEventHandler CambiarIdioma;
-		public static List<Control> Controls = new List<Control>();
-
-		static IdiomaSubjectOld() { }
-
-		public static void Attach(Control control)
+		public static void CargarMenuIdiomas(ToolStripDropDownButton ToolStripDropDownButton, IList<Idioma> idiomas)
 		{
-			Controls.Add(control);
-		}
-
-		public static void Detach(Control control)
-		{
-			Controls.Remove(control);
-		}
-
-		public static void Notify(Idioma idioma)
-		{
-			foreach(Control control in Controls)
+			List<ToolStripItem> lista = new List<ToolStripItem>();
+			foreach(Idioma idioma in idiomas)
 			{
-				CambiarIdiomaControlesFormulario(control, idioma);
+				ToolStripMenuItem toolStripMenuItem = new ToolStripMenuItem();
+				toolStripMenuItem.Name = idioma.Nombre + "ToolStripMenuItem";
+				toolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+				toolStripMenuItem.Text = idioma.Nombre;
+				toolStripMenuItem.Tag = idioma;
+				toolStripMenuItem.Click += new EventHandler(ToolStripDropDownButton_Click);
+				lista.Add(toolStripMenuItem);
 			}
+			ToolStripDropDownButton.DropDownItems.Clear();
+			ToolStripDropDownButton.DropDownItems.AddRange(lista.ToArray());
 		}
 
-		public static void CambiarIdiomaControlesFormulario(Control control, Idioma idioma)
+		public static void ToolStripDropDownButton_Click(object sender, EventArgs e)
 		{
-			if(CambiarIdioma != null)
-			{
-				CambiarIdioma(control, idioma);
-				//SistemaManager.Idioma = idioma;
-			}
+			ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
+			Idioma idioma = (Idioma)toolStripMenuItem.Tag;
+			SistemaManager.SessionManager.IdiomaSession.IdiomaSelected = idioma;
 		}
 
 		public static void CambiarTextoControlFormSegunIdioma(Control parentControl, Idioma idioma)

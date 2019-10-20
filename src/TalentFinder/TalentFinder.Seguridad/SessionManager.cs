@@ -5,18 +5,8 @@ namespace TalentFinder.Seguridad
 	public class SessionManager
 	{
 		private static SessionManager instanciaSesion;
-		private Usuario usuarioLogueado;
-		public Usuario UsuarioLogueado
-		{
-			get
-			{
-				return usuarioLogueado;
-			}
-			set
-			{
-				usuarioLogueado = value;
-			}
-		}
+		public Usuario UsuarioLogueado { get; set; }
+		public Idioma IdiomaSession { get; set; }
 		private SessionManager()
 		{
 			UsuarioLogueado = null;

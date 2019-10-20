@@ -13,7 +13,7 @@ using TalentFinder.GUI.Helpers;
 
 namespace TalentFinder.GUI
 {
-	public partial class FrmGestionPerfilesPermisos : Form
+	public partial class FrmGestionPerfilesPermisos : Form, IIdiomaObserver
 	{
 		public FrmGestionPerfilesPermisos()
 		{
@@ -193,21 +193,9 @@ namespace TalentFinder.GUI
 			BtnAgregarPerfil.Tag = new Frase() { Tag = "agregar_perfil_a_perfil" };
 			BtnAgregarPermiso.Tag = new Frase() { Tag = "agregar_permiso_a_perfil" };
 		}
-		private void FrmGestionPerfilesPermisos_Load(object sender, EventArgs e)
+		public void Update(Idioma idioma)
 		{
-			CargarTreeView();
-			CargarLstPermisos();
-			CargarLstPerfiles();
-
-			// iniciar controles de formulario
-			InitFormControls();
-
-			// suscribir a evento
-			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
-			IdiomaSubject.Attach(this);
-
-			// disparar evento
-			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
+			GUIHelper.CambiarTextoControlFormSegunIdioma(this, idioma);
 		}
 		private void FrmGestionPerfilesPermisos_Shown(object sender, EventArgs e)
 		{
@@ -457,9 +445,24 @@ namespace TalentFinder.GUI
 		{
 			FillForm();
 		}
+		private void FrmGestionPerfilesPermisos_Load(object sender, EventArgs e)
+		{
+			CargarTreeView();
+			CargarLstPermisos();
+			CargarLstPerfiles();
+
+			// iniciar controles de formulario
+			InitFormControls();
+
+			// suscribir
+			IdiomaSubject.AddObserver(this);
+
+			// actualizar idioma
+			Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+		}
 		private void FrmGestionPerfilesPermisos_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			IdiomaSubject.Detach(this);
+			IdiomaSubject.RemoveObserver(this);
 		}
 	}
 }

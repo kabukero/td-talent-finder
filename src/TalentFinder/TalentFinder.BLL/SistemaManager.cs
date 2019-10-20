@@ -18,12 +18,11 @@ namespace TalentFinder.BLL
 		public static DigitoVerificadorManager DigitoVerificadorManager = new DigitoVerificadorManager();
 		public static EmpresaManager EmpresaManager = new EmpresaManager();
 		public static IdiomaManager IdiomaManager = new IdiomaManager();
-		public static Idioma Idioma;
 
 		static SistemaManager()
 		{
-			Idioma = IdiomaManager.GetIdioma(Idiomas.ESPAÑOL); // idioma por defecto
 			SessionManager = SessionManager.GetUsuarioSesion();
+			SessionManager.IdiomaSession = IdiomaManager.GetIdioma(Idiomas.ESPAÑOL); // idioma por defecto
 		}
 	}
 }

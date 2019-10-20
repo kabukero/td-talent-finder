@@ -14,7 +14,7 @@ using TalentFinder.GUI.Helpers;
 
 namespace TalentFinder.GUI
 {
-	public partial class FrmGestionBackup : Form
+	public partial class FrmGestionBackup : Form, IIdiomaObserver
 	{
 		BackupManager backupManager = new BackupManager();
 		private string PathBackupFile;
@@ -31,6 +31,10 @@ namespace TalentFinder.GUI
 			BtnSeleccionarArchivo.Tag = new Frase() { Tag = "seleccione_archivo" };
 			BtnRealizarBackup.Tag = new Frase() { Tag = "realizar_backup" };
 			BtnRealizarRestore.Tag = new Frase() { Tag = "realizar_restore" };
+		}
+		public void Update(Idioma idioma)
+		{
+			GUIHelper.CambiarTextoControlFormSegunIdioma(this, idioma);
 		}
 		private void BtnRealizarRestore_Click(object sender, EventArgs e)
 		{
@@ -99,22 +103,6 @@ namespace TalentFinder.GUI
 				//LblCarpetaDestinoBackup.Text = "Carpeta destino backup: " + PathBackupFile;
 			}
 		}
-		private void FrmGestionBackup_Load(object sender, EventArgs e)
-		{
-			// iniciar controles de formulario
-			InitFormControls();
-
-			// suscribir a evento
-			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
-			IdiomaSubject.Attach(this);
-
-			// disparar evento
-			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
-		}
-		private void FrmGestionBackup_FormClosing(object sender, FormClosingEventArgs e)
-		{
-			IdiomaSubject.Detach(this);
-		}
 		private void BtnSeleccionarFile_Click(object sender, EventArgs e)
 		{
 			FolderBrowserDialog folderDlg = new FolderBrowserDialog();
@@ -125,6 +113,21 @@ namespace TalentFinder.GUI
 				PathBackupFile = folderDlg.SelectedPath;
 				//LblCarpetaDestinoBackup.Text = "Carpeta destino backup: " + PathBackupFile;
 			}
+		}
+		private void FrmGestionBackup_Load(object sender, EventArgs e)
+		{
+			// iniciar controles de formulario
+			InitFormControls();
+
+			// suscribir observer
+			IdiomaSubject.AddObserver(this);
+
+			// actualizar idioma
+			Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+		}
+		private void FrmGestionBackup_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			IdiomaSubject.RemoveObserver(this);
 		}
 	}
 }

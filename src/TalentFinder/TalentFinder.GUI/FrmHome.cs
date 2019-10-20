@@ -4,11 +4,10 @@ using System.Windows.Forms;
 using TalentFinder.BE;
 using TalentFinder.BLL;
 using TalentFinder.GUI.Helpers;
-using TalentFinder.Seguridad;
 
 namespace TalentFinder.GUI
 {
-	public partial class FrmHome : Form
+	public partial class FrmHome : Form, IIdiomaObserver
 	{
 		public FrmHome()
 		{
@@ -17,7 +16,6 @@ namespace TalentFinder.GUI
 		private void InitFormControls()
 		{
 			this.Tag = new Frase() { Tag = "inicio" };
-			gbSeleccionarIdioma.Tag = new Frase() { Tag = "selecione_idioma" };
 			gbGestionPostulante.Tag = new Frase() { Tag = "gestion_postulante" };
 			gbGestionPerfilProfesional.Tag = new Frase() { Tag = "gestion_perfil_profesional" };
 			gbGestionEmpresa.Tag = new Frase() { Tag = "gestion_empresa" };
@@ -78,6 +76,12 @@ namespace TalentFinder.GUI
 			frm.MdiParent = this.MdiParent;
 			frm.Show();
 		}
+		private void BtnVerBitacora_Click(object sender, EventArgs e)
+		{
+			FrmBitacoraListado frm = new FrmBitacoraListado();
+			frm.MdiParent = this.MdiParent;
+			frm.Show();
+		}
 		private void BtnSalir_Click(object sender, EventArgs e)
 		{
 			Application.Exit();
@@ -90,20 +94,9 @@ namespace TalentFinder.GUI
 			FrmLogin frm = new FrmLogin();
 			frm.Show();
 		}
-		private void BtnIdiomaSpain_Click(object sender, EventArgs e)
+		public void Update(Idioma idioma)
 		{
-			//IdiomaHelper.CambiarIdiomaControlesFormulario(this, SistemaManager.IdiomaManager.GetIdioma(Idiomas.ESPAÑOL));
-			IdiomaSubject.Notify(SistemaManager.IdiomaManager.GetIdioma(Idiomas.ESPAÑOL));
-		}
-		private void BtnIdiomaEnglish_Click(object sender, EventArgs e)
-		{
-			//IdiomaHelper.CambiarIdiomaControlesFormulario(this, SistemaManager.IdiomaManager.GetIdioma(Idiomas.INGLES));
-			IdiomaSubject.Notify(SistemaManager.IdiomaManager.GetIdioma(Idiomas.INGLES));
-		}
-		private void BtnIdiomaFrance_Click(object sender, EventArgs e)
-		{
-			//IdiomaHelper.CambiarIdiomaControlesFormulario(this, SistemaManager.IdiomaManager.GetIdioma(Idiomas.FRANCES));
-			IdiomaSubject.Notify(SistemaManager.IdiomaManager.GetIdioma(Idiomas.FRANCES));
+			GUIHelper.CambiarTextoControlFormSegunIdioma(this, idioma);
 		}
 		private void FrmHome_Load(object sender, EventArgs e)
 		{
@@ -115,11 +108,14 @@ namespace TalentFinder.GUI
 			InitFormControls();
 
 			// suscribir a evento
-			IdiomaSubject.Attach(this);
-			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
+			IdiomaSubject.AddObserver(this);
 
-			// disparar evento
-			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
+			// actualizar idioma
+			Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+		}
+		private void FrmHome_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			IdiomaSubject.RemoveObserver(this);
 		}
 	}
 }

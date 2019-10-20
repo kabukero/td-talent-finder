@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
-	public class TipoEvento : EntidadBase
+	public interface IIdiomaObserver
 	{
-		public string Nombre { get; set; }
-		public override string ToString()
-		{
-			return Nombre;
-		}
+		void Update(Idioma idioma);
 	}
 }

@@ -52,6 +52,8 @@
     <Compile Include="Idioma.cs" />
     <Compile Include="IdiomaFrase.cs" />
     <Compile Include="Idiomas.cs" />
+    <Compile Include="IdiomaSubject.cs" />
+    <Compile Include="IIdiomaObserver.cs" />
     <Compile Include="Perfil.cs" />
     <Compile Include="Permiso.cs" />
     <Compile Include="PermisoComponent.cs" />

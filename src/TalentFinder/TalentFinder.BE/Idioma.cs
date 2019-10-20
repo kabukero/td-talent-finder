@@ -7,10 +7,23 @@ using TalentFinder.Service;
 
 namespace TalentFinder.BE
 {
-	public class Idioma : EntidadBase
+	public class Idioma : IdiomaSubject
 	{
+		public int Id { get; set; }
 		public string Nombre { get; set; }
-
+		private Idioma idiomaSelected;
+		public Idioma IdiomaSelected
+		{
+			get
+			{
+				return idiomaSelected;
+			}
+			set
+			{
+				idiomaSelected = value;
+				Notify(idiomaSelected);
+			}
+		}
 		public IList<IdiomaFrase> traducciones;
 		public IList<IdiomaFrase> Traducciones
 		{
@@ -19,12 +32,10 @@ namespace TalentFinder.BE
 				return CloneHelper.CloneObject<IList<IdiomaFrase>>(traducciones);
 			}
 		}
-
 		public void Add(IdiomaFrase IdiomaFrase)
 		{
 			traducciones.Add(IdiomaFrase);
 		}
-
 		public Idioma()
 		{
 			traducciones = new List<IdiomaFrase>();

@@ -32,19 +32,21 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
-		public List<Bitacora> GetAll(TipoEvento TipoEvento, DateTime? FechaDesde, DateTime? FechaHasta)
+		public List<Bitacora> GetBitacoraEventos(Usuario usuario, TipoEvento TipoEvento, DateTime? FechaDesde, DateTime? FechaHasta)
 		{
 			List<Bitacora> lista = new List<Bitacora>();
 			DataAccessManager da = new DataAccessManager();
 			da.Abrir();
 			List<SqlParameter> parametros = new List<SqlParameter>();
-			if(TipoEvento != null)
+			if(usuario.Id != 0)
+				parametros.Add(da.CrearParametro("@UsuarioId", usuario.Id));
+			if(TipoEvento.Id != 0)
 				parametros.Add(da.CrearParametro("@TipoEventoId", TipoEvento.Id));
 			if(FechaDesde != null)
 				parametros.Add(da.CrearParametro("@FechaDesde", FechaDesde.Value.ToString("yyyy/MM/dd")));
 			if(FechaHasta != null)
 				parametros.Add(da.CrearParametro("@FechaHasta", FechaHasta.Value.ToString("yyyy/MM/dd")));
-			DataTable tabla = da.Leer("BitacoraListar", parametros);
+			DataTable tabla = da.Leer("GetBitacoraEventos", parametros);
 			da.Cerrar();
 
 			foreach(DataRow fila in tabla.Rows)
@@ -52,15 +54,32 @@ namespace TalentFinder.DAL
 				Bitacora bitacora = new Bitacora();
 				bitacora.Id = int.Parse(fila["Id"].ToString());
 				bitacora.FechaCreacion = DateTime.Parse(fila["FechaCreacion"].ToString());
-				Usuario usuario = new Usuario();
-				usuario.Id = int.Parse(fila["UsuarioId"].ToString());
-				usuario.UserName = fila["UserName"].ToString();
-				bitacora.Usuario = usuario;
+				Usuario user = new Usuario();
+				user.Id = int.Parse(fila["UsuarioId"].ToString());
+				user.UserName = fila["UserName"].ToString();
+				bitacora.Usuario = user;
 				TipoEvento tipoEvento = new TipoEvento();
 				tipoEvento.Id = int.Parse(fila["TipoEventoId"].ToString());
 				tipoEvento.Nombre = fila["TipoEvento"].ToString();
 				bitacora.TipoEvento = tipoEvento;
 				lista.Add(bitacora);
+			}
+			return lista;
+		}
+
+		public List<TipoEvento> GetBitacoraTipoEventos()
+		{
+			List<TipoEvento> lista = new List<TipoEvento>();
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			DataTable tabla = da.Leer("GetBitacoraTipoEventos", null);
+			da.Cerrar();
+			foreach(DataRow fila in tabla.Rows)
+			{
+				TipoEvento tipoEvento = new TipoEvento();
+				tipoEvento.Id = int.Parse(fila["Id"].ToString());
+				tipoEvento.Nombre = fila["Nombre"].ToString();
+				lista.Add(tipoEvento);
 			}
 			return lista;
 		}

@@ -6,7 +6,7 @@ using TalentFinder.GUI.Helpers;
 
 namespace TalentFinder.GUI
 {
-	public partial class FrmGestionEmpresa : Form
+	public partial class FrmGestionEmpresa : Form, IIdiomaObserver
 	{
 		public FrmGestionEmpresa()
 		{
@@ -128,6 +128,11 @@ namespace TalentFinder.GUI
 			BtnEditar.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.EDITAR_EMPRESA, SistemaManager.SessionManager.UsuarioLogueado.PermisoComponent);
 			BtnEliminar.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.ELIMINAR_EMPRESA, SistemaManager.SessionManager.UsuarioLogueado.PermisoComponent);
 		}
+		public void Update(Idioma idioma)
+		{
+			GUIHelper.CambiarTextoControlFormSegunIdioma(this, idioma);
+		}
+
 		private void DgvEmpresas_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			Empresa empresa = (Empresa)DgvEmpresas.CurrentRow.DataBoundItem;
@@ -223,11 +228,10 @@ namespace TalentFinder.GUI
 			InitFormControls();
 
 			// suscribir a evento
-			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
-			IdiomaSubject.Attach(this);
+			IdiomaSubject.AddObserver(this);
 
-			// disparar evento
-			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
+			// actualizar idioma
+			Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
 		}
 		private void FrmGestionEmpresa_Shown(object sender, EventArgs e)
 		{
@@ -235,7 +239,7 @@ namespace TalentFinder.GUI
 		}
 		private void FrmGestionEmpresa_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			IdiomaSubject.Detach(this);
+			IdiomaSubject.RemoveObserver(this);
 		}
 	}
 }

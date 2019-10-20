@@ -39,22 +39,17 @@
 			this.gbGestionPerfilProfesional = new System.Windows.Forms.GroupBox();
 			this.BtnPostularseAviso = new System.Windows.Forms.Button();
 			this.gbAdministracionSistema = new System.Windows.Forms.GroupBox();
+			this.BtnVerBitacora = new System.Windows.Forms.Button();
 			this.BtnGestionBackup = new System.Windows.Forms.Button();
 			this.BtnGestionUsuarios = new System.Windows.Forms.Button();
 			this.BtnGestionPerfiles = new System.Windows.Forms.Button();
-			this.gbSeleccionarIdioma = new System.Windows.Forms.GroupBox();
-			this.BtnIdiomaSpain = new System.Windows.Forms.Button();
-			this.BtnIdiomaEnglish = new System.Windows.Forms.Button();
-			this.BtnIdiomaFrance = new System.Windows.Forms.Button();
 			this.gbGestionEmpresa = new System.Windows.Forms.GroupBox();
 			this.BtnVerListadoEmpresas = new System.Windows.Forms.Button();
-			this.BtnVerBitacora = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.gbArchivo.SuspendLayout();
 			this.gbGestionPostulante.SuspendLayout();
 			this.gbGestionPerfilProfesional.SuspendLayout();
 			this.gbAdministracionSistema.SuspendLayout();
-			this.gbSeleccionarIdioma.SuspendLayout();
 			this.gbGestionEmpresa.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -66,7 +61,7 @@
 			this.pictureBox1.Location = new System.Drawing.Point(4, 1);
 			this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
 			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(131, 129);
+			this.pictureBox1.Size = new System.Drawing.Size(80, 80);
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox1.TabIndex = 2;
 			this.pictureBox1.TabStop = false;
@@ -75,7 +70,7 @@
 			// 
 			this.LblUsuarioLogueado.AutoSize = true;
 			this.LblUsuarioLogueado.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.LblUsuarioLogueado.Location = new System.Drawing.Point(151, 9);
+			this.LblUsuarioLogueado.Location = new System.Drawing.Point(92, 6);
 			this.LblUsuarioLogueado.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
 			this.LblUsuarioLogueado.Name = "LblUsuarioLogueado";
 			this.LblUsuarioLogueado.Size = new System.Drawing.Size(79, 24);
@@ -84,10 +79,10 @@
 			// 
 			// BtnCerrarSesion
 			// 
-			this.BtnCerrarSesion.Location = new System.Drawing.Point(40, 32);
+			this.BtnCerrarSesion.Location = new System.Drawing.Point(9, 16);
 			this.BtnCerrarSesion.Margin = new System.Windows.Forms.Padding(2);
 			this.BtnCerrarSesion.Name = "BtnCerrarSesion";
-			this.BtnCerrarSesion.Size = new System.Drawing.Size(105, 29);
+			this.BtnCerrarSesion.Size = new System.Drawing.Size(107, 29);
 			this.BtnCerrarSesion.TabIndex = 4;
 			this.BtnCerrarSesion.Text = "Cerrar Sesión";
 			this.BtnCerrarSesion.UseVisualStyleBackColor = true;
@@ -97,21 +92,21 @@
 			// 
 			this.gbArchivo.Controls.Add(this.BtnSalir);
 			this.gbArchivo.Controls.Add(this.BtnCerrarSesion);
-			this.gbArchivo.Location = new System.Drawing.Point(690, 45);
+			this.gbArchivo.Location = new System.Drawing.Point(823, 6);
 			this.gbArchivo.Margin = new System.Windows.Forms.Padding(2);
 			this.gbArchivo.Name = "gbArchivo";
 			this.gbArchivo.Padding = new System.Windows.Forms.Padding(2);
-			this.gbArchivo.Size = new System.Drawing.Size(314, 85);
+			this.gbArchivo.Size = new System.Drawing.Size(237, 52);
 			this.gbArchivo.TabIndex = 5;
 			this.gbArchivo.TabStop = false;
 			this.gbArchivo.Text = "Archivo";
 			// 
 			// BtnSalir
 			// 
-			this.BtnSalir.Location = new System.Drawing.Point(175, 31);
+			this.BtnSalir.Location = new System.Drawing.Point(121, 16);
 			this.BtnSalir.Margin = new System.Windows.Forms.Padding(2);
 			this.BtnSalir.Name = "BtnSalir";
-			this.BtnSalir.Size = new System.Drawing.Size(105, 29);
+			this.BtnSalir.Size = new System.Drawing.Size(107, 29);
 			this.BtnSalir.TabIndex = 5;
 			this.BtnSalir.Text = "Salir";
 			this.BtnSalir.UseVisualStyleBackColor = true;
@@ -176,6 +171,17 @@
 			this.gbAdministracionSistema.TabStop = false;
 			this.gbAdministracionSistema.Text = "Administración Sistema";
 			// 
+			// BtnVerBitacora
+			// 
+			this.BtnVerBitacora.Location = new System.Drawing.Point(18, 174);
+			this.BtnVerBitacora.Margin = new System.Windows.Forms.Padding(2);
+			this.BtnVerBitacora.Name = "BtnVerBitacora";
+			this.BtnVerBitacora.Size = new System.Drawing.Size(179, 29);
+			this.BtnVerBitacora.TabIndex = 7;
+			this.BtnVerBitacora.Text = "Ver Bitácora";
+			this.BtnVerBitacora.UseVisualStyleBackColor = true;
+			this.BtnVerBitacora.Click += new System.EventHandler(this.BtnVerBitacora_Click);
+			// 
 			// BtnGestionBackup
 			// 
 			this.BtnGestionBackup.Location = new System.Drawing.Point(18, 132);
@@ -209,57 +215,6 @@
 			this.BtnGestionPerfiles.UseVisualStyleBackColor = true;
 			this.BtnGestionPerfiles.Click += new System.EventHandler(this.BtnGestionPerfiles_Click);
 			// 
-			// gbSeleccionarIdioma
-			// 
-			this.gbSeleccionarIdioma.Controls.Add(this.BtnIdiomaSpain);
-			this.gbSeleccionarIdioma.Controls.Add(this.BtnIdiomaEnglish);
-			this.gbSeleccionarIdioma.Controls.Add(this.BtnIdiomaFrance);
-			this.gbSeleccionarIdioma.Location = new System.Drawing.Point(155, 45);
-			this.gbSeleccionarIdioma.Name = "gbSeleccionarIdioma";
-			this.gbSeleccionarIdioma.Size = new System.Drawing.Size(511, 85);
-			this.gbSeleccionarIdioma.TabIndex = 11;
-			this.gbSeleccionarIdioma.TabStop = false;
-			this.gbSeleccionarIdioma.Text = "Seleccione Idioma / Choose Language / Choisir la langue";
-			// 
-			// BtnIdiomaSpain
-			// 
-			this.BtnIdiomaSpain.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnIdiomaSpain.BackgroundImage")));
-			this.BtnIdiomaSpain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.BtnIdiomaSpain.FlatAppearance.BorderSize = 0;
-			this.BtnIdiomaSpain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.BtnIdiomaSpain.Location = new System.Drawing.Point(68, 28);
-			this.BtnIdiomaSpain.Name = "BtnIdiomaSpain";
-			this.BtnIdiomaSpain.Size = new System.Drawing.Size(50, 50);
-			this.BtnIdiomaSpain.TabIndex = 7;
-			this.BtnIdiomaSpain.UseVisualStyleBackColor = true;
-			this.BtnIdiomaSpain.Click += new System.EventHandler(this.BtnIdiomaSpain_Click);
-			// 
-			// BtnIdiomaEnglish
-			// 
-			this.BtnIdiomaEnglish.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnIdiomaEnglish.BackgroundImage")));
-			this.BtnIdiomaEnglish.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.BtnIdiomaEnglish.FlatAppearance.BorderSize = 0;
-			this.BtnIdiomaEnglish.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.BtnIdiomaEnglish.Location = new System.Drawing.Point(236, 28);
-			this.BtnIdiomaEnglish.Name = "BtnIdiomaEnglish";
-			this.BtnIdiomaEnglish.Size = new System.Drawing.Size(50, 50);
-			this.BtnIdiomaEnglish.TabIndex = 9;
-			this.BtnIdiomaEnglish.UseVisualStyleBackColor = true;
-			this.BtnIdiomaEnglish.Click += new System.EventHandler(this.BtnIdiomaEnglish_Click);
-			// 
-			// BtnIdiomaFrance
-			// 
-			this.BtnIdiomaFrance.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnIdiomaFrance.BackgroundImage")));
-			this.BtnIdiomaFrance.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.BtnIdiomaFrance.FlatAppearance.BorderSize = 0;
-			this.BtnIdiomaFrance.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.BtnIdiomaFrance.Location = new System.Drawing.Point(393, 28);
-			this.BtnIdiomaFrance.Name = "BtnIdiomaFrance";
-			this.BtnIdiomaFrance.Size = new System.Drawing.Size(50, 50);
-			this.BtnIdiomaFrance.TabIndex = 8;
-			this.BtnIdiomaFrance.UseVisualStyleBackColor = true;
-			this.BtnIdiomaFrance.Click += new System.EventHandler(this.BtnIdiomaFrance_Click);
-			// 
 			// gbGestionEmpresa
 			// 
 			this.gbGestionEmpresa.Controls.Add(this.BtnVerListadoEmpresas);
@@ -283,16 +238,6 @@
 			this.BtnVerListadoEmpresas.UseVisualStyleBackColor = true;
 			this.BtnVerListadoEmpresas.Click += new System.EventHandler(this.BtnVerListadoEmpresas_Click);
 			// 
-			// BtnVerBitacora
-			// 
-			this.BtnVerBitacora.Location = new System.Drawing.Point(18, 174);
-			this.BtnVerBitacora.Margin = new System.Windows.Forms.Padding(2);
-			this.BtnVerBitacora.Name = "BtnVerBitacora";
-			this.BtnVerBitacora.Size = new System.Drawing.Size(179, 29);
-			this.BtnVerBitacora.TabIndex = 7;
-			this.BtnVerBitacora.Text = "Ver Bitácora";
-			this.BtnVerBitacora.UseVisualStyleBackColor = true;
-			// 
 			// FrmHome
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -300,7 +245,6 @@
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.ClientSize = new System.Drawing.Size(1071, 536);
 			this.Controls.Add(this.gbGestionEmpresa);
-			this.Controls.Add(this.gbSeleccionarIdioma);
 			this.Controls.Add(this.gbAdministracionSistema);
 			this.Controls.Add(this.gbGestionPerfilProfesional);
 			this.Controls.Add(this.gbGestionPostulante);
@@ -313,13 +257,13 @@
 			this.Name = "FrmHome";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Inicio";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmHome_FormClosing);
 			this.Load += new System.EventHandler(this.FrmHome_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
 			this.gbArchivo.ResumeLayout(false);
 			this.gbGestionPostulante.ResumeLayout(false);
 			this.gbGestionPerfilProfesional.ResumeLayout(false);
 			this.gbAdministracionSistema.ResumeLayout(false);
-			this.gbSeleccionarIdioma.ResumeLayout(false);
 			this.gbGestionEmpresa.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -339,10 +283,6 @@
 		private System.Windows.Forms.Button BtnPostularseAviso;
 		private System.Windows.Forms.GroupBox gbAdministracionSistema;
 		private System.Windows.Forms.Button BtnGestionPerfiles;
-		private System.Windows.Forms.GroupBox gbSeleccionarIdioma;
-		private System.Windows.Forms.Button BtnIdiomaSpain;
-		private System.Windows.Forms.Button BtnIdiomaEnglish;
-		private System.Windows.Forms.Button BtnIdiomaFrance;
 		private System.Windows.Forms.Button BtnGestionBackup;
 		private System.Windows.Forms.Button BtnGestionUsuarios;
 		private System.Windows.Forms.GroupBox gbGestionEmpresa;

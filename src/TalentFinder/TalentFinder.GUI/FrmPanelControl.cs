@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using TalentFinder.BE;
 using TalentFinder.BLL;
@@ -6,7 +7,7 @@ using TalentFinder.GUI.Helpers;
 
 namespace TalentFinder.GUI
 {
-	public partial class FrmPanelControl : Form
+	public partial class FrmPanelControl : Form, IIdiomaObserver
 	{
 		public FrmPanelControl()
 		{
@@ -23,23 +24,29 @@ namespace TalentFinder.GUI
 		{
 			this.Tag = new Frase() { Tag = "panel_de_control" };
 		}
+		public void Update(Idioma idioma)
+		{
+			GUIHelper.CambiarTextoControlFormSegunIdioma(this, idioma);
+		}
 		private void FrmPanelControl_Load(object sender, EventArgs e)
 		{
 			// iniciar controles de formulario
 			InitFormControls();
 
-			// suscribir a evento
-			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
-			IdiomaSubject.Attach(this);
+			// suscribir observer
+			IdiomaSubject.AddObserver(this);
 
-			// disparar evento
-			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
+			// actualizar idioma
+			Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+
+			// cargar opciones del menu idiomas
+			GUIHelper.CargarMenuIdiomas(toolStripDropDownButtonIdioma, SistemaManager.IdiomaManager.GetAllIdiomas());
 
 			ShowFrmHome();
 		}
 		private void FrmPanelControl_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			IdiomaSubject.Detach(this);
+			IdiomaSubject.RemoveObserver(this);
 		}
 	}
 }

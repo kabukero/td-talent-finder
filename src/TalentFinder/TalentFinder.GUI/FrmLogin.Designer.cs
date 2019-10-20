@@ -36,13 +36,12 @@
 			this.BtnIngresar = new System.Windows.Forms.Button();
 			this.BtnCancelar = new System.Windows.Forms.Button();
 			this.LblTitulo = new System.Windows.Forms.Label();
-			this.BtnIdiomaSpain = new System.Windows.Forms.Button();
-			this.BtnIdiomaFrance = new System.Windows.Forms.Button();
-			this.BtnIdiomaEnglish = new System.Windows.Forms.Button();
-			this.gbSeleccionarIdioma = new System.Windows.Forms.GroupBox();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
-			this.gbSeleccionarIdioma.SuspendLayout();
+			this.statusStripForm = new System.Windows.Forms.StatusStrip();
+			this.toolStripStatusLabelIdioma = new System.Windows.Forms.ToolStripStatusLabel();
+			this.toolStripDropDownButtonIdioma = new System.Windows.Forms.ToolStripDropDownButton();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			this.statusStripForm.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// LblUsuario
@@ -65,7 +64,7 @@
 			// 
 			// TxtUsuario
 			// 
-			this.TxtUsuario.Location = new System.Drawing.Point(162, 269);
+			this.TxtUsuario.Location = new System.Drawing.Point(149, 269);
 			this.TxtUsuario.MaxLength = 50;
 			this.TxtUsuario.Name = "TxtUsuario";
 			this.TxtUsuario.Size = new System.Drawing.Size(323, 29);
@@ -73,7 +72,7 @@
 			// 
 			// TxtPassword
 			// 
-			this.TxtPassword.Location = new System.Drawing.Point(162, 325);
+			this.TxtPassword.Location = new System.Drawing.Point(149, 325);
 			this.TxtPassword.MaxLength = 50;
 			this.TxtPassword.Name = "TxtPassword";
 			this.TxtPassword.PasswordChar = '*';
@@ -82,7 +81,7 @@
 			// 
 			// BtnIngresar
 			// 
-			this.BtnIngresar.Location = new System.Drawing.Point(170, 380);
+			this.BtnIngresar.Location = new System.Drawing.Point(170, 369);
 			this.BtnIngresar.Name = "BtnIngresar";
 			this.BtnIngresar.Size = new System.Drawing.Size(118, 43);
 			this.BtnIngresar.TabIndex = 2;
@@ -92,7 +91,7 @@
 			// 
 			// BtnCancelar
 			// 
-			this.BtnCancelar.Location = new System.Drawing.Point(294, 380);
+			this.BtnCancelar.Location = new System.Drawing.Point(294, 369);
 			this.BtnCancelar.Name = "BtnCancelar";
 			this.BtnCancelar.Size = new System.Drawing.Size(118, 43);
 			this.BtnCancelar.TabIndex = 3;
@@ -110,68 +109,43 @@
 			this.LblTitulo.TabIndex = 5;
 			this.LblTitulo.Text = "Ingrese sus credenciales";
 			// 
-			// BtnIdiomaSpain
-			// 
-			this.BtnIdiomaSpain.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnIdiomaSpain.BackgroundImage")));
-			this.BtnIdiomaSpain.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.BtnIdiomaSpain.FlatAppearance.BorderSize = 0;
-			this.BtnIdiomaSpain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.BtnIdiomaSpain.Location = new System.Drawing.Point(68, 28);
-			this.BtnIdiomaSpain.Name = "BtnIdiomaSpain";
-			this.BtnIdiomaSpain.Size = new System.Drawing.Size(50, 50);
-			this.BtnIdiomaSpain.TabIndex = 7;
-			this.BtnIdiomaSpain.UseVisualStyleBackColor = true;
-			this.BtnIdiomaSpain.Click += new System.EventHandler(this.BtnIdiomaSpain_Click);
-			// 
-			// BtnIdiomaFrance
-			// 
-			this.BtnIdiomaFrance.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnIdiomaFrance.BackgroundImage")));
-			this.BtnIdiomaFrance.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.BtnIdiomaFrance.FlatAppearance.BorderSize = 0;
-			this.BtnIdiomaFrance.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.BtnIdiomaFrance.Location = new System.Drawing.Point(393, 28);
-			this.BtnIdiomaFrance.Name = "BtnIdiomaFrance";
-			this.BtnIdiomaFrance.Size = new System.Drawing.Size(50, 50);
-			this.BtnIdiomaFrance.TabIndex = 8;
-			this.BtnIdiomaFrance.UseVisualStyleBackColor = true;
-			this.BtnIdiomaFrance.Click += new System.EventHandler(this.BtnIdiomaFrance_Click);
-			// 
-			// BtnIdiomaEnglish
-			// 
-			this.BtnIdiomaEnglish.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("BtnIdiomaEnglish.BackgroundImage")));
-			this.BtnIdiomaEnglish.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.BtnIdiomaEnglish.FlatAppearance.BorderSize = 0;
-			this.BtnIdiomaEnglish.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.BtnIdiomaEnglish.Location = new System.Drawing.Point(236, 28);
-			this.BtnIdiomaEnglish.Name = "BtnIdiomaEnglish";
-			this.BtnIdiomaEnglish.Size = new System.Drawing.Size(50, 50);
-			this.BtnIdiomaEnglish.TabIndex = 9;
-			this.BtnIdiomaEnglish.UseVisualStyleBackColor = true;
-			this.BtnIdiomaEnglish.Click += new System.EventHandler(this.BtnIdiomaEnglish_Click);
-			// 
-			// gbSeleccionarIdioma
-			// 
-			this.gbSeleccionarIdioma.Controls.Add(this.BtnIdiomaSpain);
-			this.gbSeleccionarIdioma.Controls.Add(this.BtnIdiomaEnglish);
-			this.gbSeleccionarIdioma.Controls.Add(this.BtnIdiomaFrance);
-			this.gbSeleccionarIdioma.Location = new System.Drawing.Point(28, 122);
-			this.gbSeleccionarIdioma.Name = "gbSeleccionarIdioma";
-			this.gbSeleccionarIdioma.Size = new System.Drawing.Size(511, 85);
-			this.gbSeleccionarIdioma.TabIndex = 10;
-			this.gbSeleccionarIdioma.TabStop = false;
-			this.gbSeleccionarIdioma.Text = "Seleccione Idioma / Choose Language / Choisir la langue";
-			// 
 			// pictureBox1
 			// 
 			this.pictureBox1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
 			this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-			this.pictureBox1.Location = new System.Drawing.Point(238, 13);
+			this.pictureBox1.Location = new System.Drawing.Point(197, 15);
 			this.pictureBox1.Margin = new System.Windows.Forms.Padding(6);
 			this.pictureBox1.Name = "pictureBox1";
-			this.pictureBox1.Size = new System.Drawing.Size(100, 100);
+			this.pictureBox1.Size = new System.Drawing.Size(198, 181);
 			this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
 			this.pictureBox1.TabIndex = 11;
 			this.pictureBox1.TabStop = false;
+			// 
+			// statusStripForm
+			// 
+			this.statusStripForm.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabelIdioma,
+            this.toolStripDropDownButtonIdioma});
+			this.statusStripForm.Location = new System.Drawing.Point(0, 426);
+			this.statusStripForm.Name = "statusStripForm";
+			this.statusStripForm.Size = new System.Drawing.Size(571, 22);
+			this.statusStripForm.TabIndex = 12;
+			this.statusStripForm.Text = "statusStripPanelControl";
+			// 
+			// toolStripStatusLabelIdioma
+			// 
+			this.toolStripStatusLabelIdioma.Name = "toolStripStatusLabelIdioma";
+			this.toolStripStatusLabelIdioma.Size = new System.Drawing.Size(44, 17);
+			this.toolStripStatusLabelIdioma.Text = "Idioma";
+			// 
+			// toolStripDropDownButtonIdioma
+			// 
+			this.toolStripDropDownButtonIdioma.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+			this.toolStripDropDownButtonIdioma.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButtonIdioma.Image")));
+			this.toolStripDropDownButtonIdioma.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripDropDownButtonIdioma.Name = "toolStripDropDownButtonIdioma";
+			this.toolStripDropDownButtonIdioma.Size = new System.Drawing.Size(29, 20);
+			this.toolStripDropDownButtonIdioma.Text = "Seleccione Idioma";
 			// 
 			// FrmLogin
 			// 
@@ -179,8 +153,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Control;
 			this.ClientSize = new System.Drawing.Size(571, 448);
+			this.Controls.Add(this.statusStripForm);
 			this.Controls.Add(this.pictureBox1);
-			this.Controls.Add(this.gbSeleccionarIdioma);
 			this.Controls.Add(this.LblTitulo);
 			this.Controls.Add(this.BtnCancelar);
 			this.Controls.Add(this.BtnIngresar);
@@ -193,9 +167,11 @@
 			this.Name = "FrmLogin";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Talent Finder - Ingreso al sistema";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmLogin_FormClosing);
 			this.Load += new System.EventHandler(this.FrmLogin_Load);
-			this.gbSeleccionarIdioma.ResumeLayout(false);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			this.statusStripForm.ResumeLayout(false);
+			this.statusStripForm.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -210,10 +186,9 @@
 		private System.Windows.Forms.Button BtnIngresar;
 		private System.Windows.Forms.Button BtnCancelar;
 		private System.Windows.Forms.Label LblTitulo;
-		private System.Windows.Forms.Button BtnIdiomaSpain;
-		private System.Windows.Forms.Button BtnIdiomaFrance;
-		private System.Windows.Forms.Button BtnIdiomaEnglish;
-		private System.Windows.Forms.GroupBox gbSeleccionarIdioma;
 		private System.Windows.Forms.PictureBox pictureBox1;
+		private System.Windows.Forms.StatusStrip statusStripForm;
+		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelIdioma;
+		private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButtonIdioma;
 	}
 }

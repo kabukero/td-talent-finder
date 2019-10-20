@@ -13,7 +13,7 @@ using TalentFinder.GUI.Helpers;
 
 namespace TalentFinder.GUI
 {
-	public partial class FrmGestionUsuariosPerfilesPermisos : Form
+	public partial class FrmGestionUsuariosPerfilesPermisos : Form, IIdiomaObserver
 	{
 		public FrmGestionUsuariosPerfilesPermisos()
 		{
@@ -111,6 +111,10 @@ namespace TalentFinder.GUI
 				FindCheckedNodes(checked_nodes, node.Nodes);
 			}
 		}
+		public void Update(Idioma idioma)
+		{
+			GUIHelper.CambiarTextoControlFormSegunIdioma(this, idioma);
+		}
 		private void BtnGuardar_Click(object sender, EventArgs e)
 		{
 			if(LstUsuarios.Items.Count == 0 || LstUsuarios.SelectedItem == null)
@@ -150,16 +154,15 @@ namespace TalentFinder.GUI
 			// iniciar controles de formulario
 			InitFormControls();
 
-			// suscribir a evento
-			IdiomaSubject.CambiarIdioma += IdiomaSubject.CambiarTextoControlFormSegunIdioma;
-			IdiomaSubject.Attach(this);
+			// suscribir observer
+			IdiomaSubject.AddObserver(this);
 
-			// disparar evento
-			IdiomaSubject.CambiarIdiomaControlesFormulario(this, SistemaManager.Idioma);
+			// actualizar idioma
+			Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
 		}
 		private void FrmGestionUsuariosPerfilesPermisos_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			IdiomaSubject.Detach(this);
+			IdiomaSubject.RemoveObserver(this);
 		}
 	}
 }
