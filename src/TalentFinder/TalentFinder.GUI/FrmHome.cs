@@ -82,6 +82,12 @@ namespace TalentFinder.GUI
 			frm.MdiParent = this.MdiParent;
 			frm.Show();
 		}
+		private void BtnGestionIdiomas_Click(object sender, EventArgs e)
+		{
+			FrmGestionIdioma frm = new FrmGestionIdioma();
+			frm.MdiParent = this.MdiParent;
+			frm.Show();
+		}
 		private void BtnSalir_Click(object sender, EventArgs e)
 		{
 			Application.Exit();

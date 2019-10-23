@@ -22,7 +22,9 @@ namespace TalentFinder.BLL
 		static SistemaManager()
 		{
 			SessionManager = SessionManager.GetUsuarioSesion();
-			SessionManager.IdiomaSession = IdiomaManager.GetIdioma(Idiomas.ESPAÑOL); // idioma por defecto
+			Idioma idiomaDefault = IdiomaManager.GetIdioma(Idiomas.ESPAÑOL); // idioma por defecto
+			SessionManager.IdiomaSession = idiomaDefault;
+			SessionManager.IdiomaSession.IdiomaSelected = idiomaDefault;
 		}
 	}
 }

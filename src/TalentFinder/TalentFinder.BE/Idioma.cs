@@ -24,21 +24,29 @@ namespace TalentFinder.BE
 				Notify(idiomaSelected);
 			}
 		}
-		public IList<IdiomaFrase> traducciones;
+		private IList<IdiomaFrase> traducciones;
 		public IList<IdiomaFrase> Traducciones
 		{
 			get
 			{
 				return CloneHelper.CloneObject<IList<IdiomaFrase>>(traducciones);
 			}
+			set
+			{
+				traducciones = value;
+			}
 		}
-		public void Add(IdiomaFrase IdiomaFrase)
+		public void AgregarTraduccion(IdiomaFrase IdiomaFrase)
 		{
 			traducciones.Add(IdiomaFrase);
 		}
 		public Idioma()
 		{
 			traducciones = new List<IdiomaFrase>();
+		}
+		public override string ToString()
+		{
+			return Nombre;
 		}
 	}
 }

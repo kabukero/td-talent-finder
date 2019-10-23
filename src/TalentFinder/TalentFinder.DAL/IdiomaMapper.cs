@@ -26,15 +26,121 @@ namespace TalentFinder.DAL
 				List<SqlParameter> parameters = new List<SqlParameter>();
 				parameters.Add(da.CrearParametro("@IdiomaId", idioma.Id));
 				DataTable traducciones = da.Leer("GetAllTraducciones", parameters);
-				foreach(DataRow traduccion in traducciones.Rows)
+				if(traducciones != null && traducciones.Rows.Count > 0)
 				{
-					IdiomaFrase IdiomaFrase = new IdiomaFrase();
-					IdiomaFrase.IdiomaId = int.Parse(traduccion["IdiomaId"].ToString());
-					IdiomaFrase.Tag = traduccion["Tag"].ToString();
-					IdiomaFrase.Traduccion = traduccion["Traduccion"].ToString();
-					idioma.Add(IdiomaFrase);
+					foreach(DataRow traduccion in traducciones.Rows)
+					{
+						IdiomaFrase IdiomaFrase = new IdiomaFrase();
+						IdiomaFrase.IdiomaId = int.Parse(traduccion["IdiomaId"].ToString());
+						IdiomaFrase.Tag = traduccion["Tag"].ToString();
+						IdiomaFrase.Traduccion = traduccion["Traduccion"].ToString();
+						idioma.AgregarTraduccion(IdiomaFrase);
+					}
 				}
 				lista.Add(idioma);
+			}
+			da.Cerrar();
+			return lista;
+		}
+		public void AgregarIdioma(Idioma idioma)
+		{
+			int f = 0;
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			try
+			{
+				List<SqlParameter> parametros = new List<SqlParameter>();
+				parametros.Add(da.CrearParametro("@Nombre", idioma.Nombre));
+				f = da.Escribir("AgregarIdioma", parametros);
+			}
+			catch(Exception ex)
+			{
+				f = -1;
+			}
+			da.Cerrar();
+		}
+		public void EditarIdioma(Idioma idioma)
+		{
+			int f = 0;
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			try
+			{
+				List<SqlParameter> parametros = new List<SqlParameter>();
+				parametros.Add(da.CrearParametro("@Id", idioma.Id));
+				parametros.Add(da.CrearParametro("@Nombre", idioma.Nombre));
+				f = da.Escribir("EditarIdioma", parametros);
+			}
+			catch(Exception ex)
+			{
+				f = -1;
+			}
+			da.Cerrar();
+		}
+		public void EliminarIdioma(Idioma idioma)
+		{
+			DataAccessManager da = new DataAccessManager();
+			try
+			{
+				da.Abrir();
+				da.IniciarTx();
+				List<SqlParameter> parametros = new List<SqlParameter>();
+				parametros.Add(da.CrearParametro("@IdiomaId", idioma.Id));
+				da.Escribir("EliminarIdiomaTraducciones", parametros);
+
+				parametros.Clear();
+				parametros.Add(da.CrearParametro("@Id", idioma.Id));
+				da.Escribir("EliminarIdioma", parametros);
+
+				da.ConfirmarTx();
+			}
+			catch(Exception ex)
+			{
+				da.CancelarTx();
+				throw;
+			}
+			da.Cerrar();
+		}
+		public void GuardarTraducciones(IList<IdiomaFrase> idiomaFrases)
+		{
+			DataAccessManager da = new DataAccessManager();
+			try
+			{
+				da.Abrir();
+				da.IniciarTx();
+
+				List<SqlParameter> parametros = new List<SqlParameter>();
+				parametros.Add(da.CrearParametro("@IdiomaId", idiomaFrases[0].IdiomaId));
+				da.Escribir("EliminarIdiomaTraducciones", parametros);
+
+				foreach(IdiomaFrase idiomaFrase in idiomaFrases)
+				{
+					parametros.Clear();
+					parametros.Add(da.CrearParametro("@IdiomaId", idiomaFrase.IdiomaId));
+					parametros.Add(da.CrearParametro("@Tag", idiomaFrase.Tag));
+					parametros.Add(da.CrearParametro("@Traduccion", idiomaFrase.Traduccion));
+					da.Escribir("GuardarIdiomaTraducciones", parametros);
+				}
+
+				da.ConfirmarTx();
+			}
+			catch
+			{
+				da.CancelarTx();
+				throw;
+			}
+		}
+		public IList<Frase> GetAllFrases()
+		{
+			IList<Frase> lista = new List<Frase>();
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			DataTable tabla = da.Leer("GetAllFrases", null);
+			foreach(DataRow fila in tabla.Rows)
+			{
+				Frase frase = new Frase();
+				frase.Tag = fila["Tag"].ToString();
+				lista.Add(frase);
 			}
 			da.Cerrar();
 			return lista;

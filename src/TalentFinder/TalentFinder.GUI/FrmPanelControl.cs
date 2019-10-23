@@ -24,6 +24,10 @@ namespace TalentFinder.GUI
 		{
 			this.Tag = new Frase() { Tag = "panel_de_control" };
 		}
+		public void CargarMenuIdiomas()
+		{
+			GUIHelper.CargarMenuIdiomas(toolStripDropDownButtonIdioma, SistemaManager.IdiomaManager.GetAllIdiomas());
+		}
 		public void Update(Idioma idioma)
 		{
 			GUIHelper.CambiarTextoControlFormSegunIdioma(this, idioma);
@@ -40,7 +44,7 @@ namespace TalentFinder.GUI
 			Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
 
 			// cargar opciones del menu idiomas
-			GUIHelper.CargarMenuIdiomas(toolStripDropDownButtonIdioma, SistemaManager.IdiomaManager.GetAllIdiomas());
+			CargarMenuIdiomas();
 
 			ShowFrmHome();
 		}

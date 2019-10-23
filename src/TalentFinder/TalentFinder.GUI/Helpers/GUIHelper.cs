@@ -14,7 +14,7 @@ namespace TalentFinder.GUI.Helpers
 		public static void CargarMenuIdiomas(ToolStripDropDownButton ToolStripDropDownButton, IList<Idioma> idiomas)
 		{
 			List<ToolStripItem> lista = new List<ToolStripItem>();
-			foreach(Idioma idioma in idiomas)
+			foreach(Idioma idioma in idiomas.Where(x => x.Traducciones !=null && x.Traducciones.Count > 0))
 			{
 				ToolStripMenuItem toolStripMenuItem = new ToolStripMenuItem();
 				toolStripMenuItem.Name = idioma.Nombre + "ToolStripMenuItem";
@@ -27,14 +27,12 @@ namespace TalentFinder.GUI.Helpers
 			ToolStripDropDownButton.DropDownItems.Clear();
 			ToolStripDropDownButton.DropDownItems.AddRange(lista.ToArray());
 		}
-
 		public static void ToolStripDropDownButton_Click(object sender, EventArgs e)
 		{
 			ToolStripMenuItem toolStripMenuItem = (ToolStripMenuItem)sender;
 			Idioma idioma = (Idioma)toolStripMenuItem.Tag;
 			SistemaManager.SessionManager.IdiomaSession.IdiomaSelected = idioma;
 		}
-
 		public static void CambiarTextoControlFormSegunIdioma(Control parentControl, Idioma idioma)
 		{
 			if(!string.IsNullOrEmpty(parentControl.Text) && parentControl.Tag != null)
@@ -49,7 +47,6 @@ namespace TalentFinder.GUI.Helpers
 					CambiarTextoControlFormSegunIdioma(control, idioma);
 			}
 		}
-
 		public static void CambiarTextoControlForm(Control control, Idioma idioma)
 		{
 			Frase frase = (Frase)control.Tag;

@@ -45,6 +45,7 @@
 			this.BtnGestionPerfiles = new System.Windows.Forms.Button();
 			this.gbGestionEmpresa = new System.Windows.Forms.GroupBox();
 			this.BtnVerListadoEmpresas = new System.Windows.Forms.Button();
+			this.BtnGestionIdiomas = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.gbArchivo.SuspendLayout();
 			this.gbGestionPostulante.SuspendLayout();
@@ -158,6 +159,7 @@
 			// 
 			// gbAdministracionSistema
 			// 
+			this.gbAdministracionSistema.Controls.Add(this.BtnGestionIdiomas);
 			this.gbAdministracionSistema.Controls.Add(this.BtnVerBitacora);
 			this.gbAdministracionSistema.Controls.Add(this.BtnGestionBackup);
 			this.gbAdministracionSistema.Controls.Add(this.BtnGestionUsuarios);
@@ -166,7 +168,7 @@
 			this.gbAdministracionSistema.Margin = new System.Windows.Forms.Padding(2);
 			this.gbAdministracionSistema.Name = "gbAdministracionSistema";
 			this.gbAdministracionSistema.Padding = new System.Windows.Forms.Padding(2);
-			this.gbAdministracionSistema.Size = new System.Drawing.Size(213, 215);
+			this.gbAdministracionSistema.Size = new System.Drawing.Size(213, 258);
 			this.gbAdministracionSistema.TabIndex = 8;
 			this.gbAdministracionSistema.TabStop = false;
 			this.gbAdministracionSistema.Text = "Administración Sistema";
@@ -238,6 +240,17 @@
 			this.BtnVerListadoEmpresas.UseVisualStyleBackColor = true;
 			this.BtnVerListadoEmpresas.Click += new System.EventHandler(this.BtnVerListadoEmpresas_Click);
 			// 
+			// BtnGestionIdiomas
+			// 
+			this.BtnGestionIdiomas.Location = new System.Drawing.Point(18, 214);
+			this.BtnGestionIdiomas.Margin = new System.Windows.Forms.Padding(2);
+			this.BtnGestionIdiomas.Name = "BtnGestionIdiomas";
+			this.BtnGestionIdiomas.Size = new System.Drawing.Size(179, 29);
+			this.BtnGestionIdiomas.TabIndex = 8;
+			this.BtnGestionIdiomas.Text = "Gestión Idiomas";
+			this.BtnGestionIdiomas.UseVisualStyleBackColor = true;
+			this.BtnGestionIdiomas.Click += new System.EventHandler(this.BtnGestionIdiomas_Click);
+			// 
 			// FrmHome
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -288,5 +301,6 @@
 		private System.Windows.Forms.GroupBox gbGestionEmpresa;
 		private System.Windows.Forms.Button BtnVerListadoEmpresas;
 		private System.Windows.Forms.Button BtnVerBitacora;
+		private System.Windows.Forms.Button BtnGestionIdiomas;
 	}
 }

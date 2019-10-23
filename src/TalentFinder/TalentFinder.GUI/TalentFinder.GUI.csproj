@@ -54,6 +54,12 @@
     <Compile Include="FrmBitacoraListado.Designer.cs">
       <DependentUpon>FrmBitacoraListado.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmExamenRealizarProgama.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmExamenRealizarProgama.Designer.cs">
+      <DependentUpon>FrmExamenRealizarProgama.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmGestionBackup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,11 +72,23 @@
     <Compile Include="FrmGestionEmpresa.Designer.cs">
       <DependentUpon>FrmGestionEmpresa.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmGestionProfesional.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmGestionProfesional.Designer.cs">
+      <DependentUpon>FrmGestionProfesional.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmHome.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmHome.Designer.cs">
       <DependentUpon>FrmHome.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmGestionIdioma.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmGestionIdioma.Designer.cs">
+      <DependentUpon>FrmGestionIdioma.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmLogin.cs">
       <SubType>Form</SubType>
@@ -102,14 +120,23 @@
     <EmbeddedResource Include="FrmBitacoraListado.resx">
       <DependentUpon>FrmBitacoraListado.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmExamenRealizarProgama.resx">
+      <DependentUpon>FrmExamenRealizarProgama.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmGestionBackup.resx">
       <DependentUpon>FrmGestionBackup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmGestionEmpresa.resx">
       <DependentUpon>FrmGestionEmpresa.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmGestionProfesional.resx">
+      <DependentUpon>FrmGestionProfesional.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmHome.resx">
       <DependentUpon>FrmHome.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmGestionIdioma.resx">
+      <DependentUpon>FrmGestionIdioma.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmLogin.resx">
       <DependentUpon>FrmLogin.cs</DependentUpon>
@@ -174,6 +201,8 @@
       <Name>TalentFinder.Seguridad</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Programs\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
