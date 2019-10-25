@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TalentFinder.BLL;
+using TalentFinder.BE;
 
 namespace TalentFinder.GUI
 {
@@ -22,11 +23,14 @@ namespace TalentFinder.GUI
 
 		private void BtnEjecutarCodigo_Click(object sender, EventArgs e)
 		{
-			string resultado = ProgramRunner.EjecutarPrograma(TxtCodigoPrograma.Text);
-			if(resultado.Contains("error"))
-				MessageBox.Show("El programa no compila. Corrija los errores", "Creación Programa", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			else
-				MessageBox.Show("El programa ejecuta correctamente", "Creación Programa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			Parser Parser = new Parser();
+			MessageBox.Show(Parser.GetCodigoPrograma("", TxtCodigoPrograma.Text));
+
+			//ResultadoEjecucion ResultadoEjecucion = ProgramRunner.EjecutarPrograma(TxtCodigoPrograma.Text);
+			//if(ResultadoEjecucion.ResultadoEjecucionEstado == ResultadoEjecucionEstado.ERROR)
+			//	MessageBox.Show("El programa no compila. Corrija los errores", "Creación Programa", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			//else
+			//	MessageBox.Show("El programa ejecuta correctamente", "Creación Programa", MessageBoxButtons.OK, MessageBoxIcon.Information);
 		}
 	}
 }
