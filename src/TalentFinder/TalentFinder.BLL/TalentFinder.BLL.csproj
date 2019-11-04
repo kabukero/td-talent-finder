@@ -49,7 +49,6 @@
     <Compile Include="EmpresaManager.cs" />
     <Compile Include="IdiomaManager.cs" />
     <Compile Include="PerfilPermisoManager.cs" />
-    <Compile Include="ProgramRunner.cs" />
     <Compile Include="SistemaManager.cs" />
     <Compile Include="TipoPermisoManager.cs" />
     <Compile Include="UsuarioManager.cs" />

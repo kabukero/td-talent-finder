@@ -33,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -45,14 +46,18 @@
     <Compile Include="AvisoLaboral.cs" />
     <Compile Include="Backup.cs" />
     <Compile Include="Bitacora.cs" />
+    <Compile Include="Compilador.cs" />
     <Compile Include="DigitoVerificadorVertical.cs" />
-    <Compile Include="Ejercicio1.cs">
+    <Compile Include="Ejercicio.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Ejercicio1Test.cs">
+    <Compile Include="EjercicioCodigoFuenteFactory.cs" />
+    <Compile Include="MetodoDetalle.cs" />
+    <Compile Include="ProgramRunner.cs" />
+    <Compile Include="TestEjercicio1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="EjercicioBase.cs" />
+    <Compile Include="TestEjercicioFactory.cs" />
     <Compile Include="Empresa.cs" />
     <Compile Include="EntidadBase.cs" />
     <Compile Include="Frase.cs" />
@@ -60,7 +65,10 @@
     <Compile Include="IdiomaFrase.cs" />
     <Compile Include="Idiomas.cs" />
     <Compile Include="IdiomaSubject.cs" />
+    <Compile Include="IEjercicio.cs" />
+    <Compile Include="ITestEjercicio.cs" />
     <Compile Include="IIdiomaObserver.cs" />
+    <Compile Include="TestItem.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Perfil.cs" />
     <Compile Include="Permiso.cs" />
@@ -70,11 +78,11 @@
     <Compile Include="Persona.cs" />
     <Compile Include="Postulacion.cs" />
     <Compile Include="Profesional.cs" />
-    <Compile Include="ProgramEntryPoint.cs" />
+    <Compile Include="TestProgramEntryPoint.cs" />
     <Compile Include="Reclutador.cs" />
     <Compile Include="ResultadoEjecucion.cs" />
     <Compile Include="ResultadoEjecucionEstado.cs" />
-    <Compile Include="ResultadoTest.cs" />
+    <Compile Include="TestResultado.cs" />
     <Compile Include="TablaSistema.cs" />
     <Compile Include="TablasSistema.cs" />
     <Compile Include="TipoEvento.cs" />

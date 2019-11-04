@@ -151,7 +151,6 @@ namespace TalentFinder.DAL
 			}
 			return empresa;
 		}
-
 		public int CrearHistorico(Empresa empresa)
 		{
 			int f = 0;
@@ -160,6 +159,7 @@ namespace TalentFinder.DAL
 			try
 			{
 				List<SqlParameter> parametros = new List<SqlParameter>();
+				parametros.Add(da.CrearParametro("@EmpresaId", empresa.Id));
 				parametros.Add(da.CrearParametro("@RazonSocial", empresa.RazonSocial));
 				parametros.Add(da.CrearParametro("@Direccion", empresa.Direccion));
 				parametros.Add(da.CrearParametro("@Telefono", empresa.Telefono));
@@ -168,7 +168,8 @@ namespace TalentFinder.DAL
 				parametros.Add(da.CrearParametro("@FechaCreacion", empresa.FechaCreacionFormateada));
 				parametros.Add(da.CrearParametro("@FechaActualizacion", empresa.FechaCreacionFormateada));
 				parametros.Add(da.CrearParametro("@FechaCreacionHistorico", empresa.FechaCreacionHistoricoFormateada));
-				f = da.LeerEscalar("CrearEmpresaHistorico", parametros);
+				parametros.Add(da.CrearParametro("@DVH", empresa.DVH));
+				f = da.Escribir("CrearEmpresaHistorico", parametros);
 			}
 			catch(Exception ex)
 			{

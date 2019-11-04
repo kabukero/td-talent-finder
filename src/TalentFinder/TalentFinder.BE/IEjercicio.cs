@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
-	public abstract class EjercicioBase
+	public interface IEjercicio
 	{
-		public abstract int MiMetodo(int numero);
-		public abstract IList<ResultadoTest> MiMetodoTest();
+		string Nombre { get; set; }
+		int MiMetodo(int valor);
+		int MiMetodo(string valor);
+		int MiMetodo(int[] valor);
 	}
 }

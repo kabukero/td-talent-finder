@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
-	public class ProgramEntryPoint
+	public interface ITestEjercicio
 	{
-		public static void Main()
-		{
-			Console.WriteLine("Hello World");
-		}
+		TestResultado MiMetodoTest();
 	}
 }

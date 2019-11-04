@@ -8,6 +8,8 @@ namespace TalentFinder.BE
 {
 	public class ResultadoEjecucion
 	{
+		public string NombreArchivoPrograma { get; set; }
+		public string NombreProgramaEjecutable { get; set; }
 		public string Descripcion { get; set; }
 		public ResultadoEjecucionEstado ResultadoEjecucionEstado { get; set; }
 	}

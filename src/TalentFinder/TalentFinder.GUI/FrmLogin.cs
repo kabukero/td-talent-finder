@@ -42,7 +42,7 @@ namespace TalentFinder.GUI
 			if(!SistemaManager.DigitoVerificadorManager.VerificarIntegridadDatosSistema())
 			{
 				BtnIngresar.Visible = false;
-				MessageBox.Show("Comuniquese con el administrador del sistema", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Error en la integridad de datos del sistema. Comuniquese con el administrador del sistema", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 		private void BtnCancelar_Click(object sender, EventArgs e)

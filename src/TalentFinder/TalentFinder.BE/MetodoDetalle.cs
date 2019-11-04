@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
-	public class Ejercicio1
+	public class MetodoDetalle
 	{
-		//XXX_BEGIN_XXX
-		public int MiMetodo(int numero) { return 0; }
-		//XXX_END_XXXX
+		public string EjercicioNombre { get; set; }
+		public string CodigoFuenteMetodo { get; set; }
 	}
 }

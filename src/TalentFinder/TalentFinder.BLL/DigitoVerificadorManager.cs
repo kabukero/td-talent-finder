@@ -107,7 +107,6 @@ namespace TalentFinder.BLL
 
 			return true;
 		}
-
 		public bool VerificarIntegridadDatosEmpresa(Empresa empresa)
 		{
 			Empresa empresaActual = SistemaManager.EmpresaManager.GetEmpresa(empresa.Id);

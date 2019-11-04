@@ -132,7 +132,6 @@ namespace TalentFinder.GUI
 		{
 			GUIHelper.CambiarTextoControlFormSegunIdioma(this, idioma);
 		}
-
 		private void DgvEmpresas_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			Empresa empresa = (Empresa)DgvEmpresas.CurrentRow.DataBoundItem;
@@ -146,6 +145,12 @@ namespace TalentFinder.GUI
 		{
 			if(!ValidarCampos())
 				return;
+
+			if(!SistemaManager.DigitoVerificadorManager.VerificarIntegridadDatosSistema())
+			{
+				MessageBox.Show("Error en la integridad de datos del sistema. Comuniquese con el administrador del sistema", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
 
 			Empresa empresa = new Empresa();
 			empresa.RazonSocial = TxtRazonSocial.Text;
@@ -178,6 +183,12 @@ namespace TalentFinder.GUI
 			if(!ValidarCampos())
 				return;
 
+			if(!SistemaManager.DigitoVerificadorManager.VerificarIntegridadDatosSistema())
+			{
+				MessageBox.Show("Error en la integridad de datos del sistema. Comuniquese con el administrador del sistema", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+
 			empresa.RazonSocial = TxtRazonSocial.Text;
 			empresa.Direccion = TxtDireccion.Text;
 			empresa.Telefono = TxtTelefono.Text;
@@ -204,6 +215,12 @@ namespace TalentFinder.GUI
 
 			if(empresa == null)
 				return;
+
+			if(!SistemaManager.DigitoVerificadorManager.VerificarIntegridadDatosSistema())
+			{
+				MessageBox.Show("Error en la integridad de datos del sistema. Comuniquese con el administrador del sistema", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
 
 			if(SistemaManager.EmpresaManager.Eliminar(empresa) == -1)
 			{

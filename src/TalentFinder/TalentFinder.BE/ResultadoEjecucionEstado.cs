@@ -8,8 +8,9 @@ namespace TalentFinder.BE
 {
 	public enum ResultadoEjecucionEstado
 	{
-		ERROR = 1,
+		ERROR_COMPILE = 1,
 		COMPILED,
+		ERROR_EXECUTE,
 		EXECUTED
 	}
 }

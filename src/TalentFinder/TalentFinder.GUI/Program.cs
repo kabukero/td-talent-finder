@@ -13,7 +13,7 @@ namespace TalentFinder.GUI
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new FrmExamenRealizarProgama());
+			Application.Run(new FrmLogin());
 		}
 	}
 }
