@@ -18,8 +18,12 @@ namespace TalentFinder.GUI
 		private MetodoDetalle MetodoDetalle;
 		private ProgramRunner ProgramRunner = new ProgramRunner();
 		private TimeSpan HoraInicio = TimeSpan.Parse("00:05:00");
-		public FrmExamenEjercicioProgamacion()
+		private Postulacion Postulacion;
+		FrmGestionPostulaciones frmGestionPostulaciones;
+		public FrmExamenEjercicioProgamacion(Postulacion Postulacion, FrmGestionPostulaciones frmGestionPostulaciones)
 		{
+			this.frmGestionPostulaciones = frmGestionPostulaciones;
+			this.Postulacion = Postulacion;
 			InitializeComponent();
 		}
 		private void FinalizoElTiempo()
@@ -51,6 +55,11 @@ namespace TalentFinder.GUI
 			MetodoDetalle.CodigoFuenteMetodo = TxtCodigoPrograma.Text;
 			ResultadoEjecucion ResultadoEjecucion = ProgramRunner.EjecutarPrograma(MetodoDetalle);
 			MessageBox.Show(ResultadoEjecucion.Descripcion);
+			if(ResultadoEjecucion.ResultadoEjecucionEstado == ResultadoEjecucionEstado.EXECUTED)
+			{
+				frmGestionPostulaciones.CargarPostulaciones();
+			}
+			this.Hide();
 		}
 		private void FrmExamenEjercicioProgamacion_Load(object sender, EventArgs e)
 		{
@@ -58,7 +67,9 @@ namespace TalentFinder.GUI
 			TimerClock.Interval = 1000;
 			TxtCurrentElapsedTime.Text = HoraInicio.ToString().Substring(3);
 			MetodoDetalle = new MetodoDetalle();
-			MetodoDetalle.EjercicioNombre = "Ejercicio3";
+			PostulacionEvalucion postulacionEvalucion = SistemaManager.ProfesionalManager.GetPostulacionEvaluacion(Postulacion);
+			MetodoDetalle.EjercicioNombre = postulacionEvalucion.Evaluacion.Ejercicio;
+			LblEnunciado.Text = postulacionEvalucion.Evaluacion.Descripcion;
 		}
 	}
 }

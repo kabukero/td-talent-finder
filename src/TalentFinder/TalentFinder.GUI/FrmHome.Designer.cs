@@ -35,17 +35,17 @@
 			this.gbArchivo = new System.Windows.Forms.GroupBox();
 			this.BtnSalir = new System.Windows.Forms.Button();
 			this.gbGestionPostulante = new System.Windows.Forms.GroupBox();
-			this.BtnPublicarAviso = new System.Windows.Forms.Button();
+			this.BtnGestionAvisos = new System.Windows.Forms.Button();
 			this.gbGestionPerfilProfesional = new System.Windows.Forms.GroupBox();
-			this.BtnPostularseAviso = new System.Windows.Forms.Button();
+			this.BtnGestionPostulaciones = new System.Windows.Forms.Button();
 			this.gbAdministracionSistema = new System.Windows.Forms.GroupBox();
+			this.BtnGestionIdiomas = new System.Windows.Forms.Button();
 			this.BtnVerBitacora = new System.Windows.Forms.Button();
 			this.BtnGestionBackup = new System.Windows.Forms.Button();
 			this.BtnGestionUsuarios = new System.Windows.Forms.Button();
 			this.BtnGestionPerfiles = new System.Windows.Forms.Button();
 			this.gbGestionEmpresa = new System.Windows.Forms.GroupBox();
 			this.BtnVerListadoEmpresas = new System.Windows.Forms.Button();
-			this.BtnGestionIdiomas = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			this.gbArchivo.SuspendLayout();
 			this.gbGestionPostulante.SuspendLayout();
@@ -115,7 +115,7 @@
 			// 
 			// gbGestionPostulante
 			// 
-			this.gbGestionPostulante.Controls.Add(this.BtnPublicarAviso);
+			this.gbGestionPostulante.Controls.Add(this.BtnGestionAvisos);
 			this.gbGestionPostulante.Location = new System.Drawing.Point(4, 160);
 			this.gbGestionPostulante.Margin = new System.Windows.Forms.Padding(2);
 			this.gbGestionPostulante.Name = "gbGestionPostulante";
@@ -125,19 +125,19 @@
 			this.gbGestionPostulante.TabStop = false;
 			this.gbGestionPostulante.Text = "Gestión Postulante";
 			// 
-			// BtnPublicarAviso
+			// BtnGestionAvisos
 			// 
-			this.BtnPublicarAviso.Location = new System.Drawing.Point(43, 43);
-			this.BtnPublicarAviso.Margin = new System.Windows.Forms.Padding(2);
-			this.BtnPublicarAviso.Name = "BtnPublicarAviso";
-			this.BtnPublicarAviso.Size = new System.Drawing.Size(105, 29);
-			this.BtnPublicarAviso.TabIndex = 4;
-			this.BtnPublicarAviso.Text = "Publicar Aviso";
-			this.BtnPublicarAviso.UseVisualStyleBackColor = true;
+			this.BtnGestionAvisos.Location = new System.Drawing.Point(21, 43);
+			this.BtnGestionAvisos.Margin = new System.Windows.Forms.Padding(2);
+			this.BtnGestionAvisos.Name = "BtnGestionAvisos";
+			this.BtnGestionAvisos.Size = new System.Drawing.Size(160, 29);
+			this.BtnGestionAvisos.TabIndex = 4;
+			this.BtnGestionAvisos.Text = "Gestión Avisos";
+			this.BtnGestionAvisos.UseVisualStyleBackColor = true;
 			// 
 			// gbGestionPerfilProfesional
 			// 
-			this.gbGestionPerfilProfesional.Controls.Add(this.BtnPostularseAviso);
+			this.gbGestionPerfilProfesional.Controls.Add(this.BtnGestionPostulaciones);
 			this.gbGestionPerfilProfesional.Location = new System.Drawing.Point(210, 160);
 			this.gbGestionPerfilProfesional.Margin = new System.Windows.Forms.Padding(2);
 			this.gbGestionPerfilProfesional.Name = "gbGestionPerfilProfesional";
@@ -147,15 +147,16 @@
 			this.gbGestionPerfilProfesional.TabStop = false;
 			this.gbGestionPerfilProfesional.Text = "Gestión Perfil Profesional";
 			// 
-			// BtnPostularseAviso
+			// BtnGestionPostulaciones
 			// 
-			this.BtnPostularseAviso.Location = new System.Drawing.Point(18, 43);
-			this.BtnPostularseAviso.Margin = new System.Windows.Forms.Padding(2);
-			this.BtnPostularseAviso.Name = "BtnPostularseAviso";
-			this.BtnPostularseAviso.Size = new System.Drawing.Size(145, 29);
-			this.BtnPostularseAviso.TabIndex = 4;
-			this.BtnPostularseAviso.Text = "Postularse a aviso";
-			this.BtnPostularseAviso.UseVisualStyleBackColor = true;
+			this.BtnGestionPostulaciones.Location = new System.Drawing.Point(18, 43);
+			this.BtnGestionPostulaciones.Margin = new System.Windows.Forms.Padding(2);
+			this.BtnGestionPostulaciones.Name = "BtnGestionPostulaciones";
+			this.BtnGestionPostulaciones.Size = new System.Drawing.Size(162, 29);
+			this.BtnGestionPostulaciones.TabIndex = 4;
+			this.BtnGestionPostulaciones.Text = "Gestión Postulaciones";
+			this.BtnGestionPostulaciones.UseVisualStyleBackColor = true;
+			this.BtnGestionPostulaciones.Click += new System.EventHandler(this.BtnGestionPostulaciones_Click);
 			// 
 			// gbAdministracionSistema
 			// 
@@ -172,6 +173,17 @@
 			this.gbAdministracionSistema.TabIndex = 8;
 			this.gbAdministracionSistema.TabStop = false;
 			this.gbAdministracionSistema.Text = "Administración Sistema";
+			// 
+			// BtnGestionIdiomas
+			// 
+			this.BtnGestionIdiomas.Location = new System.Drawing.Point(18, 214);
+			this.BtnGestionIdiomas.Margin = new System.Windows.Forms.Padding(2);
+			this.BtnGestionIdiomas.Name = "BtnGestionIdiomas";
+			this.BtnGestionIdiomas.Size = new System.Drawing.Size(179, 29);
+			this.BtnGestionIdiomas.TabIndex = 8;
+			this.BtnGestionIdiomas.Text = "Gestión Idiomas";
+			this.BtnGestionIdiomas.UseVisualStyleBackColor = true;
+			this.BtnGestionIdiomas.Click += new System.EventHandler(this.BtnGestionIdiomas_Click);
 			// 
 			// BtnVerBitacora
 			// 
@@ -240,17 +252,6 @@
 			this.BtnVerListadoEmpresas.UseVisualStyleBackColor = true;
 			this.BtnVerListadoEmpresas.Click += new System.EventHandler(this.BtnVerListadoEmpresas_Click);
 			// 
-			// BtnGestionIdiomas
-			// 
-			this.BtnGestionIdiomas.Location = new System.Drawing.Point(18, 214);
-			this.BtnGestionIdiomas.Margin = new System.Windows.Forms.Padding(2);
-			this.BtnGestionIdiomas.Name = "BtnGestionIdiomas";
-			this.BtnGestionIdiomas.Size = new System.Drawing.Size(179, 29);
-			this.BtnGestionIdiomas.TabIndex = 8;
-			this.BtnGestionIdiomas.Text = "Gestión Idiomas";
-			this.BtnGestionIdiomas.UseVisualStyleBackColor = true;
-			this.BtnGestionIdiomas.Click += new System.EventHandler(this.BtnGestionIdiomas_Click);
-			// 
 			// FrmHome
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -291,9 +292,9 @@
 		private System.Windows.Forms.GroupBox gbArchivo;
 		private System.Windows.Forms.Button BtnSalir;
 		private System.Windows.Forms.GroupBox gbGestionPostulante;
-		private System.Windows.Forms.Button BtnPublicarAviso;
+		private System.Windows.Forms.Button BtnGestionAvisos;
 		private System.Windows.Forms.GroupBox gbGestionPerfilProfesional;
-		private System.Windows.Forms.Button BtnPostularseAviso;
+		private System.Windows.Forms.Button BtnGestionPostulaciones;
 		private System.Windows.Forms.GroupBox gbAdministracionSistema;
 		private System.Windows.Forms.Button BtnGestionPerfiles;
 		private System.Windows.Forms.Button BtnGestionBackup;

@@ -11,27 +11,29 @@ namespace TalentFinder.BLL
 		private const int USUARIO_ADMINISTRADOR_ID = 5;
 		private const int CantidadMaximaIntentos = 3;
 		public int CantidadIntentosLogin { get; set; }
+		private UsuarioMapper usuarioMapper = new UsuarioMapper();
 		public UsuarioManager()
 		{
 			CantidadIntentosLogin = 0;
 		}
 		public List<Usuario> GetUsuarios()
 		{
-			UsuarioMapper usuarioMapper = new UsuarioMapper();
 			List<Usuario> lista = usuarioMapper.GetUsuarios().Where(x => x.Id != USUARIO_ADMINISTRADOR_ID).ToList();
 			return lista;
 		}
 		public List<Usuario> GetUsuariosToDropDownList()
 		{
-			UsuarioMapper usuarioMapper = new UsuarioMapper();
 			List<Usuario> lista = usuarioMapper.GetUsuarios();
 			lista.Insert(0, new Usuario() { Id = 0, UserName = "Seleccione" });
 			return lista;
 		}
+		public List<UsuarioTipo> GetUsuarioTipos()
+		{
+			return usuarioMapper.GetUsuarioTipos();
+		}
 		public bool ValidarUsuario(Usuario usuario)
 		{
 			CantidadIntentosLogin++;
-			UsuarioMapper usuarioMapper = new UsuarioMapper();
 			PerfilPermisoManager perfilPermisoManager = new PerfilPermisoManager();
 
 			// validar si el usuario esta registrado
@@ -45,6 +47,8 @@ namespace TalentFinder.BLL
 
 			// set id usuario
 			usuario.Id = UsuarioEncontrado.Id;
+			//usuario.TipoUsuario = UsuarioEncontrado.TipoUsuario;
+			usuario.UsuarioTipo = UsuarioEncontrado.UsuarioTipo;
 
 			// cargar permisos usuario
 			usuario.PermisoComponent = perfilPermisoManager.GetAllPerfilesPermisosPorUsuario(usuario);
@@ -52,6 +56,11 @@ namespace TalentFinder.BLL
 			// crear sesion usuario logueado
 			SessionManager usuarioSesion = SessionManager.GetUsuarioSesion();
 			usuarioSesion.UsuarioLogueado = usuario;
+
+			if(usuarioSesion.UsuarioLogueado.UsuarioTipo.Id == (int)TipoUsuario.PROFESIONAL)
+				usuarioSesion.Profesional = SistemaManager.ProfesionalManager.GetProfesional(usuarioSesion.UsuarioLogueado);
+			else if(usuarioSesion.UsuarioLogueado.UsuarioTipo.Id == (int)TipoUsuario.RECLUTADOR)
+				usuarioSesion.Reclutador = SistemaManager.ReclutadorManager.GetReclutador(usuarioSesion.UsuarioLogueado);
 
 			return true;
 		}
@@ -81,11 +90,25 @@ namespace TalentFinder.BLL
 		}
 		public int DeshabilitarUsuario(Usuario usuario)
 		{
-			UsuarioMapper mapper = new UsuarioMapper();
-			int f = mapper.ExisteUsuario(usuario);
+			int f = usuarioMapper.ExisteUsuario(usuario);
 			if(f > 0)
-				f = mapper.DeshabilitarUsuario(usuario);
+				f = usuarioMapper.DeshabilitarUsuario(usuario);
 			return f;
+		}
+		public int Agregar(Usuario usuario)
+		{
+			usuario.UserPassword = EncryptorManager.GetPasswordHash(usuario.UserPassword);
+			return usuarioMapper.Agregar(usuario);
+		}
+		public void Editar(Usuario usuario, string userPassword)
+		{
+			if(!string.IsNullOrEmpty(userPassword))
+				usuario.UserPassword = EncryptorManager.GetPasswordHash(userPassword);
+			usuarioMapper.Editar(usuario);
+		}
+		public void Eliminar(Usuario usuario)
+		{
+			usuarioMapper.Eliminar(usuario);
 		}
 	}
 }

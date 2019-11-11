@@ -42,10 +42,11 @@ namespace TalentFinder.BE
 			Process proceso = new System.Diagnostics.Process();
 
 			//strCommand is path and file name of command to run
-			proceso.StartInfo.FileName = ConfigurationManager.AppSettings["CommandCSharpCompiler"].ToString();
+			//proceso.StartInfo.FileName = ConfigurationManager.AppSettings["CommandCSharpCompiler"].ToString();
+			proceso.StartInfo.FileName = "csc.exe";
 
 			//strCommandParameters are parameters to pass to program
-			proceso.StartInfo.Arguments = string.Format("-out:{0} {1}", ResultadoEjecucion.NombreProgramaEjecutable, ResultadoEjecucion.NombreArchivoPrograma);
+			proceso.StartInfo.Arguments = string.Format("/out:{0} {1}", ResultadoEjecucion.NombreProgramaEjecutable, ResultadoEjecucion.NombreArchivoPrograma);
 
 			proceso.StartInfo.UseShellExecute = false;
 

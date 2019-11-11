@@ -23,8 +23,8 @@ namespace TalentFinder.GUI
 			gbArchivo.Tag = new Frase() { Tag = "archivo" };
 			BtnCerrarSesion.Tag = new Frase() { Tag = "cerrar_sesion" };
 			BtnSalir.Tag = new Frase() { Tag = "salir" };
-			BtnPublicarAviso.Tag = new Frase() { Tag = "publicar_aviso" };
-			BtnPostularseAviso.Tag = new Frase() { Tag = "postularse_aviso" };
+			BtnGestionAvisos.Tag = new Frase() { Tag = "publicar_aviso" };
+			BtnGestionPostulaciones.Tag = new Frase() { Tag = "postularse_aviso" };
 			BtnVerListadoEmpresas.Tag = new Frase() { Tag = "ver_listado_empresas" };
 			BtnGestionPerfiles.Tag = new Frase() { Tag = "gestion_perfiles" };
 			BtnGestionUsuarios.Tag = new Frase() { Tag = "gestion_usuarios" };
@@ -37,8 +37,10 @@ namespace TalentFinder.GUI
 			BtnGestionPerfiles.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.LEER_PERFIL, perfilesPermisos);
 			BtnGestionUsuarios.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.LEER_USUARIO, perfilesPermisos);
 			BtnGestionBackup.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.REALIZAR_BACKUP, perfilesPermisos) || SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.REALIZAR_RESTORE, perfilesPermisos);
-			BtnPostularseAviso.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.POSTULARSE_A_AVISO_LABORAL, perfilesPermisos);
-			BtnPublicarAviso.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.PUBLICAR_AVISO_LABORAL, perfilesPermisos);
+			BtnGestionPostulaciones.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.POSTULARSE_A_AVISO_LABORAL, perfilesPermisos);
+			BtnGestionAvisos.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.PUBLICAR_AVISO_LABORAL, perfilesPermisos);
+			BtnVerBitacora.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.VER_BITACORA, perfilesPermisos);
+			BtnGestionIdiomas.Visible = SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.GESTION_IDIOMAS, perfilesPermisos);
 		}
 		private void SetWindow()
 		{
@@ -49,6 +51,12 @@ namespace TalentFinder.GUI
 		private void ShowUsuarioLoguead()
 		{
 			LblUsuarioLogueado.Text += string.Format(" {0}", SistemaManager.SessionManager.UsuarioLogueado.UserName);
+		}
+		private void BtnGestionPostulaciones_Click(object sender, EventArgs e)
+		{
+			FrmGestionPostulaciones frm = new FrmGestionPostulaciones();
+			frm.MdiParent = this.MdiParent;
+			frm.Show();
 		}
 		private void BtnVerListadoEmpresas_Click(object sender, EventArgs e)
 		{

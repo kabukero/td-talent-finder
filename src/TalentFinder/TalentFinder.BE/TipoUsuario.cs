@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
-	public class Profesional : Persona
+	public enum TipoUsuario
 	{
-		public string Email { get; set; }
-		public List<Postulacion> Postulaciones { get; set; }
+		ADMINISTRADOR_SISTEMA = 1,
+		RECLUTADOR,
+		PROFESIONAL
 	}
 }

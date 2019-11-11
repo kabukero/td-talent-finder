@@ -90,7 +90,7 @@
 			// 
 			this.BtnEliminar.Location = new System.Drawing.Point(643, 121);
 			this.BtnEliminar.Name = "BtnEliminar";
-			this.BtnEliminar.Size = new System.Drawing.Size(140, 48);
+			this.BtnEliminar.Size = new System.Drawing.Size(140, 34);
 			this.BtnEliminar.TabIndex = 7;
 			this.BtnEliminar.Text = "Eliminar";
 			this.BtnEliminar.UseVisualStyleBackColor = true;
@@ -100,7 +100,7 @@
 			// 
 			this.BtnEditar.Location = new System.Drawing.Point(483, 121);
 			this.BtnEditar.Name = "BtnEditar";
-			this.BtnEditar.Size = new System.Drawing.Size(140, 48);
+			this.BtnEditar.Size = new System.Drawing.Size(140, 34);
 			this.BtnEditar.TabIndex = 6;
 			this.BtnEditar.Text = "Editar";
 			this.BtnEditar.UseVisualStyleBackColor = true;
@@ -110,7 +110,7 @@
 			// 
 			this.BtnAgregar.Location = new System.Drawing.Point(319, 121);
 			this.BtnAgregar.Name = "BtnAgregar";
-			this.BtnAgregar.Size = new System.Drawing.Size(140, 48);
+			this.BtnAgregar.Size = new System.Drawing.Size(140, 34);
 			this.BtnAgregar.TabIndex = 5;
 			this.BtnAgregar.Text = "Agregar";
 			this.BtnAgregar.UseVisualStyleBackColor = true;
@@ -187,9 +187,9 @@
 			// DgvEmpresas
 			// 
 			this.DgvEmpresas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.DgvEmpresas.Location = new System.Drawing.Point(3, 195);
+			this.DgvEmpresas.Location = new System.Drawing.Point(3, 178);
 			this.DgvEmpresas.Name = "DgvEmpresas";
-			this.DgvEmpresas.Size = new System.Drawing.Size(1128, 506);
+			this.DgvEmpresas.Size = new System.Drawing.Size(1128, 523);
 			this.DgvEmpresas.TabIndex = 1;
 			this.DgvEmpresas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvEmpresas_CellClick);
 			// 

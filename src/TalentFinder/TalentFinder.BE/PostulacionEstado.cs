@@ -6,9 +6,12 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
-	public class Profesional : Persona
+	public class PostulacionEstado : EntidadBase
 	{
-		public string Email { get; set; }
-		public List<Postulacion> Postulaciones { get; set; }
+		public string Nombre { get; set; }
+		public override string ToString()
+		{
+			return Nombre;
+		}
 	}
 }

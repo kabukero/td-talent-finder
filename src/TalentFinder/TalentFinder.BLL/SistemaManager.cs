@@ -18,6 +18,10 @@ namespace TalentFinder.BLL
 		public static DigitoVerificadorManager DigitoVerificadorManager = new DigitoVerificadorManager();
 		public static EmpresaManager EmpresaManager = new EmpresaManager();
 		public static IdiomaManager IdiomaManager = new IdiomaManager();
+		public static TecnologiaManager TecnologiaManager = new TecnologiaManager();
+		public static AvisoLaboralManager AvisoLaboralManager = new AvisoLaboralManager();
+		public static ProfesionalManager ProfesionalManager = new ProfesionalManager();
+		public static ReclutadorManager ReclutadorManager = new ReclutadorManager();
 
 		static SistemaManager()
 		{

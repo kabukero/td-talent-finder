@@ -52,8 +52,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="EjercicioCodigoFuenteFactory.cs" />
+    <Compile Include="Evaluacion.cs" />
     <Compile Include="MetodoDetalle.cs" />
+    <Compile Include="PostulacionEstado.cs" />
+    <Compile Include="PostulacionEvalucion.cs" />
     <Compile Include="ProgramRunner.cs" />
+    <Compile Include="Tecnologia.cs" />
     <Compile Include="TestEjercicio1.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -89,8 +93,10 @@
     <Compile Include="TipoPermiso.cs" />
     <Compile Include="TiposEventos.cs" />
     <Compile Include="TiposPermiso.cs" />
+    <Compile Include="TipoUsuario.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UsuarioTipo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TalentFinder.Service\TalentFinder.Service.csproj">

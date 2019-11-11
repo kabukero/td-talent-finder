@@ -43,13 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AvisoLaboralManager.cs" />
     <Compile Include="BackupManager.cs" />
     <Compile Include="BitacoraManager.cs" />
     <Compile Include="DigitoVerificadorManager.cs" />
     <Compile Include="EmpresaManager.cs" />
     <Compile Include="IdiomaManager.cs" />
     <Compile Include="PerfilPermisoManager.cs" />
+    <Compile Include="ProfesionalManager.cs" />
+    <Compile Include="ReclutadorManager.cs" />
     <Compile Include="SistemaManager.cs" />
+    <Compile Include="TecnologiaManager.cs" />
     <Compile Include="TipoPermisoManager.cs" />
     <Compile Include="UsuarioManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

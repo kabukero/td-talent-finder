@@ -7,6 +7,8 @@ namespace TalentFinder.Seguridad
 		private static SessionManager instanciaSesion;
 		public Usuario UsuarioLogueado { get; set; }
 		public Idioma IdiomaSession { get; set; }
+		public Profesional Profesional { get; set; }
+		public Reclutador Reclutador { get; set; }
 		private SessionManager()
 		{
 			UsuarioLogueado = null;

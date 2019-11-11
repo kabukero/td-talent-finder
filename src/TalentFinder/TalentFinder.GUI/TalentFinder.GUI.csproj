@@ -88,6 +88,12 @@
     <Compile Include="FrmGestionEmpresa.Designer.cs">
       <DependentUpon>FrmGestionEmpresa.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmGestionPostulaciones.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmGestionPostulaciones.Designer.cs">
+      <DependentUpon>FrmGestionPostulaciones.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmGestionProfesional.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmGestionEmpresa.resx">
       <DependentUpon>FrmGestionEmpresa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmGestionPostulaciones.resx">
+      <DependentUpon>FrmGestionPostulaciones.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmGestionProfesional.resx">
       <DependentUpon>FrmGestionProfesional.cs</DependentUpon>

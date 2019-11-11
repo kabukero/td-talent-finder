@@ -101,6 +101,21 @@ namespace TalentFinder.DAL
 			return tabla;
 		}
 
+		public DataTable LeerCmdText(string nombre)
+		{
+			DataTable tabla = new DataTable();
+			using(SqlDataAdapter adaptador = new SqlDataAdapter())
+			{
+				using(SqlCommand cmd = new SqlCommand(nombre, conn))
+				{
+					cmd.CommandType = CommandType.Text;
+					adaptador.SelectCommand = cmd;
+					adaptador.Fill(tabla);
+				}
+			}
+			return tabla;
+		}
+
 		public int LeerEscalar(string nombre, List<SqlParameter> parametros)
 		{
 			int r;

@@ -16,5 +16,6 @@ namespace TalentFinder.BE
 		}
 		public List<PermisoComponent> PermisoComponent { get; set; }
 		public Int64 DVH { get; set; }
+		public UsuarioTipo UsuarioTipo { get; set; }
 	}
 }

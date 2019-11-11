@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
-	public class Postulacion : EntidadBase
+	public class PostulacionEvalucion : EntidadBase
 	{
 		public DateTime FechaCreacion { get; set; }
-		public AvisoLaboral AvisoLaboral { get; set; }
-		public PostulacionEstado PostulacionEstado { get; set; }
+		public bool Aprobo { get; set; }
+		public Evaluacion Evaluacion { get; set; }
 	}
 }

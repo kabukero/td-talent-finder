@@ -26,7 +26,6 @@ namespace TalentFinder.GUI
 			LblUsuarios.Tag = new Frase() { Tag = "usuarios" };
 			LblPerfilesPermisos.Tag = new Frase() { Tag = "perfiles_permisos" };
 			BtnGuardar.Tag = new Frase() { Tag = "guardar" };
-			BtnSalir.Tag = new Frase() { Tag = "salir" };
 		}
 		private void CargarLstUsuarios()
 		{
@@ -67,9 +66,21 @@ namespace TalentFinder.GUI
 			nodo.Tag = p;
 			return nodo;
 		}
-		private void LstUsuarios_Click(object sender, EventArgs e)
+		private void CargarUsuarioSeleccionado()
 		{
-			CargarPerfilesPermisosUsuarioSeleccionado();
+			Usuario usuario = (Usuario)LstUsuarios.SelectedItem;
+			if(usuario == null)
+				return;
+			TxtUsuario.Text = usuario.UserName;
+			for(int i = 0; i < CmbUsuarioTipo.Items.Count; i++)
+			{
+				UsuarioTipo t = (UsuarioTipo)CmbUsuarioTipo.Items[i];
+				if(t.Id == usuario.UsuarioTipo.Id)
+				{
+					CmbUsuarioTipo.SelectedIndex = i;
+					break;
+				}
+			}
 		}
 		private void CargarPerfilesPermisosUsuarioSeleccionado()
 		{
@@ -111,9 +122,46 @@ namespace TalentFinder.GUI
 				FindCheckedNodes(checked_nodes, node.Nodes);
 			}
 		}
+		private bool ValidarUsuario()
+		{
+			if(string.IsNullOrEmpty(TxtUsuario.Text))
+			{
+				MessageBox.Show("Ingrese el nombre usuario", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
+			if(string.IsNullOrEmpty(TxtPassword.Text))
+			{
+				MessageBox.Show("Ingrese la passwor", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
+			if(CmbUsuarioTipo.SelectedIndex == -1)
+			{
+				MessageBox.Show("Selecione el tipo de usuario", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
+			return true;
+		}
+		private void CargarUsuariosTipos()
+		{
+			CmbUsuarioTipo.DataSource = SistemaManager.UsuarioManager.GetUsuarioTipos();
+		}
 		public void Update(Idioma idioma)
 		{
 			GUIHelper.CambiarTextoControlFormSegunIdioma(this, idioma);
+		}
+		private void ClearForm()
+		{
+			LstUsuarios.ClearSelected();
+			UncheckedAllNodes(TvwPerfilesPermisos.Nodes);
+			TvwPerfilesPermisos.SelectedNode = null;
+			TxtUsuario.Clear();
+			TxtPassword.Clear();
+			CmbUsuarioTipo.SelectedIndex = -1;
+		}
+		private void LstUsuarios_Click(object sender, EventArgs e)
+		{
+			CargarPerfilesPermisosUsuarioSeleccionado();
+			CargarUsuarioSeleccionado();
 		}
 		private void BtnGuardar_Click(object sender, EventArgs e)
 		{
@@ -133,23 +181,89 @@ namespace TalentFinder.GUI
 			int f = SistemaManager.PerfilPermisoManager.GuardarUsuarioPerfilesPermisos(perfilesPermisos, usuario);
 			if(f == -1)
 			{
-				MessageBox.Show("Ha ocurrido un error. Vuelva a intentar mas tarde", "Usuarios Pemrisos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Ha ocurrido un error. Vuelva a intentar mas tarde", "Usuarios Permisos", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			else
 			{
-				MessageBox.Show("Los permisos se guardaron correctamente", "Usuarios Pemrisos", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				CargarTreeView();
-				LstUsuarios.ClearSelected();
+				ClearForm();
+				MessageBox.Show("Los permisos se guardaron correctamente", "Usuarios Permisos", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
-		private void BtnSalir_Click(object sender, EventArgs e)
+		private void BtnAgregarUsuario_Click(object sender, EventArgs e)
 		{
-			this.Hide();
+			try
+			{
+				if(!ValidarUsuario())
+					return;
+				Usuario usuario = new Usuario();
+				usuario.UserName = TxtUsuario.Text;
+				usuario.UserPassword = TxtPassword.Text;
+				usuario.UsuarioTipo = (UsuarioTipo)CmbUsuarioTipo.SelectedItem;
+				SistemaManager.UsuarioManager.Agregar(usuario);
+				MessageBox.Show("El usuario se agregó correctamente", "Usuarios", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				ClearForm();
+			}
+			catch(Exception ex)
+			{
+				MessageBox.Show("Ha ocurrido un error interno. Vuelva a intentar más tarde", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+		private void BtnEditarUsuario_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				Usuario usuario = (Usuario)LstUsuarios.SelectedItem;
+				if(usuario == null)
+				{
+					MessageBox.Show("Seleccione el usuario", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+				if(string.IsNullOrEmpty(TxtUsuario.Text))
+				{
+					MessageBox.Show("Ingrese el nombre usuario", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+				usuario.UserName = TxtUsuario.Text;
+				usuario.UsuarioTipo = (UsuarioTipo)CmbUsuarioTipo.SelectedItem;
+				SistemaManager.UsuarioManager.Editar(usuario, TxtPassword.Text);
+				MessageBox.Show("El usuario se editó correctamente", "Usuarios", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				ClearForm();
+			}
+			catch(Exception ex)
+			{
+				MessageBox.Show("Ha ocurrido un error interno. Vuelva a intentar más tarde", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+		private void BtnEliminarUsuario_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				Usuario usuario = (Usuario)LstUsuarios.SelectedItem;
+				if(usuario == null)
+				{
+					MessageBox.Show("Seleccione el usuario", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+				SistemaManager.UsuarioManager.Eliminar(usuario);
+				MessageBox.Show("El usuario se eliminó correctamente", "Usuarios", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				ClearForm();
+			}
+			catch(Exception ex)
+			{
+				MessageBox.Show("Ha ocurrido un error interno. Vuelva a intentar más tarde", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+		private void BtnCancelar_Click(object sender, EventArgs e)
+		{
+			ClearForm();
 		}
 		private void FrmUsuarioPerfilPermiso_Load(object sender, EventArgs e)
 		{
 			CargarLstUsuarios();
 			CargarTreeView();
+			CargarUsuariosTipos();
+			ClearForm();
 
 			// iniciar controles de formulario
 			InitFormControls();
@@ -163,6 +277,10 @@ namespace TalentFinder.GUI
 		private void FrmGestionUsuariosPerfilesPermisos_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			IdiomaSubject.RemoveObserver(this);
+		}
+		private void FrmGestionUsuariosPerfilesPermisos_Shown(object sender, EventArgs e)
+		{
+			ClearForm();
 		}
 	}
 }

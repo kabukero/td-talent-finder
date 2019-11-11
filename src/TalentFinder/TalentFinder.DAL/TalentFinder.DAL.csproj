@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AvisoLaboralMapper.cs" />
     <Compile Include="BackupMapper.cs" />
     <Compile Include="BitacoraMapper.cs" />
     <Compile Include="DataAccessManager.cs" />
@@ -50,7 +51,10 @@
     <Compile Include="EmpresaMapper.cs" />
     <Compile Include="IdiomaMapper.cs" />
     <Compile Include="PerfilPermisoMapper.cs" />
+    <Compile Include="ProfesionalMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReclutadorMapper.cs" />
+    <Compile Include="TecnologiaMapper.cs" />
     <Compile Include="TipoPermisoMapper.cs" />
     <Compile Include="UsuarioMapper.cs" />
   </ItemGroup>
