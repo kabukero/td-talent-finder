@@ -22,6 +22,11 @@ namespace TalentFinder.BE
 
 					public static class Program
 					{
+						static Random random;
+						static Program()
+						{
+							random = new Random();
+						}
 						static void Main(string[] args)
 						{
 							TestMiMetodo();
@@ -42,7 +47,6 @@ namespace TalentFinder.BE
 						}
 						static int[] GetRandomArray()
 						{
-							Random random = new Random();
 							int len = random.Next(1, 100);
 							int[] v = new int[len];
 							for(int i = 0; i < len; i++)
@@ -68,16 +72,24 @@ namespace TalentFinder.BE
 
 					public static class Program
 					{
+						static Random random;
+						static Program()
+						{
+							random = new Random();
+						}
 						static void Main(string[] args)
 						{
 							TestMiMetodo();
 						}
 						static void TestMiMetodo()
 						{
-							Random random = new Random();
 							for(int i = 0; i < 5; i++)
 							{
-								int numero = random.Next(0, 12);
+								int numero;
+								if(i < 2)
+									numero = i;
+								else
+									numero = random.Next(0, 12);
 								int resultadoObtenido = MiMetodo(numero);
 								int resultadoEsperado = ImplementacionDeseadaMiMetodo(numero);
 								Console.Write(string.Format(""Resultado obtenido: {0} Resultado esperado: {1}"", resultadoObtenido, resultadoEsperado));

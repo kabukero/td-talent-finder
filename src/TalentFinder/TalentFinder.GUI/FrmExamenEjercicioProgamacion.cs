@@ -16,10 +16,10 @@ namespace TalentFinder.GUI
 	public partial class FrmExamenEjercicioProgamacion : Form
 	{
 		private MetodoDetalle MetodoDetalle;
-		private ProgramRunner ProgramRunner = new ProgramRunner();
-		private TimeSpan HoraInicio = TimeSpan.Parse("00:05:00");
+		private ProgramRunner ProgramRunner;
+		private TimeSpan HoraInicio;
 		private Postulacion Postulacion;
-		FrmGestionPostulaciones frmGestionPostulaciones;
+		private FrmGestionPostulaciones frmGestionPostulaciones;
 		public FrmExamenEjercicioProgamacion(Postulacion Postulacion, FrmGestionPostulaciones frmGestionPostulaciones)
 		{
 			this.frmGestionPostulaciones = frmGestionPostulaciones;
@@ -65,11 +65,13 @@ namespace TalentFinder.GUI
 		{
 			TimerClock.Enabled = true;
 			TimerClock.Interval = 1000;
-			TxtCurrentElapsedTime.Text = HoraInicio.ToString().Substring(3);
 			MetodoDetalle = new MetodoDetalle();
 			PostulacionEvalucion postulacionEvalucion = SistemaManager.ProfesionalManager.GetPostulacionEvaluacion(Postulacion);
 			MetodoDetalle.EjercicioNombre = postulacionEvalucion.Evaluacion.Ejercicio;
+			HoraInicio = TimeSpan.Parse(postulacionEvalucion.Evaluacion.Tiempo);
+			TxtCurrentElapsedTime.Text = HoraInicio.ToString().Substring(3);
 			LblEnunciado.Text = postulacionEvalucion.Evaluacion.Descripcion;
+			ProgramRunner = new ProgramRunner(SistemaManager.SessionManager.UsuarioLogueado);
 		}
 	}
 }

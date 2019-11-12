@@ -12,7 +12,8 @@ namespace TalentFinder.BE
 {
 	public class ProgramRunner
 	{
-		private Compilador Compilador = new Compilador();
+		private Usuario usuario;
+		private Compilador Compilador;
 		public ResultadoEjecucion EjecutarPrograma(MetodoDetalle metodoDetalle)
 		{
 			ResultadoEjecucion ResultadoEjecucion = Compilador.CompilarPrograma(metodoDetalle);
@@ -57,6 +58,11 @@ namespace TalentFinder.BE
 				ResultadoEjecucion.ResultadoEjecucionEstado = ResultadoEjecucionEstado.EXECUTED;
 
 			return ResultadoEjecucion;
+		}
+		public ProgramRunner(Usuario usuario)
+		{
+			this.usuario = usuario;
+			Compilador = new Compilador(usuario);
 		}
 	}
 }

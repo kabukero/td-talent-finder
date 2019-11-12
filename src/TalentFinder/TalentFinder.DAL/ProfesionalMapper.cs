@@ -83,6 +83,7 @@ namespace TalentFinder.DAL
 				evaluacion.Id = int.Parse(registro["EvaluacionId"].ToString());
 				evaluacion.Descripcion = registro["Descripcion"].ToString();
 				evaluacion.Ejercicio = registro["Ejercicio"].ToString();
+				evaluacion.Tiempo = registro["Tiempo"].ToString();
 				postulacion.Evaluacion = evaluacion;
 			}
 			da.Cerrar();

@@ -24,7 +24,7 @@ namespace TalentFinder.BE
 				Directory.CreateDirectory(carpetaUserProgram);
 
 			string codigoPrograma = Parser.GetCodigoFuente(MetodoDetalle);
-			string nombreArchivoPrograma = string.Format("{0}/{1}_{2}.cs", carpetaUserProgram, "examen_programa", DateTime.Now.ToString("ddMMyyyy"));
+			string nombreArchivoPrograma = Path.Combine(carpetaUserProgram, string.Format("{0}_{1}.cs", "examen_programa", DateTime.Now.ToString("ddMMyyyy")));
 			FileStream archivo = new FileStream(nombreArchivoPrograma, FileMode.Create);
 			StreamWriter escritor = new StreamWriter(archivo);
 			escritor.WriteLine(codigoPrograma);
@@ -76,9 +76,9 @@ namespace TalentFinder.BE
 				ResultadoEjecucion.ResultadoEjecucionEstado = ResultadoEjecucionEstado.COMPILED;
 			return ResultadoEjecucion;
 		}
-		public Compilador()
+		public Compilador(Usuario usuario)
 		{
-			UserId = "5";
+			UserId = usuario.Id.ToString();
 			carpetaUser = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, UserId);
 			carpetaUserProgram = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, UserId, DateTime.Now.ToString("ddMMyyyy"));
 		}

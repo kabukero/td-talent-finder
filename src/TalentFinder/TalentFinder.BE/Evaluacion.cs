@@ -11,5 +11,6 @@ namespace TalentFinder.BE
 		public string Descripcion { get; set; }
 		public string CodigoFuenteTest { get; set; }
 		public string Ejercicio { get; set; }
+		public string Tiempo { get; set; }
 	}
 }
