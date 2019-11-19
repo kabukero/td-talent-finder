@@ -14,6 +14,13 @@ namespace TalentFinder.BE
 		public DateTime FechaCreacion { get; set; }
 		public string LugarTrabajo { get; set; }
 		public Reclutador Reclutador { get; set; }
+		public string FechaVigenciaDisplay
+		{
+			get
+			{
+				return FechaVigencia.ToString("dd/MM/yyyy");
+			}
+		}
 		public override string ToString()
 		{
 			return string.Format("{0} ({1})", Descripcion, LugarTrabajo);

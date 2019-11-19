@@ -28,9 +28,24 @@ namespace TalentFinder.GUI
 		}
 		private void CargarIdiomas()
 		{
-			LstIdiomas.DataSource = null;
-			LstIdiomas.DataSource = SistemaManager.IdiomaManager.GetAllIdiomas();
-			LstIdiomas.ClearSelected();
+			try
+			{
+				LstIdiomas.DataSource = null;
+				LstIdiomas.DataSource = SistemaManager.IdiomaManager.GetAllIdiomas();
+				LstIdiomas.ClearSelected();
+			}
+			catch(Exception ex)
+			{
+				LstIdiomas.DataSource = null;
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = ex.Message;
+				bitacora.Descripcion = string.Format("FrmGestionIdioma-CargarIdiomas: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		public void PanelControlCargarMenuIdiomas()
 		{
@@ -146,11 +161,21 @@ namespace TalentFinder.GUI
 				CargarIdiomas();
 				MessageBox.Show("El idioma se agregó correctamente", "Idioma - Traducciones", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
-			catch
+			catch(Exception ex)
 			{
-				MessageBox.Show("Ocurrió un error. Vuelva intentar más tarde", "Idioma - Traducciones", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = ex.Message;
+				bitacora.Descripcion = string.Format("FrmGestionIdioma-BtnGuardar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			LimpiarForm();
+			finally
+			{
+				LimpiarForm();
+			}
 		}
 		private void BtnEditar_Click(object sender, EventArgs e)
 		{
@@ -167,11 +192,21 @@ namespace TalentFinder.GUI
 				PanelControlCargarMenuIdiomas();
 				MessageBox.Show("El idioma se editó correctamente", "Idioma - Traducciones", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
-			catch
+			catch(Exception ex)
 			{
-				MessageBox.Show("Ocurrió un error. Vuelva intentar más tarde", "Idioma - Traducciones", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = ex.Message;
+				bitacora.Descripcion = string.Format("FrmGestionIdioma-BtnEditar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			LimpiarForm();
+			finally
+			{
+				LimpiarForm();
+			}
 		}
 		private void BtnEliminar_Click(object sender, EventArgs e)
 		{
@@ -184,11 +219,21 @@ namespace TalentFinder.GUI
 				PanelControlCargarMenuIdiomas();
 				MessageBox.Show("El idioma se eliminó correctamente", "Idioma - Traducciones", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
-			catch
+			catch(Exception ex)
 			{
-				MessageBox.Show("Ocurrió un error. Vuelva intentar más tarde", "Idioma - Traducciones", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = ex.Message;
+				bitacora.Descripcion = string.Format("FrmGestionIdioma-BtnEliminar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			LimpiarForm();
+			finally
+			{
+				LimpiarForm();
+			}
 		}
 		private void BtnGuardarTraducciones_Click(object sender, EventArgs e)
 		{
@@ -209,11 +254,21 @@ namespace TalentFinder.GUI
 				PanelControlCargarMenuIdiomas();
 				MessageBox.Show("Las traducciones se guardaron correctamente", "Idioma - Traducciones", MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
-			catch
+			catch(Exception ex)
 			{
-				MessageBox.Show("Ocurrió un error. Vuelva intentar más tarde", "Idioma - Traducciones", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = ex.Message;
+				bitacora.Descripcion = string.Format("FrmGestionIdioma-BtnGuardarTraducciones_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			LimpiarForm();
+			finally
+			{
+				LimpiarForm();
+			}
 		}
 		private void BtnCancelar_Click(object sender, EventArgs e)
 		{

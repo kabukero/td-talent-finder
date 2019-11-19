@@ -8,7 +8,6 @@ namespace TalentFinder.BE
 {
 	public class Profesional : Persona
 	{
-		public string Email { get; set; }
 		public List<Postulacion> Postulaciones { get; set; }
 	}
 }

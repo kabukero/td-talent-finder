@@ -11,5 +11,13 @@ namespace TalentFinder.BE
 		public DateTime FechaCreacion { get; set; }
 		public AvisoLaboral AvisoLaboral { get; set; }
 		public PostulacionEstado PostulacionEstado { get; set; }
+		public Profesional Profesional { get; set; }
+		public string FechaCreacionDisplay
+		{
+			get
+			{
+				return FechaCreacion.ToString("dd/MM/yyyy");
+			}
+		}
 	}
 }

@@ -38,51 +38,58 @@ namespace TalentFinder.GUI
 		}
 		private void BtnRealizarRestore_Click(object sender, EventArgs e)
 		{
-			if(string.IsNullOrEmpty(PathRestoreFile))
+			try
 			{
-				MessageBox.Show("Debe seleccionar un archivo para realizar el restore de la base de datos", "Gestión Restore", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
+				if(string.IsNullOrEmpty(PathRestoreFile))
+				{
+					MessageBox.Show("Debe seleccionar un archivo para realizar el restore de la base de datos", "Gestión Restore", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
 
-			Backup backup = new Backup();
-			backup.PathBackupFile = PathRestoreFile;
-			int f = backupManager.RelizarRestore(backup);
-
-			if(f == 1)
-			{
+				Backup backup = new Backup();
+				backup.PathBackupFile = PathRestoreFile;
+				backupManager.RelizarRestore(backup);
 				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.INFORMACION }, string.Format("Se realizó un restore de la DB en el siguiente directorio: {0} ", backup.PathBackupFile));
 				MessageBox.Show("El restore de la DB se realizó correctamente", "Gestión Restore", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				PathRestoreFile = string.Empty;
+				//LblCarpetaDestinoBackup.Text = "Carpeta destino backup: ";
 			}
-			else
+			catch(Exception ex)
 			{
-				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.ERROR }, string.Format("Ocurrió un error al intentar realizar un restore de la DB en el siguiente directorio: {0} ", backup.PathBackupFile));
-				MessageBox.Show("Vuelva a intentar más tarde", "Gestión Restore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionBackup_Load: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			PathRestoreFile = string.Empty;
-			//LblCarpetaDestinoBackup.Text = "Carpeta destino backup: ";
 		}
 		private void BtnRealizarBackup_Click(object sender, EventArgs e)
 		{
-			Backup backup = new Backup();
-			if(string.IsNullOrEmpty(PathBackupFile))
-				backup.PathBackupFile = ConfigurationManager.AppSettings["PathBackupFile"].ToString();
-			else
-				backup.PathBackupFile = PathBackupFile;
-
-			int f = backupManager.RelizarBackup(backup);
-
-			if(f == 1)
+			try
 			{
+				Backup backup = new Backup();
+				if(string.IsNullOrEmpty(PathBackupFile))
+					backup.PathBackupFile = ConfigurationManager.AppSettings["PathBackupFile"].ToString();
+				else
+					backup.PathBackupFile = PathBackupFile;
+				backupManager.RelizarBackup(backup);
 				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.INFORMACION }, string.Format("Se realizó un backup de la DB en el siguiente directorio: {0} ", backup.PathBackupFile));
 				MessageBox.Show("El backup de la DB se realizó correctamente", "Gestión Backup", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				PathBackupFile = string.Empty;
+				//LblCarpetaDestinoBackup.Text = "Carpeta destino backup: ";
 			}
-			else
+			catch(Exception ex)
 			{
-				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.ERROR }, string.Format("Ocurrió un error al intentar realizar un backup de la DB en el siguiente directorio: {0} ", backup.PathBackupFile));
-				MessageBox.Show("Vuelva a intentar más tarde", "Gestión Backup", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionBackup -BtnRealizarBackup_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			PathBackupFile = string.Empty;
-			//LblCarpetaDestinoBackup.Text = "Carpeta destino backup: ";
 		}
 		private void BtnSeleccionarCarpeta_Click(object sender, EventArgs e)
 		{
@@ -116,14 +123,27 @@ namespace TalentFinder.GUI
 		}
 		private void FrmGestionBackup_Load(object sender, EventArgs e)
 		{
-			// iniciar controles de formulario
-			InitFormControls();
+			try
+			{
+				// iniciar controles de formulario
+				InitFormControls();
 
-			// suscribir observer
-			IdiomaSubject.AddObserver(this);
+				// suscribir observer
+				IdiomaSubject.AddObserver(this);
 
-			// actualizar idioma
-			Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+				// actualizar idioma
+				Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionBackup_Load: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		private void FrmGestionBackup_FormClosing(object sender, FormClosingEventArgs e)
 		{

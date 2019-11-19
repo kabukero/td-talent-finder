@@ -8,11 +8,11 @@ namespace TalentFinder.BE
 {
 	public class Permiso : PermisoComponent
 	{
+		public override IList<PermisoComponent> Permisos { get; set; }
 		public override void Agregar(PermisoComponent permiso)
 		{
 			//throw new NotImplementedException();
 		}
-
 		public override void Quitar(PermisoComponent permiso)
 		{
 			//throw new NotImplementedException();

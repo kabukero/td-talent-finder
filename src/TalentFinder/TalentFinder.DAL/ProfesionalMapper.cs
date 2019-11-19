@@ -31,7 +31,6 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return profesional;
 		}
-
 		public IList<Postulacion> GetPostulaciones(Profesional Profesional)
 		{
 			IList<Postulacion> postulacions = new List<Postulacion>();
@@ -62,7 +61,6 @@ namespace TalentFinder.DAL
 			}
 			return postulacions;
 		}
-
 		public PostulacionEvalucion GetPostulacionEvaluacion(Postulacion Postulacion)
 		{
 			PostulacionEvalucion postulacion = null;
@@ -83,11 +81,60 @@ namespace TalentFinder.DAL
 				evaluacion.Id = int.Parse(registro["EvaluacionId"].ToString());
 				evaluacion.Descripcion = registro["Descripcion"].ToString();
 				evaluacion.Ejercicio = registro["Ejercicio"].ToString();
+				evaluacion.CodigoFuenteTest = registro["CodigoFuenteTest"].ToString();
 				evaluacion.Tiempo = registro["Tiempo"].ToString();
 				postulacion.Evaluacion = evaluacion;
 			}
 			da.Cerrar();
 			return postulacion;
+		}
+		public int YaSePostulo(AvisoLaboral avisoLaboral)
+		{
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			List<SqlParameter> parametros = new List<SqlParameter>();
+			parametros.Add(da.CrearParametro("@AvisoLaboralId", avisoLaboral.Id));
+			int f = da.LeerEscalar("ExistePostulacion", parametros);
+			da.Cerrar();
+			return f;
+		}
+		public void CambiarEstadoPostulacion(Postulacion postulacion, PostulacionEvalucion postulacionEvalucion)
+		{
+			DataAccessManager da = new DataAccessManager();
+			try
+			{
+				da.Abrir();
+				da.IniciarTx();
+				List<SqlParameter> parametros = new List<SqlParameter>();
+				parametros.Add(da.CrearParametro("@Id", postulacion.Id));
+				parametros.Add(da.CrearParametro("@PostulacionEstadoId", postulacion.PostulacionEstado.Id));
+				da.Escribir("CambiarEstadoPostulacion", parametros);
+				parametros.Clear();
+				parametros.Add(da.CrearParametro("@Id", postulacionEvalucion.Id));
+				parametros.Add(da.CrearParametro("@Respuesta", postulacionEvalucion.Respuesta));
+				parametros.Add(da.CrearParametro("@TiempoResolucionEvaluacion", postulacionEvalucion.TiempoResolucionEvaluacion));
+				parametros.Add(da.CrearParametro("@Aprobo", postulacionEvalucion.Aprobo ? 1 : 0));
+				da.Escribir("CambiarResultadoEvaluacion", parametros);
+				da.ConfirmarTx();
+			}
+			catch(Exception ex)
+			{
+				da.CancelarTx();
+				throw;
+			}
+			da.Cerrar();
+		}
+		public void Postularse(Postulacion postulacion)
+		{
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			List<SqlParameter> parametros = new List<SqlParameter>();
+			parametros.Add(da.CrearParametro("@FechaCreacion", postulacion.FechaCreacion));
+			parametros.Add(da.CrearParametro("@ProfesionalId", postulacion.Profesional.Id));
+			parametros.Add(da.CrearParametro("@AvisoLaboralId", postulacion.AvisoLaboral.Id));
+			parametros.Add(da.CrearParametro("@PostulacionEstadoId", postulacion.PostulacionEstado.Id));
+			da.Escribir("Postularse", parametros);
+			da.Cerrar();
 		}
 	}
 }

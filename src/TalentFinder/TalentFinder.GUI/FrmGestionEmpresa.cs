@@ -64,9 +64,23 @@ namespace TalentFinder.GUI
 		}
 		private void CargarEmpresas()
 		{
-			DgvEmpresas.DataSource = null;
-			DgvEmpresas.DataSource = SistemaManager.EmpresaManager.GetAllEmpresas();
-			DgvEmpresas.ClearSelection();
+			try
+			{
+				DgvEmpresas.DataSource = null;
+				DgvEmpresas.DataSource = SistemaManager.EmpresaManager.GetAllEmpresas();
+				DgvEmpresas.ClearSelection();
+			}
+			catch(Exception ex)
+			{
+				DgvEmpresas.DataSource = null;
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionEmpresa-CargarEmpresas: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		private void FillForm(Empresa empresa)
 		{
@@ -143,112 +157,145 @@ namespace TalentFinder.GUI
 		}
 		private void BtnAgregar_Click(object sender, EventArgs e)
 		{
-			if(!ValidarCampos())
-				return;
-
-			if(!SistemaManager.DigitoVerificadorManager.VerificarIntegridadDatosSistema())
+			try
 			{
-				MessageBox.Show("Error en la integridad de datos del sistema. Comuniquese con el administrador del sistema", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
+				if(!ValidarCampos())
+					return;
 
-			Empresa empresa = new Empresa();
-			empresa.RazonSocial = TxtRazonSocial.Text;
-			empresa.Direccion = TxtDireccion.Text;
-			empresa.Telefono = TxtTelefono.Text;
-			empresa.Email = TxtEmail.Text;
-			empresa.CUIT = TxtCUIT.Text;
+				if(!SistemaManager.DigitoVerificadorManager.VerificarIntegridadDatosSistema())
+				{
+					MessageBox.Show("Error en la integridad de datos del sistema. Comuniquese con el administrador del sistema", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
 
-			if(SistemaManager.EmpresaManager.Crear(empresa) == -1)
-			{
+				Empresa empresa = new Empresa();
+				empresa.RazonSocial = TxtRazonSocial.Text;
+				empresa.Direccion = TxtDireccion.Text;
+				empresa.Telefono = TxtTelefono.Text;
+				empresa.Email = TxtEmail.Text;
+				empresa.CUIT = TxtCUIT.Text;
+
 				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.ERROR }, string.Format("Ocurrió un error al intentar crear la empresa {0} ", empresa.RazonSocial));
 				MessageBox.Show("Vuelva a intentar más tarde por favor", "Empresa", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			else
+			catch(Exception ex)
 			{
-				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.INFORMACION }, string.Format("Se creo la empresa {0} ", empresa.RazonSocial));
-				MessageBox.Show("La empresa se creó correctamente", "Empresa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionEmpresa-BtnAgregar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-
-			CargarEmpresas();
-			ClearForm();
+			finally
+			{
+				CargarEmpresas();
+				ClearForm();
+			}
 		}
 		private void BtnEditar_Click(object sender, EventArgs e)
 		{
-			Empresa empresa = (Empresa)DgvEmpresas.CurrentRow.DataBoundItem;
-
-			if(empresa == null)
-				return;
-
-			if(!ValidarCampos())
-				return;
-
-			if(!SistemaManager.DigitoVerificadorManager.VerificarIntegridadDatosSistema())
+			try
 			{
-				MessageBox.Show("Error en la integridad de datos del sistema. Comuniquese con el administrador del sistema", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
+				Empresa empresa = (Empresa)DgvEmpresas.CurrentRow.DataBoundItem;
 
-			empresa.RazonSocial = TxtRazonSocial.Text;
-			empresa.Direccion = TxtDireccion.Text;
-			empresa.Telefono = TxtTelefono.Text;
-			empresa.Email = TxtEmail.Text;
-			empresa.CUIT = TxtCUIT.Text;
+				if(empresa == null)
+					return;
 
-			if(SistemaManager.EmpresaManager.Editar(empresa) == -1)
-			{
+				if(!ValidarCampos())
+					return;
+
+				if(!SistemaManager.DigitoVerificadorManager.VerificarIntegridadDatosSistema())
+				{
+					MessageBox.Show("Error en la integridad de datos del sistema. Comuniquese con el administrador del sistema", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
+
+				empresa.RazonSocial = TxtRazonSocial.Text;
+				empresa.Direccion = TxtDireccion.Text;
+				empresa.Telefono = TxtTelefono.Text;
+				empresa.Email = TxtEmail.Text;
+				empresa.CUIT = TxtCUIT.Text;
 				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.ERROR }, string.Format("Ocurrió un error al intentar editar la empresa {0} ", empresa.RazonSocial));
 				MessageBox.Show("Vuelva a intentar más tarde por favor", "Empresa", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			else
+			catch(Exception ex)
 			{
-				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.INFORMACION }, string.Format("Se editó la empresa {0} ", empresa.RazonSocial));
-				MessageBox.Show("La empresa se editó correctamente", "Empresa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionEmpresa-BtnEditar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-
-			CargarEmpresas();
-			ClearForm();
+			finally
+			{
+				CargarEmpresas();
+				ClearForm();
+			}
 		}
 		private void BtnEliminar_Click(object sender, EventArgs e)
 		{
-			Empresa empresa = (Empresa)DgvEmpresas.CurrentRow.DataBoundItem;
-
-			if(empresa == null)
-				return;
-
-			if(!SistemaManager.DigitoVerificadorManager.VerificarIntegridadDatosSistema())
+			try
 			{
-				MessageBox.Show("Error en la integridad de datos del sistema. Comuniquese con el administrador del sistema", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
+				Empresa empresa = (Empresa)DgvEmpresas.CurrentRow.DataBoundItem;
 
-			if(SistemaManager.EmpresaManager.Eliminar(empresa) == -1)
-			{
+				if(empresa == null)
+					return;
+
+				if(!SistemaManager.DigitoVerificadorManager.VerificarIntegridadDatosSistema())
+				{
+					MessageBox.Show("Error en la integridad de datos del sistema. Comuniquese con el administrador del sistema", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					return;
+				}
 				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.ERROR }, string.Format("Ocurrió un error al intentar eliminar la empresa {0} ", empresa.RazonSocial));
 				MessageBox.Show("Vuelva a intentar más tarde por favor", "Empresa", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			else
+			catch(Exception ex)
 			{
-				SistemaManager.BitacoraManager.RegistrarEntrada(SistemaManager.SessionManager.UsuarioLogueado, new TipoEvento() { Id = (int)TiposEventos.INFORMACION }, string.Format("Se eliminó la empresa {0} ", empresa.RazonSocial));
-				MessageBox.Show("La empresa se eliminó correctamente", "Empresa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionEmpresa-BtnEliminar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			CargarEmpresas();
-			ClearForm();
+			finally
+			{
+				CargarEmpresas();
+				ClearForm();
+			}
 		}
 		private void FrmGestionEmpresa_Load(object sender, EventArgs e)
 		{
-			SetGrilla();
-			CargarEmpresas();
-			AplicarPermiso();
+			try
+			{
+				SetGrilla();
+				CargarEmpresas();
+				AplicarPermiso();
 
-			// iniciar controles de formulario
-			InitFormControls();
+				// iniciar controles de formulario
+				InitFormControls();
 
-			// suscribir a evento
-			IdiomaSubject.AddObserver(this);
+				// suscribir a evento
+				IdiomaSubject.AddObserver(this);
 
-			// actualizar idioma
-			Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+				// actualizar idioma
+				Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionEmpresa_Load: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		private void FrmGestionEmpresa_Shown(object sender, EventArgs e)
 		{

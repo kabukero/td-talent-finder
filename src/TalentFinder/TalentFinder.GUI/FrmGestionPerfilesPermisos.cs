@@ -21,15 +21,43 @@ namespace TalentFinder.GUI
 		}
 		private void CargarLstPermisos()
 		{
-			LstPermisos.DataSource = null;
-			LstPermisos.DataSource = SistemaManager.PerfilPermisoManager.GetAllPermisos();
-			LstPermisos.ClearSelected();
+			try
+			{
+				LstPermisos.DataSource = null;
+				LstPermisos.DataSource = SistemaManager.PerfilPermisoManager.GetAllPermisos();
+				LstPermisos.ClearSelected();
+			}
+			catch(Exception ex)
+			{
+				LstPermisos.DataSource = null;
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionPerfilesPermisos-CargarLstPermisos: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		private void CargarLstPerfiles()
 		{
-			LstPerfiles.DataSource = null;
-			LstPerfiles.DataSource = SistemaManager.PerfilPermisoManager.GetAllPerfiles();
-			LstPerfiles.ClearSelected();
+			try
+			{
+				LstPerfiles.DataSource = null;
+				LstPerfiles.DataSource = SistemaManager.PerfilPermisoManager.GetAllPerfiles();
+				LstPerfiles.ClearSelected();
+			}
+			catch(Exception ex)
+			{
+				LstPerfiles.DataSource = null;
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionPerfilesPermisos-CargarLstPermisos: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		private void CargarTreeView()
 		{
@@ -64,7 +92,7 @@ namespace TalentFinder.GUI
 				if(node != null && node.Bounds.Contains(e.Location)) TvwPerfilesPermisos.SelectedNode = node;
 			};
 		}
-		private void CargarNodos(List<PermisoComponent> perfilesPermisos, TreeNode Padre)
+		private void CargarNodos(IList<PermisoComponent> perfilesPermisos, TreeNode Padre)
 		{
 			foreach(PermisoComponent p in perfilesPermisos)
 			{
@@ -77,7 +105,7 @@ namespace TalentFinder.GUI
 
 				if(p is Perfil)
 				{
-					List<PermisoComponent> nodosHijos = ((Perfil)p).Permisos;
+					IList<PermisoComponent> nodosHijos = p.Permisos;
 					if(nodosHijos.Count > 0)
 						CargarNodos(nodosHijos, nodo);
 				}
@@ -197,245 +225,325 @@ namespace TalentFinder.GUI
 		{
 			GUIHelper.CambiarTextoControlFormSegunIdioma(this, idioma);
 		}
-		private void FrmGestionPerfilesPermisos_Shown(object sender, EventArgs e)
-		{
-			TvwPerfilesPermisos.SelectedNode = null;
-			ClearForm();
-		}
 		private void BtnAgregarPermiso_Click(object sender, EventArgs e)
 		{
-			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
-
-			if(selectedNode == null)
+			try
 			{
-				MessageBox.Show("Seleccione un perfil", "Agregar Permiso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
+				TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
 
-			Permiso permiso = (Permiso)LstPermisos.SelectedItem;
-
-			if(permiso == null)
-			{
-				MessageBox.Show("Seleccione un permiso", "Agregar Permiso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-			PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
-			if(!(permisoComponent is Perfil))
-			{
-				MessageBox.Show("No puede agregar un permiso a un permiso. Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-			TreeNode targetNode = null;
-			FindNodeFromNodeToChild(selectedNode, permiso, ref targetNode);
-			if(targetNode != null)
-			{
-				TreeNode targetNodeParent = targetNode.Parent;
-				if(targetNodeParent != null)
+				if(selectedNode == null)
 				{
-					PermisoComponent PermisoComponentParent = (PermisoComponent)targetNodeParent.Tag;
-					if(permisoComponent.Id == PermisoComponentParent.Id)
+					MessageBox.Show("Seleccione un perfil", "Agregar Permiso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+
+				Permiso permiso = (Permiso)LstPermisos.SelectedItem;
+
+				if(permiso == null)
+				{
+					MessageBox.Show("Seleccione un permiso", "Agregar Permiso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+
+				PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
+				if(!(permisoComponent is Perfil))
+				{
+					MessageBox.Show("No puede agregar un permiso a un permiso. Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+
+				TreeNode targetNode = null;
+				FindNodeFromNodeToChild(selectedNode, permiso, ref targetNode);
+				if(targetNode != null)
+				{
+					TreeNode targetNodeParent = targetNode.Parent;
+					if(targetNodeParent != null)
 					{
-						MessageBox.Show("El permiso ya esta cargado. Seleccione otro permiso", "Agregar Permiso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-						return;
+						PermisoComponent PermisoComponentParent = (PermisoComponent)targetNodeParent.Tag;
+						if(permisoComponent.Id == PermisoComponentParent.Id)
+						{
+							MessageBox.Show("El permiso ya esta cargado. Seleccione otro permiso", "Agregar Permiso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+							return;
+						}
 					}
 				}
-			}
-
-			PermisoPermiso permisoPermiso = new PermisoPermiso();
-			permisoPermiso.PermisoId = permiso.Id;
-			permisoPermiso.PermisoPadreId = permisoComponent.Id;
-
-			int f = SistemaManager.PerfilPermisoManager.AgregarPermisoPermiso(permisoPermiso);
-
-			if(f == -1)
+				PermisoPermiso permisoPermiso = new PermisoPermiso();
+				permisoPermiso.PermisoId = permiso.Id;
+				permisoPermiso.PermisoPadreId = permisoComponent.Id;
+				SistemaManager.PerfilPermisoManager.AgregarPermisoPermiso(permisoPermiso);
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			CargarTreeView();
-			ClearForm();
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionPerfilesPermisos-BtnAgregarPermiso_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				CargarTreeView();
+				ClearForm();
+			}
 		}
 		private void BtnAgregarPerfil_Click(object sender, EventArgs e)
 		{
-			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
-
-			if(selectedNode == null)
+			try
 			{
-				MessageBox.Show("Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
+				TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
 
-			PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
-			if(!(permisoComponent is Perfil))
-			{
-				MessageBox.Show("Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-			Perfil perfil = (Perfil)LstPerfiles.SelectedItem;
-
-			if(perfil == null)
-			{
-				MessageBox.Show("No puede agregar un perfil a un permiso. Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-			if(perfil.Id == permisoComponent.Id)
-			{
-				MessageBox.Show("No puede agregar el mismo perfil. Seleccione otro perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-			if(FindNodeFromNodeToRoot(selectedNode, perfil) != null)
-			{
-				MessageBox.Show("El perfil ya es padre. Seleccione otro perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-			TreeNode targetNode = null;
-			FindNodeFromNodeToChild(selectedNode, perfil, ref targetNode);
-			if(targetNode != null)
-			{
-				TreeNode targetNodeParent = targetNode.Parent;
-				if(targetNodeParent != null)
+				if(selectedNode == null)
 				{
-					PermisoComponent PermisoComponentParent = (PermisoComponent)targetNodeParent.Tag;
-					if(permisoComponent.Id == PermisoComponentParent.Id)
-					{
-						MessageBox.Show("El perfil ya esta cargado. Seleccione otro perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-						return;
-					}
+					MessageBox.Show("Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
 				}
-			}
 
-			PermisoPermiso permisoPermiso = new PermisoPermiso();
-			permisoPermiso.PermisoId = perfil.Id;
-			permisoPermiso.PermisoPadreId = permisoComponent.Id;
-
-			int f = SistemaManager.PerfilPermisoManager.AgregarPermisoPermiso(permisoPermiso);
-
-			if(f == -1)
-				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			CargarTreeView();
-			ClearForm();
-		}
-		private void BtnGuardar_Click(object sender, EventArgs e)
-		{
-			if(string.IsNullOrEmpty(TxtDescripcion.Text))
-			{
-				MessageBox.Show("Ingrese el nombre del perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
-
-			Perfil perfil = new Perfil();
-			perfil.Nombre = TxtDescripcion.Text;
-			perfil.PermisoPadreId = (int)Permisos.ROOT; // nodo raiz
-
-			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
-
-			if(selectedNode != null)
-			{
 				PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
 				if(!(permisoComponent is Perfil))
+				{
+					MessageBox.Show("Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+
+				Perfil perfil = (Perfil)LstPerfiles.SelectedItem;
+
+				if(perfil == null)
 				{
 					MessageBox.Show("No puede agregar un perfil a un permiso. Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 					return;
 				}
-				perfil.PermisoPadreId = permisoComponent.Id;
+
+				if(perfil.Id == permisoComponent.Id)
+				{
+					MessageBox.Show("No puede agregar el mismo perfil. Seleccione otro perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+
+				if(FindNodeFromNodeToRoot(selectedNode, perfil) != null)
+				{
+					MessageBox.Show("El perfil ya es padre. Seleccione otro perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+
+				TreeNode targetNode = null;
+				FindNodeFromNodeToChild(selectedNode, perfil, ref targetNode);
+				if(targetNode != null)
+				{
+					TreeNode targetNodeParent = targetNode.Parent;
+					if(targetNodeParent != null)
+					{
+						PermisoComponent PermisoComponentParent = (PermisoComponent)targetNodeParent.Tag;
+						if(permisoComponent.Id == PermisoComponentParent.Id)
+						{
+							MessageBox.Show("El perfil ya esta cargado. Seleccione otro perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+							return;
+						}
+					}
+				}
+
+				PermisoPermiso permisoPermiso = new PermisoPermiso();
+				permisoPermiso.PermisoId = perfil.Id;
+				permisoPermiso.PermisoPadreId = permisoComponent.Id;
+
+				int f = SistemaManager.PerfilPermisoManager.AgregarPermisoPermiso(permisoPermiso);
+
+				if(f == -1)
+					MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionPerfilesPermisos-BtnAgregarPermiso_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				CargarTreeView();
+				ClearForm();
+			}
+		}
+		private void BtnGuardar_Click(object sender, EventArgs e)
+		{
+			try
+			{
+				if(string.IsNullOrEmpty(TxtDescripcion.Text))
+				{
+					MessageBox.Show("Ingrese el nombre del perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
 
-			int f = SistemaManager.PerfilPermisoManager.AgregarPerfil(perfil);
+				Perfil perfil = new Perfil();
+				perfil.Nombre = TxtDescripcion.Text;
+				perfil.PermisoPadreId = (int)Permisos.ROOT; // nodo raiz
 
-			if(f == -1)
+				TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
+
+				if(selectedNode != null)
+				{
+					PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
+					if(!(permisoComponent is Perfil))
+					{
+						MessageBox.Show("No puede agregar un perfil a un permiso. Seleccione un perfil", "Agregar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+						return;
+					}
+					perfil.PermisoPadreId = permisoComponent.Id;
+				}
+				SistemaManager.PerfilPermisoManager.AgregarPerfil(perfil);
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			CargarTreeView();
-			CargarLstPerfiles();
-			ClearForm();
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionPerfilesPermisos-BtnGuardar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				CargarTreeView();
+				CargarLstPerfiles();
+				ClearForm();
+			}
 		}
 		private void BtnEditar_Click(object sender, EventArgs e)
 		{
-			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
-			if(selectedNode == null)
+			try
 			{
-				MessageBox.Show("Seleccione un perfil", "Editar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
+				TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
+				if(selectedNode == null)
+				{
+					MessageBox.Show("Seleccione un perfil", "Editar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
 
-			PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
-			if(!(permisoComponent is Perfil))
-			{
-				MessageBox.Show("Seleccione un perfil", "Editar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
+				PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
+				if(!(permisoComponent is Perfil))
+				{
+					MessageBox.Show("Seleccione un perfil", "Editar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
 
-			}
+				}
 
-			Perfil perfil = (Perfil)selectedNode.Tag;
-			perfil.Nombre = TxtDescripcion.Text;
-			int f = SistemaManager.PerfilPermisoManager.EditarPerfil(perfil);
-			if(f == -1)
+				Perfil perfil = (Perfil)selectedNode.Tag;
+				perfil.Nombre = TxtDescripcion.Text;
+				SistemaManager.PerfilPermisoManager.EditarPerfil(perfil);
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			CargarTreeView();
-			CargarLstPerfiles();
-			ClearForm();
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionPerfilesPermisos-BtnEditar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				CargarTreeView();
+				CargarLstPerfiles();
+				ClearForm();
+			}
 		}
 		private void BtnQuitar_Click(object sender, EventArgs e)
 		{
-			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
-			if(selectedNode == null)
+			try
 			{
-				MessageBox.Show("Seleccione un perfil o permiso", "Quitar Perfil / Permiso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
+				TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
+				if(selectedNode == null)
+				{
+					MessageBox.Show("Seleccione un perfil o permiso", "Quitar Perfil / Permiso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
 
-			List<TreeNode> Nodes = new List<TreeNode>();
-			Nodes.Add(selectedNode);
-			AddChildren(Nodes, selectedNode);
-			List<PermisoPermiso> permisoPermisos = new List<PermisoPermiso>();
+				List<TreeNode> Nodes = new List<TreeNode>();
+				Nodes.Add(selectedNode);
+				AddChildren(Nodes, selectedNode);
+				List<PermisoPermiso> permisoPermisos = new List<PermisoPermiso>();
 
-			foreach(TreeNode node in Nodes)
-			{
-				PermisoComponent permisoComponent = (PermisoComponent)node.Tag;
-				PermisoPermiso permisoPermiso = new PermisoPermiso();
-				permisoPermiso.PermisoId = permisoComponent.Id;
-				permisoPermiso.PermisoPadreId = permisoComponent.PermisoPadreId;
-				permisoPermisos.Add(permisoPermiso);
-			}
-
-			int f = SistemaManager.PerfilPermisoManager.QuitarPermisoPermisos(permisoPermisos);
-			if(f == -1)
+				foreach(TreeNode node in Nodes)
+				{
+					PermisoComponent permisoComponent = (PermisoComponent)node.Tag;
+					PermisoPermiso permisoPermiso = new PermisoPermiso();
+					permisoPermiso.PermisoId = permisoComponent.Id;
+					permisoPermiso.PermisoPadreId = permisoComponent.PermisoPadreId;
+					permisoPermisos.Add(permisoPermiso);
+				}
+				SistemaManager.PerfilPermisoManager.QuitarPermisoPermisos(permisoPermisos);
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			CargarTreeView();
-			CargarLstPerfiles();
-			ClearForm();
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionPerfilesPermisos-BtnQuitar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				CargarTreeView();
+				CargarLstPerfiles();
+				ClearForm();
+			}
 		}
 		private void BtnEliminar_Click(object sender, EventArgs e)
 		{
-			TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
-			if(selectedNode == null)
+			try
 			{
-				MessageBox.Show("Seleccione un perfil", "Eliminar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
+				TreeNode selectedNode = TvwPerfilesPermisos.SelectedNode;
+				if(selectedNode == null)
+				{
+					MessageBox.Show("Seleccione un perfil", "Eliminar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
 
-			if(selectedNode.Nodes != null && selectedNode.Nodes.Count > 0)
-			{
-				MessageBox.Show("No puede eliminar el perfil ya que tiene otros perfiles y permisos asociados", "Eliminar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
+				if(selectedNode.Nodes != null && selectedNode.Nodes.Count > 0)
+				{
+					MessageBox.Show("No puede eliminar el perfil ya que tiene otros perfiles y permisos asociados", "Eliminar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
 
-			PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
-			if(!(permisoComponent is Perfil))
-			{
-				MessageBox.Show("Seleccione un perfil", "Editar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-				return;
-			}
+				PermisoComponent permisoComponent = (PermisoComponent)selectedNode.Tag;
+				if(!(permisoComponent is Perfil))
+				{
+					MessageBox.Show("Seleccione un perfil", "Editar Perfil", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
 
-			Perfil perfil = (Perfil)selectedNode.Tag;
-			int f = SistemaManager.PerfilPermisoManager.EliminarPerfil(perfil);
-			if(f == -1)
+				Perfil perfil = (Perfil)selectedNode.Tag;
+				SistemaManager.PerfilPermisoManager.EliminarPerfil(perfil);
 				MessageBox.Show("Ocurrió un error. Vuelva a intentar más tarde", "Gestión Perfiles", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			CargarTreeView();
-			CargarLstPerfiles();
-			ClearForm();
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionPerfilesPermisos-BtnQuitar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+			finally
+			{
+				CargarTreeView();
+				CargarLstPerfiles();
+				ClearForm();
+			}
 		}
 		private void BtnCancelar_Click(object sender, EventArgs e)
 		{
@@ -447,18 +555,36 @@ namespace TalentFinder.GUI
 		}
 		private void FrmGestionPerfilesPermisos_Load(object sender, EventArgs e)
 		{
-			CargarTreeView();
-			CargarLstPermisos();
-			CargarLstPerfiles();
+			try
+			{
+				CargarTreeView();
+				CargarLstPermisos();
+				CargarLstPerfiles();
 
-			// iniciar controles de formulario
-			InitFormControls();
+				// iniciar controles de formulario
+				InitFormControls();
 
-			// suscribir
-			IdiomaSubject.AddObserver(this);
+				// suscribir
+				IdiomaSubject.AddObserver(this);
 
-			// actualizar idioma
-			Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+				// actualizar idioma
+				Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionPerfilesPermisos_Load: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+		private void FrmGestionPerfilesPermisos_Shown(object sender, EventArgs e)
+		{
+			TvwPerfilesPermisos.SelectedNode = null;
+			ClearForm();
 		}
 		private void FrmGestionPerfilesPermisos_FormClosing(object sender, FormClosingEventArgs e)
 		{

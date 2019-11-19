@@ -117,6 +117,7 @@
 			this.Name = "FrmExamenEjercicioProgamacion";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Examen - Realizar Programa";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmExamenEjercicioProgamacion_FormClosing);
 			this.Load += new System.EventHandler(this.FrmExamenEjercicioProgamacion_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

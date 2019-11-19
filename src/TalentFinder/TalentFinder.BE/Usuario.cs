@@ -16,6 +16,28 @@ namespace TalentFinder.BE
 		}
 		public List<PermisoComponent> PermisoComponent { get; set; }
 		public Int64 DVH { get; set; }
-		public UsuarioTipo UsuarioTipo { get; set; }
+		public Persona Persona { get; set; }
+		public bool IsInRole(int Id, IList<PermisoComponent> lista)
+		{
+			var c = GetComponent(Id, lista);
+			return c != null;
+		}
+		public PermisoComponent GetComponent(int Id, IList<PermisoComponent> lista)
+		{
+			PermisoComponent component = lista != null ? lista.Where(i => i.Id.Equals(Id)).FirstOrDefault() : null;
+
+			if(component == null && lista != null)
+			{
+				foreach(var c in lista)
+				{
+					var l = GetComponent(Id, c.Permisos);
+					if(l != null && l.Id == Id)
+						return l;
+					else if(l != null)
+						return GetComponent(Id, l.Permisos);
+				}
+			}
+			return component;
+		}
 	}
 }

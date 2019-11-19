@@ -12,7 +12,8 @@ namespace TalentFinder.BE
 		private EjercicioCodigoFuenteFactory EjercicioCodigoFuenteFactory = new EjercicioCodigoFuenteFactory();
 		public string GetCodigoFuente(MetodoDetalle MetodoDetalle)
 		{
-			string codigoFuentePrograma = EjercicioCodigoFuenteFactory.GetCodigoFuente(MetodoDetalle.EjercicioNombre);
+			//string codigoFuentePrograma = EjercicioCodigoFuenteFactory.GetCodigoFuente(MetodoDetalle.EjercicioNombre);
+			string codigoFuentePrograma = MetodoDetalle.CodigoFuenteTest;
 			codigoFuentePrograma = codigoFuentePrograma.Replace("XXX_MI_METODO_XXX", MetodoDetalle.CodigoFuenteMetodo);
 			return codigoFuentePrograma;
 		}

@@ -18,14 +18,10 @@ namespace TalentFinder.GUI
 		private MetodoDetalle MetodoDetalle;
 		private ProgramRunner ProgramRunner;
 		private TimeSpan HoraInicio;
+		private TimeSpan TiempoTranscurrido;
 		private Postulacion Postulacion;
+		private PostulacionEvalucion postulacionEvalucion;
 		private FrmGestionPostulaciones frmGestionPostulaciones;
-		public FrmExamenEjercicioProgamacion(Postulacion Postulacion, FrmGestionPostulaciones frmGestionPostulaciones)
-		{
-			this.frmGestionPostulaciones = frmGestionPostulaciones;
-			this.Postulacion = Postulacion;
-			InitializeComponent();
-		}
 		private void FinalizoElTiempo()
 		{
 			TimerClock.Stop();
@@ -36,42 +32,96 @@ namespace TalentFinder.GUI
 		}
 		private void TimerClock_Tick(object sender, EventArgs e)
 		{
-			HoraInicio = HoraInicio.Add(TimeSpan.FromSeconds(-1));
-			TxtCurrentElapsedTime.Text = HoraInicio.ToString().Substring(3);
+			TiempoTranscurrido = TiempoTranscurrido.Add(TimeSpan.FromSeconds(-1));
+			TxtCurrentElapsedTime.Text = TiempoTranscurrido.ToString().Substring(3);
 
-			if(HoraInicio == new TimeSpan(0, 0, 0))
+			if(TiempoTranscurrido == new TimeSpan(0, 0, 0))
 			{
 				FinalizoElTiempo();
 			}
 		}
 		private void BtnEjecutarCodigo_Click(object sender, EventArgs e)
 		{
-			MetodoDetalle.CodigoFuenteMetodo = TxtCodigoPrograma.Text;
-			ResultadoEjecucion ResultadoEjecucion = ProgramRunner.EjecutarPrograma(MetodoDetalle);
-			MessageBox.Show(ResultadoEjecucion.Descripcion);
+			try
+			{
+				MetodoDetalle.CodigoFuenteMetodo = TxtCodigoPrograma.Text;
+				ResultadoEjecucion ResultadoEjecucion = ProgramRunner.EjecutarPrograma(MetodoDetalle);
+				MessageBox.Show(ResultadoEjecucion.Descripcion);
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmExamenEjercicioProgamacion-BtnEjecutarCodigo_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		private void BtnFinalizarExamen_Click(object sender, EventArgs e)
 		{
-			MetodoDetalle.CodigoFuenteMetodo = TxtCodigoPrograma.Text;
-			ResultadoEjecucion ResultadoEjecucion = ProgramRunner.EjecutarPrograma(MetodoDetalle);
-			MessageBox.Show(ResultadoEjecucion.Descripcion);
-			if(ResultadoEjecucion.ResultadoEjecucionEstado == ResultadoEjecucionEstado.EXECUTED)
+			try
 			{
+				MetodoDetalle.CodigoFuenteMetodo = TxtCodigoPrograma.Text;
+				ResultadoEjecucion ResultadoEjecucion = ProgramRunner.EjecutarPrograma(MetodoDetalle);
+				postulacionEvalucion.Aprobo = ResultadoEjecucion.ResultadoEjecucionEstado == ResultadoEjecucionEstado.EXECUTED;
+				postulacionEvalucion.Respuesta = TxtCodigoPrograma.Text;
+				postulacionEvalucion.TiempoResolucionEvaluacion = HoraInicio.Subtract(TiempoTranscurrido).ToString().Substring(3);
+				Postulacion.PostulacionEstado.Id = (int)PostulacionEstados.EVALUADO;
+				SistemaManager.ProfesionalManager.CambiarEstadoPostulacion(Postulacion, postulacionEvalucion);
 				frmGestionPostulaciones.CargarPostulaciones();
+				MessageBox.Show(ResultadoEjecucion.Descripcion);
+				TimerClock.Stop();
+				this.Hide();
 			}
-			this.Hide();
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmExamenEjercicioProgamacion-BtnFinalizarExamen_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+		public FrmExamenEjercicioProgamacion(Postulacion Postulacion, FrmGestionPostulaciones frmGestionPostulaciones)
+		{
+			this.frmGestionPostulaciones = frmGestionPostulaciones;
+			this.Postulacion = Postulacion;
+			InitializeComponent();
 		}
 		private void FrmExamenEjercicioProgamacion_Load(object sender, EventArgs e)
 		{
-			TimerClock.Enabled = true;
-			TimerClock.Interval = 1000;
-			MetodoDetalle = new MetodoDetalle();
-			PostulacionEvalucion postulacionEvalucion = SistemaManager.ProfesionalManager.GetPostulacionEvaluacion(Postulacion);
-			MetodoDetalle.EjercicioNombre = postulacionEvalucion.Evaluacion.Ejercicio;
-			HoraInicio = TimeSpan.Parse(postulacionEvalucion.Evaluacion.Tiempo);
-			TxtCurrentElapsedTime.Text = HoraInicio.ToString().Substring(3);
-			LblEnunciado.Text = postulacionEvalucion.Evaluacion.Descripcion;
-			ProgramRunner = new ProgramRunner(SistemaManager.SessionManager.UsuarioLogueado);
+			try
+			{
+				TimerClock.Enabled = true;
+				TimerClock.Interval = 1000;
+				postulacionEvalucion = SistemaManager.ProfesionalManager.GetPostulacionEvaluacion(Postulacion);
+				MetodoDetalle = new MetodoDetalle();
+				MetodoDetalle.EjercicioNombre = postulacionEvalucion.Evaluacion.Ejercicio;
+				MetodoDetalle.CodigoFuenteTest = postulacionEvalucion.Evaluacion.CodigoFuenteTest;
+				LblEnunciado.Text = postulacionEvalucion.Evaluacion.Descripcion;
+				HoraInicio = TimeSpan.Parse(postulacionEvalucion.Evaluacion.Tiempo);
+				TiempoTranscurrido = TimeSpan.Parse(postulacionEvalucion.Evaluacion.Tiempo);
+				TxtCurrentElapsedTime.Text = TiempoTranscurrido.ToString().Substring(3);
+				ProgramRunner = new ProgramRunner(SistemaManager.SessionManager.UsuarioLogueado);
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmExamenEjercicioProgamacion_Load: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+		private void FrmExamenEjercicioProgamacion_FormClosing(object sender, FormClosingEventArgs e)
+		{
+			TimerClock.Stop();
 		}
 	}
 }

@@ -9,6 +9,7 @@ namespace TalentFinder.BE
 	public class MetodoDetalle
 	{
 		public string EjercicioNombre { get; set; }
+		public string CodigoFuenteTest { get; set; }
 		public string CodigoFuenteMetodo { get; set; }
 	}
 }

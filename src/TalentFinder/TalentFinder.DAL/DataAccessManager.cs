@@ -10,14 +10,12 @@ namespace TalentFinder.DAL
 	{
 		private SqlConnection conn;
 		private SqlTransaction tx;
-
 		public void Abrir()
 		{
 			conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionStringDB"].ConnectionString);
 			//conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionStringAdminDB"].ConnectionString);
 			conn.Open();
 		}
-
 		public void Cerrar()
 		{
 			if(conn != null && conn.State == ConnectionState.Open)
@@ -27,7 +25,6 @@ namespace TalentFinder.DAL
 				GC.Collect();
 			}
 		}
-
 		public void IniciarTx()
 		{
 			if(tx == null && conn != null)
@@ -35,47 +32,40 @@ namespace TalentFinder.DAL
 				tx = conn.BeginTransaction();
 			}
 		}
-
 		public void ConfirmarTx()
 		{
 			tx.Commit();
 			tx = null;
 		}
-
 		public void CancelarTx()
 		{
 			tx.Rollback();
 			tx = null;
 		}
-
 		public SqlParameter CrearParametro(string nombre, string valor)
 		{
 			SqlParameter parametro = new SqlParameter(nombre, valor);
 			parametro.SqlDbType = SqlDbType.VarChar;
 			return parametro;
 		}
-
 		public SqlParameter CrearParametro(string nombre, int valor)
 		{
 			SqlParameter parametro = new SqlParameter(nombre, valor);
 			parametro.SqlDbType = SqlDbType.Int;
 			return parametro;
 		}
-
 		public SqlParameter CrearParametro(string nombre, decimal valor)
 		{
 			SqlParameter parametro = new SqlParameter(nombre, valor);
 			parametro.SqlDbType = SqlDbType.Decimal;
 			return parametro;
 		}
-
 		public SqlParameter CrearParametro(string nombre, DateTime valor)
 		{
 			SqlParameter parametro = new SqlParameter(nombre, valor);
 			parametro.SqlDbType = SqlDbType.DateTime;
 			return parametro;
 		}
-
 		public SqlCommand CrearComando(string nombre, List<SqlParameter> parametros)
 		{
 			SqlCommand cmd = new SqlCommand(nombre, conn);
@@ -89,7 +79,6 @@ namespace TalentFinder.DAL
 
 			return cmd;
 		}
-
 		public DataTable Leer(string nombre, List<SqlParameter> parametros)
 		{
 			DataTable tabla = new DataTable();
@@ -100,7 +89,6 @@ namespace TalentFinder.DAL
 			}
 			return tabla;
 		}
-
 		public DataTable LeerCmdText(string nombre)
 		{
 			DataTable tabla = new DataTable();
@@ -115,64 +103,34 @@ namespace TalentFinder.DAL
 			}
 			return tabla;
 		}
-
 		public int LeerEscalar(string nombre, List<SqlParameter> parametros)
 		{
 			int r;
-
-			try
+			using(SqlCommand cmd = CrearComando(nombre, parametros))
 			{
-				using(SqlCommand cmd = CrearComando(nombre, parametros))
-				{
-					r = int.Parse(cmd.ExecuteScalar().ToString());
-				}
+				r = int.Parse(cmd.ExecuteScalar().ToString());
 			}
-			catch(Exception ex)
-			{
-				r = -1;
-			}
-
 			return r;
 		}
-
 		public int Escribir(string nombre, List<SqlParameter> parametros)
 		{
 			int f = 0;
-			try
+			using(SqlCommand cmd = CrearComando(nombre, parametros))
 			{
-				using(SqlCommand cmd = CrearComando(nombre, parametros))
-				{
-					f = cmd.ExecuteNonQuery();
-					cmd.Parameters.Clear();
-				}
-			}
-			catch(Exception ex)
-			{
-				f = -1;
+				f = cmd.ExecuteNonQuery();
+				cmd.Parameters.Clear();
 			}
 			return f;
 		}
-
 		public int EscribirCmdText(string nombre)
 		{
 			int f = 1;
-			try
+			using(SqlCommand cmd = new SqlCommand(nombre, conn))
 			{
-				using(SqlCommand cmd = new SqlCommand(nombre, conn))
-				{
-					cmd.CommandType = CommandType.Text;
-
-					if(tx != null)
-						cmd.Transaction = tx;
-
-					cmd.ExecuteNonQuery();
-
-					return f;
-				}
-			}
-			catch(Exception ex)
-			{
-				f = -1;
+				cmd.CommandType = CommandType.Text;
+				if(tx != null)
+					cmd.Transaction = tx;
+				cmd.ExecuteNonQuery();
 			}
 			return f;
 		}

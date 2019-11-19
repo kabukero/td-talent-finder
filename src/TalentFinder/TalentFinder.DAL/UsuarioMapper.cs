@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using TalentFinder.BE;
 
 namespace TalentFinder.DAL
@@ -18,6 +19,48 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+		private Persona GetPersona(Usuario usuario)
+		{
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			DataTable tabla;
+			DataRow fila = null;
+			Persona persona = null;
+			List<SqlParameter> parametros = new List<SqlParameter>();
+			parametros.Add(da.CrearParametro("@UsuarioId", usuario.Id));
+
+			if(usuario.IsInRole((int)Permisos.PERFIL_POSTULANTE, usuario.PermisoComponent))
+			{
+				tabla = da.Leer("GetProfesional", parametros);
+				if(tabla.Rows.Count > 0)
+				{
+					fila = tabla.Rows[0];
+					persona = new Profesional();
+				}
+			}
+			else if(usuario.IsInRole((int)Permisos.PERFIL_RECLUTADOR, usuario.PermisoComponent))
+			{
+				tabla = da.Leer("GetReclutador", parametros);
+				if(tabla.Rows.Count > 0)
+				{
+					fila = tabla.Rows[0];
+					persona = new Reclutador();
+				}
+			}
+			if(fila != null)
+			{
+				persona.Id = int.Parse(fila["Id"].ToString());
+				persona.Nombre = fila["Nombre"].ToString();
+				persona.Apellido = fila["Apellido"].ToString();
+				persona.Email = fila["Email"].ToString();
+				Empresa empresa = new Empresa();
+				empresa.Id = int.Parse(fila["EmpresaId"].ToString());
+				empresa.RazonSocial = fila["RazonSocial"].ToString();
+				persona.Empresa = empresa;
+			}
+			da.Cerrar();
+			return persona;
+		}
 		public Usuario GetUsuario(string userName)
 		{
 			Usuario usuario = null;
@@ -33,11 +76,9 @@ namespace TalentFinder.DAL
 				usuario.Id = int.Parse(registro["Id"].ToString());
 				usuario.UserName = registro["UserName"].ToString();
 				usuario.UserPassword = registro["UserPassword"].ToString();
-				int TipoUsuarioId = int.Parse(registro["TipoUsuarioId"].ToString());
-				UsuarioTipo usuarioTipo = new UsuarioTipo();
-				usuarioTipo.Id = int.Parse(registro["TipoUsuarioId"].ToString());
-				usuarioTipo.Nombre = registro["Nombre"].ToString();
-				usuario.UsuarioTipo = usuarioTipo;
+				PerfilPermisoMapper perfilPermisoMapper = new PerfilPermisoMapper();
+				usuario.PermisoComponent = perfilPermisoMapper.GetAllPerfilesPermisosPorUsuario(usuario);
+				usuario.Persona = GetPersona(usuario);
 			}
 			da.Cerrar();
 			return usuario;
@@ -54,52 +95,60 @@ namespace TalentFinder.DAL
 		}
 		public List<Usuario> GetUsuarios()
 		{
+			PerfilPermisoMapper perfilPermisoMapper = new PerfilPermisoMapper();
 			List<Usuario> lista = new List<Usuario>();
 			DataAccessManager da = new DataAccessManager();
 			da.Abrir();
 			DataTable tabla = da.Leer("GetUsuarios", null);
 			da.Cerrar();
 
+			List<SqlParameter> parametros = new List<SqlParameter>();
 			foreach(DataRow fila in tabla.Rows)
 			{
 				Usuario usuario = new Usuario();
 				usuario.Id = int.Parse(fila["Id"].ToString());
 				usuario.UserName = fila["UserName"].ToString();
 				usuario.UserPassword = fila["UserPassword"].ToString();
-				UsuarioTipo usuarioTipo = new UsuarioTipo();
-				usuarioTipo.Id = int.Parse(fila["TipoUsuarioId"].ToString());
-				usuarioTipo.Nombre = fila["Nombre"].ToString();
-				usuario.UsuarioTipo = usuarioTipo;
+				usuario.PermisoComponent = perfilPermisoMapper.GetAllPerfilesPermisosPorUsuario(usuario);
+				usuario.Persona = GetPersona(usuario);
 				lista.Add(usuario);
-			}
-			return lista;
-		}
-		public List<UsuarioTipo> GetUsuarioTipos()
-		{
-			List<UsuarioTipo> lista = new List<UsuarioTipo>();
-			DataAccessManager da = new DataAccessManager();
-			da.Abrir();
-			DataTable tabla = da.Leer("GetAllUsuarioTipos", null);
-			da.Cerrar();
-
-			foreach(DataRow fila in tabla.Rows)
-			{
-				UsuarioTipo tipo = new UsuarioTipo();
-				tipo.Id = int.Parse(fila["Id"].ToString());
-				tipo.Nombre = fila["Nombre"].ToString();
-				lista.Add(tipo);
 			}
 			return lista;
 		}
 		public int Agregar(Usuario usuario)
 		{
+			int NewId;
 			DataAccessManager da = new DataAccessManager();
-			da.Abrir();
-			List<SqlParameter> parametros = new List<SqlParameter>();
-			parametros.Add(da.CrearParametro("@UserName", usuario.UserName));
-			parametros.Add(da.CrearParametro("@UserPassword", usuario.UserPassword));
-			parametros.Add(da.CrearParametro("@TipoUsuarioId", usuario.UsuarioTipo.Id));
-			int NewId = da.Escribir("AgregarUsuario", parametros);
+			try
+			{
+				da.Abrir();
+				da.IniciarTx();
+
+				List<SqlParameter> parametros = new List<SqlParameter>();
+				parametros.Add(da.CrearParametro("@UserName", usuario.UserName));
+				parametros.Add(da.CrearParametro("@UserPassword", usuario.UserPassword));
+				NewId = (int)da.LeerEscalar("AgregarUsuario", parametros);
+				usuario.Id = NewId;
+
+				parametros.Clear();
+				parametros.Add(da.CrearParametro("@Nombre", usuario.Persona.Nombre));
+				parametros.Add(da.CrearParametro("@Apellido", usuario.Persona.Apellido));
+				parametros.Add(da.CrearParametro("@Email", usuario.Persona.Email));
+				parametros.Add(da.CrearParametro("@UsuarioId", usuario.Id));
+				parametros.Add(da.CrearParametro("@EmpresaId", usuario.Persona.Empresa.Id));
+
+				if(usuario.IsInRole((int)Permisos.PERFIL_POSTULANTE, usuario.PermisoComponent))
+					da.Escribir("AgregarProfesional", parametros);
+				else if(usuario.IsInRole((int)Permisos.PERFIL_RECLUTADOR, usuario.PermisoComponent))
+					da.Escribir("AgregarReclutador", parametros);
+
+				da.ConfirmarTx();
+			}
+			catch(Exception ex)
+			{
+				da.CancelarTx();
+				throw;
+			}
 			da.Cerrar();
 			return NewId;
 		}
@@ -111,7 +160,6 @@ namespace TalentFinder.DAL
 			parametros.Add(da.CrearParametro("@Id", usuario.Id));
 			parametros.Add(da.CrearParametro("@UserName", usuario.UserName));
 			parametros.Add(da.CrearParametro("@UserPassword", usuario.UserPassword));
-			parametros.Add(da.CrearParametro("@TipoUsuarioId", usuario.UsuarioTipo.Id));
 			int f = da.Escribir("EditarUsuario", parametros);
 			da.Cerrar();
 			return f;

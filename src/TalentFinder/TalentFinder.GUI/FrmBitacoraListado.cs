@@ -32,7 +32,7 @@ namespace TalentFinder.GUI
 			DgvListado.Columns["FechaCreacion"].Tag = new Frase() { Tag = "razon_social" };
 			DgvListado.Columns["Usuario"].Tag = new Frase() { Tag = "direccion" };
 			DgvListado.Columns["TipoEvento"].Tag = new Frase() { Tag = "telefono" };
-			DgvListado.Columns["Descripcion"].Tag = new Frase() { Tag = "email" };
+			DgvListado.Columns["Descripcion"].Tag = new Frase() { Tag = "descripcion" };
 		}
 		private void SetDatePickers()
 		{
@@ -91,7 +91,21 @@ namespace TalentFinder.GUI
 		}
 		private void BtnBuscar_Click(object sender, EventArgs e)
 		{
-			CargarGrilla();
+			try
+			{
+				CargarGrilla();
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = ex.Message;
+				bitacora.Descripcion = string.Format("FrmBitacora-BtnBuscar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		private void BtnCancelar_Click(object sender, EventArgs e)
 		{
@@ -106,18 +120,31 @@ namespace TalentFinder.GUI
 		}
 		private void FrmBitacoraListado_Load(object sender, EventArgs e)
 		{
-			SetGrilla();
-			CargarUsuarios();
-			CargarTipoEventos();
-			InitFormControls();
-			//CargarGrilla();
-			SetDatePickers();
+			try
+			{
+				SetGrilla();
+				CargarUsuarios();
+				CargarTipoEventos();
+				InitFormControls();
+				//CargarGrilla();
+				SetDatePickers();
 
-			// suscribir a evento
-			IdiomaSubject.AddObserver(this);
+				// suscribir a evento
+				IdiomaSubject.AddObserver(this);
 
-			// disparar evento
-			Update(SistemaManager.SessionManager.IdiomaSession);
+				// disparar evento
+				Update(SistemaManager.SessionManager.IdiomaSession);
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmBitacoraListado_Load: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		private void FrmBitacoraListado_FormClosing(object sender, FormClosingEventArgs e)
 		{

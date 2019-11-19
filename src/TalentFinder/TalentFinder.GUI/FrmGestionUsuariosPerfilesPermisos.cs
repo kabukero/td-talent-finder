@@ -29,19 +29,47 @@ namespace TalentFinder.GUI
 		}
 		private void CargarLstUsuarios()
 		{
-			LstUsuarios.DataSource = null;
-			LstUsuarios.DataSource = SistemaManager.UsuarioManager.GetUsuarios();
-			LstUsuarios.ClearSelected();
+			try
+			{
+				LstUsuarios.DataSource = null;
+				LstUsuarios.DataSource = SistemaManager.UsuarioManager.GetUsuarios();
+				LstUsuarios.ClearSelected();
+			}
+			catch(Exception ex)
+			{
+				LstUsuarios.DataSource = null;
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionUsuariosPerfilesPermisos-CargarLstUsuarios: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		private void CargarTreeView()
 		{
-			TvwPerfilesPermisos.Nodes.Clear();
-			TvwPerfilesPermisos.CheckBoxes = true;
-			List<PermisoComponent> perfilesPermisos = SistemaManager.PerfilPermisoManager.GetAllPerfilesPermisos();
-			CargarNodos(perfilesPermisos, null);
-			TvwPerfilesPermisos.ExpandAll();
+			try
+			{
+				TvwPerfilesPermisos.Nodes.Clear();
+				TvwPerfilesPermisos.CheckBoxes = true;
+				List<PermisoComponent> perfilesPermisos = SistemaManager.PerfilPermisoManager.GetAllPerfilesPermisos();
+				CargarNodos(perfilesPermisos, null);
+				TvwPerfilesPermisos.ExpandAll();
+			}
+			catch(Exception ex)
+			{
+				TvwPerfilesPermisos.Nodes.Clear();
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionUsuariosPerfilesPermisos-CargarTreeView: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
-		private void CargarNodos(List<PermisoComponent> perfilesPermisos, TreeNode Padre)
+		private void CargarNodos(IList<PermisoComponent> perfilesPermisos, TreeNode Padre)
 		{
 			foreach(PermisoComponent p in perfilesPermisos)
 			{
@@ -54,7 +82,7 @@ namespace TalentFinder.GUI
 
 				if(p is Perfil)
 				{
-					List<PermisoComponent> nodosHijos = ((Perfil)p).Permisos;
+					IList<PermisoComponent> nodosHijos = p.Permisos;
 					if(nodosHijos.Count > 0)
 						CargarNodos(nodosHijos, nodo);
 				}
@@ -68,27 +96,67 @@ namespace TalentFinder.GUI
 		}
 		private void CargarUsuarioSeleccionado()
 		{
-			Usuario usuario = (Usuario)LstUsuarios.SelectedItem;
-			if(usuario == null)
-				return;
-			TxtUsuario.Text = usuario.UserName;
-			for(int i = 0; i < CmbUsuarioTipo.Items.Count; i++)
+			try
 			{
-				UsuarioTipo t = (UsuarioTipo)CmbUsuarioTipo.Items[i];
-				if(t.Id == usuario.UsuarioTipo.Id)
+				Usuario usuario = (Usuario)LstUsuarios.SelectedItem;
+				if(usuario == null)
+					return;
+				TxtUsuario.Text = usuario.UserName;
+
+				TxtNombre.Clear();
+				TxtApellido.Clear();
+				TxtEmail.Clear();
+				CmbEmpresa.SelectedIndex = -1;
+
+				if(usuario.Persona != null)
 				{
-					CmbUsuarioTipo.SelectedIndex = i;
-					break;
+					TxtNombre.Text = usuario.Persona.Nombre;
+					TxtApellido.Text = usuario.Persona.Apellido;
+					TxtEmail.Text = usuario.Persona.Email;
+					for(int i = 0; i < CmbEmpresa.Items.Count; i++)
+					{
+						Empresa e = (Empresa)CmbEmpresa.Items[i];
+						if(e.Id == usuario.Persona.Empresa.Id)
+						{
+							CmbEmpresa.SelectedIndex = i;
+							break;
+						}
+					}
 				}
+				RecorrerNodos(TvwPerfilesPermisos.Nodes, usuario.PermisoComponent);
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionUsuariosPerfilesPermisos-CargarUsuarioSeleccionado: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 		private void CargarPerfilesPermisosUsuarioSeleccionado()
 		{
-			if(LstUsuarios.Items.Count == 0 || LstUsuarios.SelectedItem == null)
-				return;
-			Usuario usuario = (Usuario)LstUsuarios.SelectedItem;
-			List<PermisoComponent> perfilesPermisos = SistemaManager.PerfilPermisoManager.GetAllPerfilesPermisosPorUsuario(usuario);
-			RecorrerNodos(TvwPerfilesPermisos.Nodes, perfilesPermisos);
+			try
+			{
+
+				if(LstUsuarios.Items.Count == 0 || LstUsuarios.SelectedItem == null)
+					return;
+				Usuario usuario = (Usuario)LstUsuarios.SelectedItem;
+				List<PermisoComponent> perfilesPermisos = SistemaManager.PerfilPermisoManager.GetAllPerfilesPermisosPorUsuario(usuario);
+				RecorrerNodos(TvwPerfilesPermisos.Nodes, perfilesPermisos);
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionUsuariosPerfilesPermisos-CargarPerfilesPermisosUsuarioSeleccionado: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		private void RecorrerNodos(TreeNodeCollection nodes, List<PermisoComponent> perfilesPermisos)
 		{
@@ -134,16 +202,45 @@ namespace TalentFinder.GUI
 				MessageBox.Show("Ingrese la passwor", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return false;
 			}
-			if(CmbUsuarioTipo.SelectedIndex == -1)
+			if(CmbEmpresa.SelectedIndex == -1)
 			{
-				MessageBox.Show("Selecione el tipo de usuario", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				MessageBox.Show("Selecione la empresa", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
+			if(string.IsNullOrEmpty(TxtNombre.Text))
+			{
+				MessageBox.Show("Ingrese el nombre de la persona", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
+			if(string.IsNullOrEmpty(TxtApellido.Text))
+			{
+				MessageBox.Show("Ingrese el apellido de la persona", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+				return false;
+			}
+			if(string.IsNullOrEmpty(TxtEmail.Text))
+			{
+				MessageBox.Show("Ingrese el e-mail", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 				return false;
 			}
 			return true;
 		}
-		private void CargarUsuariosTipos()
+		private void CargarEmpresas()
 		{
-			CmbUsuarioTipo.DataSource = SistemaManager.UsuarioManager.GetUsuarioTipos();
+			try
+			{
+				CmbEmpresa.DataSource = SistemaManager.EmpresaManager.GetAllEmpresas();
+			}
+			catch(Exception ex)
+			{
+				CmbEmpresa.DataSource = null;
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionUsuariosPerfilesPermisos-CargarPerfilesPermisosUsuarioSeleccionado: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		public void Update(Idioma idioma)
 		{
@@ -151,43 +248,60 @@ namespace TalentFinder.GUI
 		}
 		private void ClearForm()
 		{
-			LstUsuarios.ClearSelected();
+			CargarLstUsuarios();
 			UncheckedAllNodes(TvwPerfilesPermisos.Nodes);
 			TvwPerfilesPermisos.SelectedNode = null;
 			TxtUsuario.Clear();
 			TxtPassword.Clear();
-			CmbUsuarioTipo.SelectedIndex = -1;
+			TxtNombre.Clear();
+			TxtApellido.Clear();
+			TxtEmail.Clear();
+			CmbEmpresa.SelectedIndex = -1;
 		}
 		private void LstUsuarios_Click(object sender, EventArgs e)
 		{
-			CargarPerfilesPermisosUsuarioSeleccionado();
+			//CargarPerfilesPermisosUsuarioSeleccionado();
 			CargarUsuarioSeleccionado();
 		}
 		private void BtnGuardar_Click(object sender, EventArgs e)
 		{
-			if(LstUsuarios.Items.Count == 0 || LstUsuarios.SelectedItem == null)
-				return;
-
-			Usuario usuario = (Usuario)LstUsuarios.SelectedItem;
-			List<TreeNode> treeNodes = new List<TreeNode>();
-			List<PermisoComponent> perfilesPermisos = new List<PermisoComponent>();
-			FindCheckedNodes(treeNodes, TvwPerfilesPermisos.Nodes);
-
-			foreach(TreeNode nodo in treeNodes)
+			try
 			{
-				perfilesPermisos.Add((PermisoComponent)nodo.Tag);
+				if(LstUsuarios.Items.Count == 0 || LstUsuarios.SelectedItem == null)
+					return;
+
+				Usuario usuario = (Usuario)LstUsuarios.SelectedItem;
+				List<TreeNode> treeNodes = new List<TreeNode>();
+				List<PermisoComponent> perfilesPermisos = new List<PermisoComponent>();
+				FindCheckedNodes(treeNodes, TvwPerfilesPermisos.Nodes);
+
+				foreach(TreeNode nodo in treeNodes)
+				{
+					perfilesPermisos.Add((PermisoComponent)nodo.Tag);
+				}
+
+				try
+				{
+					SistemaManager.PerfilPermisoManager.GuardarUsuarioPerfilesPermisos(perfilesPermisos, usuario);
+					CargarTreeView();
+					ClearForm();
+					MessageBox.Show("Los permisos se guardaron correctamente", "Usuarios Permisos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				catch(Exception ex)
+				{
+					MessageBox.Show("Ha ocurrido un error. Vuelva a intentar mas tarde", "Usuarios Permisos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
 			}
-
-			int f = SistemaManager.PerfilPermisoManager.GuardarUsuarioPerfilesPermisos(perfilesPermisos, usuario);
-			if(f == -1)
+			catch(Exception ex)
 			{
-				MessageBox.Show("Ha ocurrido un error. Vuelva a intentar mas tarde", "Usuarios Permisos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-			}
-			else
-			{
-				CargarTreeView();
-				ClearForm();
-				MessageBox.Show("Los permisos se guardaron correctamente", "Usuarios Permisos", MessageBoxButtons.OK, MessageBoxIcon.Information);
+				CmbEmpresa.DataSource = null;
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionUsuariosPerfilesPermisos-BtnGuardar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 		private void BtnAgregarUsuario_Click(object sender, EventArgs e)
@@ -196,17 +310,48 @@ namespace TalentFinder.GUI
 			{
 				if(!ValidarUsuario())
 					return;
+
+				List<TreeNode> treeNodes = new List<TreeNode>();
+				List<PermisoComponent> perfilesPermisos = new List<PermisoComponent>();
+				FindCheckedNodes(treeNodes, TvwPerfilesPermisos.Nodes);
+
+				foreach(TreeNode nodo in treeNodes)
+				{
+					perfilesPermisos.Add((PermisoComponent)nodo.Tag);
+				}
+
 				Usuario usuario = new Usuario();
+
+				if(!usuario.IsInRole((int)Permisos.PERFIL_POSTULANTE, perfilesPermisos)
+					&& !usuario.IsInRole((int)Permisos.PERFIL_RECLUTADOR, perfilesPermisos))
+				{
+					MessageBox.Show("Debe seleccionar el perfil del usuario (Postulante o Reclutador)", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					return;
+				}
+
 				usuario.UserName = TxtUsuario.Text;
 				usuario.UserPassword = TxtPassword.Text;
-				usuario.UsuarioTipo = (UsuarioTipo)CmbUsuarioTipo.SelectedItem;
+				usuario.PermisoComponent = perfilesPermisos;
+				Persona persona = new Persona();
+				persona.Nombre = TxtNombre.Text;
+				persona.Apellido = TxtApellido.Text;
+				persona.Email = TxtEmail.Text;
+				persona.Empresa = (Empresa)CmbEmpresa.SelectedItem;
+				usuario.Persona = persona;
 				SistemaManager.UsuarioManager.Agregar(usuario);
+				SistemaManager.PerfilPermisoManager.GuardarUsuarioPerfilesPermisos(usuario.PermisoComponent, usuario);
 				MessageBox.Show("El usuario se agregó correctamente", "Usuarios", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				ClearForm();
 			}
 			catch(Exception ex)
 			{
-				MessageBox.Show("Ha ocurrido un error interno. Vuelva a intentar más tarde", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionUsuariosPerfilesPermisos-BtnAgregarUsuario_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 		private void BtnEditarUsuario_Click(object sender, EventArgs e)
@@ -225,14 +370,20 @@ namespace TalentFinder.GUI
 					return;
 				}
 				usuario.UserName = TxtUsuario.Text;
-				usuario.UsuarioTipo = (UsuarioTipo)CmbUsuarioTipo.SelectedItem;
+				usuario.Persona.Empresa = (Empresa)CmbEmpresa.SelectedItem;
 				SistemaManager.UsuarioManager.Editar(usuario, TxtPassword.Text);
 				MessageBox.Show("El usuario se editó correctamente", "Usuarios", MessageBoxButtons.OK, MessageBoxIcon.Information);
 				ClearForm();
 			}
 			catch(Exception ex)
 			{
-				MessageBox.Show("Ha ocurrido un error interno. Vuelva a intentar más tarde", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionUsuariosPerfilesPermisos-BtnEditarUsuario_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 		private void BtnEliminarUsuario_Click(object sender, EventArgs e)
@@ -251,7 +402,13 @@ namespace TalentFinder.GUI
 			}
 			catch(Exception ex)
 			{
-				MessageBox.Show("Ha ocurrido un error interno. Vuelva a intentar más tarde", "Usuario", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionUsuariosPerfilesPermisos-BtnEliminarUsuario_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 		private void BtnCancelar_Click(object sender, EventArgs e)
@@ -260,19 +417,32 @@ namespace TalentFinder.GUI
 		}
 		private void FrmUsuarioPerfilPermiso_Load(object sender, EventArgs e)
 		{
-			CargarLstUsuarios();
-			CargarTreeView();
-			CargarUsuariosTipos();
-			ClearForm();
+			try
+			{
+				CargarLstUsuarios();
+				CargarTreeView();
+				CargarEmpresas();
+				ClearForm();
 
-			// iniciar controles de formulario
-			InitFormControls();
+				// iniciar controles de formulario
+				InitFormControls();
 
-			// suscribir observer
-			IdiomaSubject.AddObserver(this);
+				// suscribir observer
+				IdiomaSubject.AddObserver(this);
 
-			// actualizar idioma
-			Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+				// actualizar idioma
+				Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = string.Format("FrmGestionUsuariosPerfilesPermisos-FrmUsuarioPerfilPermiso_Load: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		private void FrmGestionUsuariosPerfilesPermisos_FormClosing(object sender, FormClosingEventArgs e)
 		{

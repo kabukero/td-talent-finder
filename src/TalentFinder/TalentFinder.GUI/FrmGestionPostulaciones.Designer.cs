@@ -86,6 +86,7 @@
 			// 
 			// BtnRealizarEvaluacion
 			// 
+			this.BtnRealizarEvaluacion.Enabled = false;
 			this.BtnRealizarEvaluacion.Location = new System.Drawing.Point(569, 175);
 			this.BtnRealizarEvaluacion.Name = "BtnRealizarEvaluacion";
 			this.BtnRealizarEvaluacion.Size = new System.Drawing.Size(242, 34);
@@ -96,12 +97,14 @@
 			// 
 			// BtnAplicarAviso
 			// 
+			this.BtnAplicarAviso.Enabled = false;
 			this.BtnAplicarAviso.Location = new System.Drawing.Point(341, 175);
 			this.BtnAplicarAviso.Name = "BtnAplicarAviso";
 			this.BtnAplicarAviso.Size = new System.Drawing.Size(222, 34);
 			this.BtnAplicarAviso.TabIndex = 6;
 			this.BtnAplicarAviso.Text = "Aplicar a Aviso";
 			this.BtnAplicarAviso.UseVisualStyleBackColor = true;
+			this.BtnAplicarAviso.Click += new System.EventHandler(this.BtnAplicarAviso_Click);
 			// 
 			// BtnBuscarAvisos
 			// 
@@ -161,6 +164,8 @@
 			this.DgvAvisos.Name = "DgvAvisos";
 			this.DgvAvisos.Size = new System.Drawing.Size(1128, 232);
 			this.DgvAvisos.TabIndex = 3;
+			this.DgvAvisos.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvAvisos_CellClick);
+			this.DgvAvisos.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.DgvAvisos_DataBindingComplete);
 			// 
 			// DgvPostulaciones
 			// 
@@ -169,6 +174,8 @@
 			this.DgvPostulaciones.Name = "DgvPostulaciones";
 			this.DgvPostulaciones.Size = new System.Drawing.Size(1128, 248);
 			this.DgvPostulaciones.TabIndex = 4;
+			this.DgvPostulaciones.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvPostulaciones_CellClick);
+			this.DgvPostulaciones.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.DgvPostulaciones_DataBindingComplete);
 			// 
 			// LblPostulacion
 			// 

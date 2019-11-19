@@ -23,5 +23,17 @@ namespace TalentFinder.BLL
 		{
 			return ProfesionalMapper.GetPostulacionEvaluacion(Postulacion);
 		}
+		public int YaSePostulo(AvisoLaboral avisoLaboral)
+		{
+			return ProfesionalMapper.YaSePostulo(avisoLaboral);
+		}
+		public void CambiarEstadoPostulacion(Postulacion postulacion, PostulacionEvalucion postulacionEvalucion)
+		{
+			ProfesionalMapper.CambiarEstadoPostulacion(postulacion, postulacionEvalucion);
+		}
+		public void Postularse(Postulacion postulacion)
+		{
+			ProfesionalMapper.Postularse(postulacion);
+		}
 	}
 }

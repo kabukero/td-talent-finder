@@ -38,5 +38,9 @@ namespace TalentFinder.BE
 		}
 
 		public Int64 DVH { get; set; }
+		public override string ToString()
+		{
+			return RazonSocial;
+		}
 	}
 }

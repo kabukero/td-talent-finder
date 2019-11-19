@@ -51,39 +51,67 @@ namespace TalentFinder.GUI
 		}
 		private void BtnIngresar_Click(object sender, EventArgs e)
 		{
-			Usuario usuario = SistemaManager.UsuarioManager.CrearUsuarioLogin(TxtUsuario.Text, TxtPassword.Text);
-			if(SistemaManager.UsuarioManager.ValidarLogin(usuario))
+			try
 			{
-				SistemaManager.BitacoraManager.RegistrarEntrada(usuario, new TipoEvento() { Id = (int)TiposEventos.INFORMACION }, "Ingresó al sistema");
-				GoToPanelDeControl();
-			}
-			else
-			{
-				if(SistemaManager.UsuarioManager.SuperoMaximoIntentosLogin(usuario))
-					Application.Exit();
+				Usuario usuario = SistemaManager.UsuarioManager.CrearUsuarioLogin(TxtUsuario.Text, TxtPassword.Text);
+				if(SistemaManager.UsuarioManager.ValidarLogin(usuario))
+				{
+					SistemaManager.BitacoraManager.RegistrarEntrada(usuario, new TipoEvento() { Id = (int)TiposEventos.INFORMACION }, "Ingresó al sistema");
+					GoToPanelDeControl();
+				}
 				else
 				{
-					LimpiarForm();
-					MessageBox.Show("Las credenciales son incorrectas. Vuelva a intentar", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					if(SistemaManager.UsuarioManager.SuperoMaximoIntentosLogin(usuario))
+						Application.Exit();
+					else
+					{
+						LimpiarForm();
+						MessageBox.Show("Las credenciales son incorrectas. Vuelva a intentar", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+					}
 				}
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = ex.Message;
+				bitacora.Descripcion = string.Format("FrmLogin-BtnIngresar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 		private void FrmLogin_Load(object sender, EventArgs e)
 		{
-			// iniciar controles de formulario
-			InitFormControls();
+			try
+			{
+				// iniciar controles de formulario
+				InitFormControls();
 
-			// suscribir a evento
-			IdiomaSubject.AddObserver(this);
+				// suscribir a evento
+				IdiomaSubject.AddObserver(this);
 
-			// disparar evento
-			Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
+				// disparar evento
+				Update(SistemaManager.SessionManager.IdiomaSession.IdiomaSelected);
 
-			// cargar opciones del menu idiomas
-			GUIHelper.CargarMenuIdiomas(toolStripDropDownButtonIdioma, SistemaManager.IdiomaManager.GetAllIdiomas());
+				// cargar opciones del menu idiomas
+				GUIHelper.CargarMenuIdiomas(toolStripDropDownButtonIdioma, SistemaManager.IdiomaManager.GetAllIdiomas());
 
-			// Lanzar proceso de verificacion integridad de los datos del sistema
-			LanzarProcesoVerificacionIntegridadDatos();
+				// Lanzar proceso de verificacion integridad de los datos del sistema
+				LanzarProcesoVerificacionIntegridadDatos();
+			}
+			catch(Exception ex)
+			{
+				Bitacora bitacora = new Bitacora();
+				bitacora.FechaCreacion = DateTime.Now;
+				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
+				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.Descripcion = ex.Message;
+				bitacora.Descripcion = string.Format("FrmLogin-FrmLogin_Load: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
+				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
+				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 		private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)
 		{

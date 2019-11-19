@@ -27,10 +27,6 @@ namespace TalentFinder.BLL
 			lista.Insert(0, new Usuario() { Id = 0, UserName = "Seleccione" });
 			return lista;
 		}
-		public List<UsuarioTipo> GetUsuarioTipos()
-		{
-			return usuarioMapper.GetUsuarioTipos();
-		}
 		public bool ValidarUsuario(Usuario usuario)
 		{
 			CantidadIntentosLogin++;
@@ -47,8 +43,6 @@ namespace TalentFinder.BLL
 
 			// set id usuario
 			usuario.Id = UsuarioEncontrado.Id;
-			//usuario.TipoUsuario = UsuarioEncontrado.TipoUsuario;
-			usuario.UsuarioTipo = UsuarioEncontrado.UsuarioTipo;
 
 			// cargar permisos usuario
 			usuario.PermisoComponent = perfilPermisoManager.GetAllPerfilesPermisosPorUsuario(usuario);
@@ -57,9 +51,10 @@ namespace TalentFinder.BLL
 			SessionManager usuarioSesion = SessionManager.GetUsuarioSesion();
 			usuarioSesion.UsuarioLogueado = usuario;
 
-			if(usuarioSesion.UsuarioLogueado.UsuarioTipo.Id == (int)TipoUsuario.PROFESIONAL)
+			// set perfil usuario logueado
+			if(SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.PERFIL_POSTULANTE, usuarioSesion.UsuarioLogueado.PermisoComponent))
 				usuarioSesion.Profesional = SistemaManager.ProfesionalManager.GetProfesional(usuarioSesion.UsuarioLogueado);
-			else if(usuarioSesion.UsuarioLogueado.UsuarioTipo.Id == (int)TipoUsuario.RECLUTADOR)
+			else if(SistemaManager.PerfilPermisoManager.TienePermiso(Permisos.PERFIL_RECLUTADOR, usuarioSesion.UsuarioLogueado.PermisoComponent))
 				usuarioSesion.Reclutador = SistemaManager.ReclutadorManager.GetReclutador(usuarioSesion.UsuarioLogueado);
 
 			return true;
