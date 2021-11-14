@@ -27,3 +27,4 @@ UPDATE Usuario SET Habilitado=0 WHERE Id=3
 
 
 Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework
+

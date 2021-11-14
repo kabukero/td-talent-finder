@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
+	/// <summary>
+	/// Enumeración que contiene los identificadores de los estados de las postulaciones
+	/// </summary>
 	public enum PostulacionEstados
 	{
 		INICIADA = 1,

@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
+	/// <summary>
+	/// Enumeración que contiene los valores de los identificadores
+	/// de los idiomas
+	/// </summary>
 	public enum Idiomas
 	{
 		ESPAÑOL = 1,

@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
+	/// <summary>
+	/// Entidad de negocio que representa una tecnología dentro del sistema
+	/// </summary>
 	public class Tecnologia : EntidadBase
 	{
+		/// <summary>
+		/// Property que contiene el nombre de una tecnología
+		/// </summary>
 		public string Nombre { get; set; }
 		public override string ToString()
 		{

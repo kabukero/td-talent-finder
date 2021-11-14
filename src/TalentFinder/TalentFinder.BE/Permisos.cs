@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
+	/// <summary>
+	/// Enumeración que contiene todos los identificadores de las patentes
+	/// disponibles en el sistema
+	/// </summary>
 	public enum Permisos
 	{
 		ROOT = 1,

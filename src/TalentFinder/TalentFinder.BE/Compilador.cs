@@ -9,14 +9,37 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
+	/// <summary>
+	/// Entidad de negocio para contener la información
+	/// del compilador
+	/// </summary>
 	public class Compilador
 	{
+		/// <summary>
+		/// Property que contiene el usuario de un compilador
+		/// </summary>
 		public Usuario Usuario { get; }
+		/// <summary>
+		/// Property que contiene el parser de un compilador
+		/// </summary>
 		public Parser Parser { get; }
+		/// <summary>
+		/// Property que contiene el directorio del assembly que genera un compilador
+		/// </summary>
 		public string CarpetaTalenFinder { get; }
+		/// <summary>
+		/// Property que contiene el directorio del assembly que genera un compilador
+		/// </summary>
 		public string CarpetaUsuario { get; }
+		/// <summary>
+		/// Property que contiene el directorio del assembly que genera un compilador
+		/// </summary>
 		public string CarpetaUsuarioEvaluaciones { get; }
-
+		/// <summary>
+		/// Método para crear el codigo fuente a partir del codigo escrito por el usuario
+		/// </summary>
+		/// <param name="MetodoDetalle">Código fuente escrito por el usuario</param>
+		/// <returns>el nombre del assembly creado por el compilador</returns>
 		private string CrearPrograma(MetodoDetalle MetodoDetalle)
 		{
 			if(!Directory.Exists(CarpetaTalenFinder))
@@ -38,6 +61,11 @@ namespace TalentFinder.BE
 			return nombreArchivoPrograma;
 		}
 
+		/// <summary>
+		/// Método para crear el assembly a partir del codigo fuente escrito por el usuario
+		/// </summary>
+		/// <param name="metodoDetalle"></param>
+		/// <returns></returns>
 		public ResultadoEjecucion CompilarPrograma(MetodoDetalle metodoDetalle)
 		{
 			ResultadoEjecucion ResultadoEjecucion = new ResultadoEjecucion();
@@ -89,6 +117,10 @@ namespace TalentFinder.BE
 			return ResultadoEjecucion;
 		}
 
+		/// <summary>
+		/// Constructor de la clase que inicializa el uuario, parser, directorio del assembly
+		/// </summary>
+		/// <param name="usuario">Usuario autor del codigo fuente</param>
 		public Compilador(Usuario usuario)
 		{
 			Usuario = usuario;

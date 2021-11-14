@@ -10,11 +10,25 @@ using TalentFinder.BE;
 
 namespace TalentFinder.BE
 {
+	/// <summary>
+	/// Entidad de negocio que representa el runner de los programas
+	/// que los usuarios crean en las evaluaciones que realizan
+	/// </summary>
 	public class ProgramRunner
 	{
+		/// <summary>
+		/// Atributo que contiene el usuario autor de un programa
+		/// </summary>
 		private Usuario usuario;
+		/// <summary>
+		/// Property que contiene el compilador para generar el assembly
+		/// </summary>
 		public Compilador Compilador { get; }
-
+		/// <summary>
+		/// Método que ejecuta el assembly generado por el compilador
+		/// </summary>
+		/// <param name="metodoDetalle">Código fuente del programa escrito por el usuario</param>
+		/// <returns></returns>
 		public ResultadoEjecucion EjecutarPrograma(MetodoDetalle metodoDetalle)
 		{
 			ResultadoEjecucion ResultadoEjecucion = null;
@@ -47,6 +61,11 @@ namespace TalentFinder.BE
 			return ResultadoEjecucion;
 		}
 
+		/// <summary>
+		/// Mëtodo para obtener el objeto process para poder ejecutar un programa en segundo plano
+		/// </summary>
+		/// <param name="RutaNombreProgramaEjecutable"></param>
+		/// <returns></returns>
 		private ProcessStartInfo ObtenerProcesoConfiguracion(string RutaNombreProgramaEjecutable)
 		{
 			ProcessStartInfo configuracion = new ProcessStartInfo();
@@ -61,6 +80,10 @@ namespace TalentFinder.BE
 			return configuracion;
 		}
 
+		/// <summary>
+		/// Constructor de la clase para inicializar el compilador y el usuario
+		/// </summary>
+		/// <param name="usuario">Usuario auto del programa</param>
 		public ProgramRunner(Usuario usuario)
 		{
 			this.usuario = usuario;

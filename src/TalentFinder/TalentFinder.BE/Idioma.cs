@@ -6,11 +6,23 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
+	/// <summary>
+	/// Entidad de negocio que representa un idioma del sistema
+	/// </summary>
 	public class Idioma : IdiomaSubject
 	{
+		/// <summary>
+		/// Property que contiene el identificador de un idioma
+		/// </summary>
 		public int Id { get; set; }
+		/// <summary>
+		/// Property que contiene el nombre de un idioma
+		/// </summary>
 		public string Nombre { get; set; }
 		private Idioma idiomaSelected;
+		/// <summary>
+		/// Property que contiene el idioma seleccionado por el usuario
+		/// </summary>
 		public Idioma IdiomaSelected
 		{
 			get
@@ -24,6 +36,9 @@ namespace TalentFinder.BE
 			}
 		}
 		private IList<IdiomaFrase> traducciones;
+		/// <summary>
+		/// Property que contiene las traducciones de un idioma
+		/// </summary>
 		public IList<IdiomaFrase> Traducciones
 		{
 			get
@@ -35,14 +50,24 @@ namespace TalentFinder.BE
 				traducciones = value;
 			}
 		}
+		/// <summary>
+		/// Método para agregar una traduccion de un idioma
+		/// </summary>
+		/// <param name="IdiomaFrase"></param>
 		public void AgregarTraduccion(IdiomaFrase IdiomaFrase)
 		{
 			traducciones.Add(IdiomaFrase);
 		}
+		/// <summary>
+		/// Constructo de la clase para inicializar la lista traducciones
+		/// </summary>
 		public Idioma()
 		{
 			traducciones = new List<IdiomaFrase>();
 		}
+		/// <summary>
+		/// Property que contiene el nombre de un idioma
+		/// </summary>
 		public override string ToString()
 		{
 			return Nombre;

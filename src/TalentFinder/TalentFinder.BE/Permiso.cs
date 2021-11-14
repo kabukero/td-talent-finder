@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
+	/// <summary>
+	/// Entidad de negocio que representa una patente dentro del sistema
+	/// </summary>
 	public class Permiso : PermisoComponent
 	{
+		/// <summary>
+		/// Lista de patentes
+		/// </summary>
 		public override IList<PermisoComponent> Permisos { get; set; }
 		public override void Agregar(PermisoComponent permiso)
 		{

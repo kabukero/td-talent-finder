@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
+	/// <summary>
+	/// Entidad de negocio que representa el estado de una postulación
+	/// </summary>
 	public class PostulacionEstado : EntidadBase
 	{
+		/// <summary>
+		/// Property que contiene el nombre del estado de una postulación
+		/// </summary>
 		public string Nombre { get; set; }
 		public override string ToString()
 		{
