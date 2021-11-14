@@ -1,29 +1,17 @@
 # README #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+## UAI - TRABAJO DE DIPLOMA - PROYECTO FINAL
 
-### What is this repository for? ###
+### Talent Finder
 
-* Sistema de Requisitos Legales
-* 1.0
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+Sistema para el reclutamiento, evalución y selección interna de profesionales
+en el área de IT.
 
-### How do I get set up? ###
+### Profesores ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* Ing. Gastón Weingand
+* Ing. Brian Gomez
 
-### Contribution guidelines ###
+### Alumno ###
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* Jorge Zurriable
