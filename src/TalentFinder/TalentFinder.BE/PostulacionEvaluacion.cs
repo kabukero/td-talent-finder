@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.BE
 {
-	public class PostulacionEvalucion : EntidadBase
+	public class PostulacionEvaluacion : EntidadBase
 	{
 		public DateTime FechaCreacion { get; set; }
 		public string Respuesta { get; set; }

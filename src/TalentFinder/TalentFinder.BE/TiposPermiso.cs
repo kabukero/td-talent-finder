@@ -9,6 +9,6 @@ namespace TalentFinder.BE
 	public enum TiposPermiso
 	{
 		PERFIL = 1,
-		PERMISO,
+		PERMISO
 	}
 }

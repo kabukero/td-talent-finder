@@ -10,12 +10,17 @@ namespace TalentFinder.DAL
 	{
 		private SqlConnection conn;
 		private SqlTransaction tx;
-		public void Abrir()
+
+		public void Abrir(bool esDbMaster = false)
 		{
-			conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionStringDB"].ConnectionString);
+			if(esDbMaster)
+				conn = new SqlConnection(ConfigurationManager.ConnectionStrings["MasterDb"].ConnectionString);
+			else
+				conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionStringDB"].ConnectionString);
 			//conn = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionStringAdminDB"].ConnectionString);
 			conn.Open();
 		}
+
 		public void Cerrar()
 		{
 			if(conn != null && conn.State == ConnectionState.Open)
@@ -25,6 +30,7 @@ namespace TalentFinder.DAL
 				GC.Collect();
 			}
 		}
+
 		public void IniciarTx()
 		{
 			if(tx == null && conn != null)
@@ -42,12 +48,14 @@ namespace TalentFinder.DAL
 			tx.Rollback();
 			tx = null;
 		}
+
 		public SqlParameter CrearParametro(string nombre, string valor)
 		{
 			SqlParameter parametro = new SqlParameter(nombre, valor);
 			parametro.SqlDbType = SqlDbType.VarChar;
 			return parametro;
 		}
+
 		public SqlParameter CrearParametro(string nombre, int valor)
 		{
 			SqlParameter parametro = new SqlParameter(nombre, valor);
@@ -66,6 +74,7 @@ namespace TalentFinder.DAL
 			parametro.SqlDbType = SqlDbType.DateTime;
 			return parametro;
 		}
+
 		public SqlCommand CrearComando(string nombre, List<SqlParameter> parametros)
 		{
 			SqlCommand cmd = new SqlCommand(nombre, conn);
@@ -89,6 +98,7 @@ namespace TalentFinder.DAL
 			}
 			return tabla;
 		}
+
 		public DataTable LeerCmdText(string nombre)
 		{
 			DataTable tabla = new DataTable();
@@ -103,6 +113,7 @@ namespace TalentFinder.DAL
 			}
 			return tabla;
 		}
+
 		public int LeerEscalar(string nombre, List<SqlParameter> parametros)
 		{
 			int r;
@@ -122,14 +133,20 @@ namespace TalentFinder.DAL
 			}
 			return f;
 		}
-		public int EscribirCmdText(string nombre)
+
+		public int EscribirCmdText(string nombre, List<SqlParameter> parametros)
 		{
 			int f = 1;
 			using(SqlCommand cmd = new SqlCommand(nombre, conn))
 			{
 				cmd.CommandType = CommandType.Text;
+
 				if(tx != null)
 					cmd.Transaction = tx;
+
+				if(parametros != null && parametros.Count > 0)
+					cmd.Parameters.AddRange(parametros.ToArray());
+
 				cmd.ExecuteNonQuery();
 			}
 			return f;

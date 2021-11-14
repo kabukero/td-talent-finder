@@ -35,8 +35,8 @@
 			this.gbArchivo = new System.Windows.Forms.GroupBox();
 			this.BtnSalir = new System.Windows.Forms.Button();
 			this.gbGestionPostulante = new System.Windows.Forms.GroupBox();
-			this.BtnGestionAvisos = new System.Windows.Forms.Button();
 			this.gbGestionPerfilProfesional = new System.Windows.Forms.GroupBox();
+			this.BtnGestionAvisosLaborales = new System.Windows.Forms.Button();
 			this.BtnGestionPostulaciones = new System.Windows.Forms.Button();
 			this.gbAdministracionSistema = new System.Windows.Forms.GroupBox();
 			this.BtnGestionIdiomas = new System.Windows.Forms.Button();
@@ -115,30 +115,20 @@
 			// 
 			// gbGestionPostulante
 			// 
-			this.gbGestionPostulante.Controls.Add(this.BtnGestionAvisos);
-			this.gbGestionPostulante.Location = new System.Drawing.Point(4, 160);
+			this.gbGestionPostulante.Controls.Add(this.BtnGestionAvisosLaborales);
+			this.gbGestionPostulante.Location = new System.Drawing.Point(11, 160);
 			this.gbGestionPostulante.Margin = new System.Windows.Forms.Padding(2);
 			this.gbGestionPostulante.Name = "gbGestionPostulante";
 			this.gbGestionPostulante.Padding = new System.Windows.Forms.Padding(2);
 			this.gbGestionPostulante.Size = new System.Drawing.Size(197, 176);
 			this.gbGestionPostulante.TabIndex = 6;
 			this.gbGestionPostulante.TabStop = false;
-			this.gbGestionPostulante.Text = "Gestión Postulante";
-			// 
-			// BtnGestionAvisos
-			// 
-			this.BtnGestionAvisos.Location = new System.Drawing.Point(21, 43);
-			this.BtnGestionAvisos.Margin = new System.Windows.Forms.Padding(2);
-			this.BtnGestionAvisos.Name = "BtnGestionAvisos";
-			this.BtnGestionAvisos.Size = new System.Drawing.Size(160, 29);
-			this.BtnGestionAvisos.TabIndex = 4;
-			this.BtnGestionAvisos.Text = "Gestión Avisos";
-			this.BtnGestionAvisos.UseVisualStyleBackColor = true;
+			this.gbGestionPostulante.Text = "Gestión Reclutamiento";
 			// 
 			// gbGestionPerfilProfesional
 			// 
 			this.gbGestionPerfilProfesional.Controls.Add(this.BtnGestionPostulaciones);
-			this.gbGestionPerfilProfesional.Location = new System.Drawing.Point(210, 160);
+			this.gbGestionPerfilProfesional.Location = new System.Drawing.Point(221, 160);
 			this.gbGestionPerfilProfesional.Margin = new System.Windows.Forms.Padding(2);
 			this.gbGestionPerfilProfesional.Name = "gbGestionPerfilProfesional";
 			this.gbGestionPerfilProfesional.Padding = new System.Windows.Forms.Padding(2);
@@ -146,6 +136,17 @@
 			this.gbGestionPerfilProfesional.TabIndex = 7;
 			this.gbGestionPerfilProfesional.TabStop = false;
 			this.gbGestionPerfilProfesional.Text = "Gestión Perfil Profesional";
+			// 
+			// BtnGestionAvisosLaborales
+			// 
+			this.BtnGestionAvisosLaborales.Location = new System.Drawing.Point(18, 36);
+			this.BtnGestionAvisosLaborales.Margin = new System.Windows.Forms.Padding(2);
+			this.BtnGestionAvisosLaborales.Name = "BtnGestionAvisosLaborales";
+			this.BtnGestionAvisosLaborales.Size = new System.Drawing.Size(160, 43);
+			this.BtnGestionAvisosLaborales.TabIndex = 5;
+			this.BtnGestionAvisosLaborales.Text = "Gestión Avisos Laborales";
+			this.BtnGestionAvisosLaborales.UseVisualStyleBackColor = true;
+			this.BtnGestionAvisosLaborales.Click += new System.EventHandler(this.BtnGestionAvisosLaborales_Click);
 			// 
 			// BtnGestionPostulaciones
 			// 
@@ -165,7 +166,7 @@
 			this.gbAdministracionSistema.Controls.Add(this.BtnGestionBackup);
 			this.gbAdministracionSistema.Controls.Add(this.BtnGestionUsuarios);
 			this.gbAdministracionSistema.Controls.Add(this.BtnGestionPerfiles);
-			this.gbAdministracionSistema.Location = new System.Drawing.Point(638, 160);
+			this.gbAdministracionSistema.Location = new System.Drawing.Point(652, 160);
 			this.gbAdministracionSistema.Margin = new System.Windows.Forms.Padding(2);
 			this.gbAdministracionSistema.Name = "gbAdministracionSistema";
 			this.gbAdministracionSistema.Padding = new System.Windows.Forms.Padding(2);
@@ -232,7 +233,7 @@
 			// gbGestionEmpresa
 			// 
 			this.gbGestionEmpresa.Controls.Add(this.BtnVerListadoEmpresas);
-			this.gbGestionEmpresa.Location = new System.Drawing.Point(422, 160);
+			this.gbGestionEmpresa.Location = new System.Drawing.Point(436, 160);
 			this.gbGestionEmpresa.Margin = new System.Windows.Forms.Padding(2);
 			this.gbGestionEmpresa.Name = "gbGestionEmpresa";
 			this.gbGestionEmpresa.Padding = new System.Windows.Forms.Padding(2);
@@ -292,7 +293,6 @@
 		private System.Windows.Forms.GroupBox gbArchivo;
 		private System.Windows.Forms.Button BtnSalir;
 		private System.Windows.Forms.GroupBox gbGestionPostulante;
-		private System.Windows.Forms.Button BtnGestionAvisos;
 		private System.Windows.Forms.GroupBox gbGestionPerfilProfesional;
 		private System.Windows.Forms.Button BtnGestionPostulaciones;
 		private System.Windows.Forms.GroupBox gbAdministracionSistema;
@@ -303,5 +303,6 @@
 		private System.Windows.Forms.Button BtnVerListadoEmpresas;
 		private System.Windows.Forms.Button BtnVerBitacora;
 		private System.Windows.Forms.Button BtnGestionIdiomas;
+		private System.Windows.Forms.Button BtnGestionAvisosLaborales;
 	}
 }

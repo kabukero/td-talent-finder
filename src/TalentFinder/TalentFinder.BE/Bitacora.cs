@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,13 @@ namespace TalentFinder.BE
 	public class Bitacora : EntidadBase
 	{
 		public DateTime FechaCreacion { get; set; }
+
+		[JsonIgnore]
 		public string FechaCreacionFormmated
 		{
 			get
 			{
-				return FechaCreacion.ToString("dd/MM/yyyy HH:MM");
+				return FechaCreacion.ToString("dd/MM/yyyy HH:mm");
 			}
 		}
 		public Usuario Usuario { get; set; }

@@ -14,10 +14,12 @@ namespace TalentFinder.BE
 		{
 			observers.Add(observer);
 		}
+
 		public static void RemoveObserver(IIdiomaObserver observer)
 		{
 			observers.Remove(observer);
 		}
+
 		public static void Notify(Idioma idioma)
 		{
 			foreach(var observer in observers)

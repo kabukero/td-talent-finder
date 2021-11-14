@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TalentFinder.BE
+namespace TalentFinder.Service.Domain
 {
-	public enum TipoUsuario
+	public enum TiposPermiso
 	{
-		ADMINISTRADOR_SISTEMA = 1,
-		RECLUTADOR,
-		PROFESIONAL
+		PERFIL = 1,
+		PERMISO
 	}
 }

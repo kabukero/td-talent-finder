@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TalentFinder.BE
+namespace TalentFinder.Service.Domain
 {
-	public interface ITestEjercicio
+	public interface IIdiomaObserver
 	{
-		TestResultado MiMetodoTest();
+		void Update(Idioma idioma);
 	}
 }

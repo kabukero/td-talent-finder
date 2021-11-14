@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TalentFinder.Service;
 
 namespace TalentFinder.BE
 {
@@ -29,7 +28,7 @@ namespace TalentFinder.BE
 		{
 			get
 			{
-				return CloneHelper.CloneObject<IList<IdiomaFrase>>(traducciones);
+				return traducciones;
 			}
 			set
 			{

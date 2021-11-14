@@ -9,7 +9,6 @@ namespace TalentFinder.BE
 {
 	public class Parser
 	{
-		private EjercicioCodigoFuenteFactory EjercicioCodigoFuenteFactory = new EjercicioCodigoFuenteFactory();
 		public string GetCodigoFuente(MetodoDetalle MetodoDetalle)
 		{
 			//string codigoFuentePrograma = EjercicioCodigoFuenteFactory.GetCodigoFuente(MetodoDetalle.EjercicioNombre);

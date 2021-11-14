@@ -19,7 +19,7 @@ namespace TalentFinder.BLL
 		{
 			return ProfesionalMapper.GetPostulaciones(Profesional);
 		}
-		public PostulacionEvalucion GetPostulacionEvaluacion(Postulacion Postulacion)
+		public PostulacionEvaluacion GetPostulacionEvaluacion(Postulacion Postulacion)
 		{
 			return ProfesionalMapper.GetPostulacionEvaluacion(Postulacion);
 		}
@@ -27,7 +27,7 @@ namespace TalentFinder.BLL
 		{
 			return ProfesionalMapper.YaSePostulo(avisoLaboral);
 		}
-		public void CambiarEstadoPostulacion(Postulacion postulacion, PostulacionEvalucion postulacionEvalucion)
+		public void CambiarEstadoPostulacion(Postulacion postulacion, PostulacionEvaluacion postulacionEvalucion)
 		{
 			ProfesionalMapper.CambiarEstadoPostulacion(postulacion, postulacionEvalucion);
 		}

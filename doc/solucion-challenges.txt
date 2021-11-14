@@ -1,0 +1,74 @@
+public int MiMetodo(string input)
+{
+  int count = 0;
+  bool inWord = false;
+
+  foreach (char t in input)
+  {
+    if (char.IsWhiteSpace(t))
+    {
+      inWord = false;
+    }
+    else
+    {
+      if (!inWord) count++;
+      inWord = true;
+    }
+  }
+  return count;
+}
+
+
+public int MiMetodo(int[] input)
+{
+  return input.Sum();
+}
+
+
+public int MiMetodo(int[] input)
+{
+  int sum = 0;
+  for(int i = 0; i < input.Length; i++)
+  {
+    sum+=input[i];
+  }
+  return sum;
+}
+
+
+public int MiMetodo(int n)
+{
+  if(n == 0 || n == 1)
+    return 1;
+  else
+    return MiMetodo(n - 1) * n;
+}
+
+
+public int MiMetodo(int n)
+{
+  int factorial = 1;
+  while (n > 1)
+  {
+    factorial *= --n;
+  }
+  return factorial;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+npm init -y
+npm install express
+npm install -D typescript ts-node nodemon @types/node @types/express

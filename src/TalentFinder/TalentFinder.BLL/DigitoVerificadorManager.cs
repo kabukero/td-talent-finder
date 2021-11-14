@@ -12,6 +12,7 @@ namespace TalentFinder.BLL
 	public class DigitoVerificadorManager
 	{
 		DigitoVerificadorMapper DigitoVerificadorMapper = new DigitoVerificadorMapper();
+
 		public int GuardarDigitoVerificador(TablasSistema tablasSistema)
 		{
 			int f = 0;
@@ -41,6 +42,7 @@ namespace TalentFinder.BLL
 			}
 			return f;
 		}
+
 		public Int64 CalcularDVH(Empresa empresa)
 		{
 			Int64 digitoVerificadorHorizontal = 0, digitoVerificadorCampo;
@@ -71,6 +73,7 @@ namespace TalentFinder.BLL
 			}
 			return digitoVerificadorHorizontal;
 		}
+
 		public Int64 CalcularDVV(List<Empresa> empresas)
 		{
 			Int64 dvv = 0;
@@ -78,13 +81,7 @@ namespace TalentFinder.BLL
 				dvv += e.DVH;
 			return dvv;
 		}
-		public Int64 CalcularDVV(List<Usuario> usuarios)
-		{
-			Int64 dvv = 0;
-			foreach(Usuario e in usuarios)
-				dvv += e.DVH;
-			return dvv;
-		}
+
 		public bool VerificarIntegridadDatosSistema()
 		{
 			List<Empresa> empresas = SistemaManager.EmpresaManager.GetAllEmpresas();
@@ -107,6 +104,7 @@ namespace TalentFinder.BLL
 
 			return true;
 		}
+
 		public bool VerificarIntegridadDatosEmpresa(Empresa empresa)
 		{
 			Empresa empresaActual = SistemaManager.EmpresaManager.GetEmpresa(empresa.Id);

@@ -187,9 +187,9 @@
 			// DgvEmpresas
 			// 
 			this.DgvEmpresas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.DgvEmpresas.Location = new System.Drawing.Point(3, 178);
+			this.DgvEmpresas.Location = new System.Drawing.Point(3, 198);
 			this.DgvEmpresas.Name = "DgvEmpresas";
-			this.DgvEmpresas.Size = new System.Drawing.Size(1128, 523);
+			this.DgvEmpresas.Size = new System.Drawing.Size(1128, 503);
 			this.DgvEmpresas.TabIndex = 1;
 			this.DgvEmpresas.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvEmpresas_CellClick);
 			// 

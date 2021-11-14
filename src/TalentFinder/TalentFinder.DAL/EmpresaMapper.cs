@@ -35,6 +35,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
 		public int Editar(Empresa empresa)
 		{
 			int f = 0;
@@ -60,6 +61,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
 		public int EditarDVHEmpresa(Empresa empresa)
 		{
 			int f = 0;
@@ -79,6 +81,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
 		public int Eliminar(Empresa empresa)
 		{
 			int f = 0;
@@ -97,6 +100,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
 		public List<Empresa> GetAllEmpresas()
 		{
 			List<Empresa> lista = new List<Empresa>();
@@ -125,6 +129,7 @@ namespace TalentFinder.DAL
 			}
 			return lista;
 		}
+
 		public Empresa GetEmpresa(int Id)
 		{
 			Empresa empresa = null;
@@ -151,6 +156,7 @@ namespace TalentFinder.DAL
 			}
 			return empresa;
 		}
+
 		public int CrearHistorico(Empresa empresa)
 		{
 			int f = 0;

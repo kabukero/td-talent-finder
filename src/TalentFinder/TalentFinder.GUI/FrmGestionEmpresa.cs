@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using TalentFinder.BE;
 using TalentFinder.BLL;
@@ -76,7 +77,7 @@ namespace TalentFinder.GUI
 				Bitacora bitacora = new Bitacora();
 				bitacora.FechaCreacion = DateTime.Now;
 				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
-				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.TipoEvento = SistemaManager.BitacoraManager.GetBitacoraTipoEvento((int)TiposEventos.ERROR);
 				bitacora.Descripcion = string.Format("FrmGestionEmpresa-CargarEmpresas: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
 				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
 				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -183,7 +184,7 @@ namespace TalentFinder.GUI
 				Bitacora bitacora = new Bitacora();
 				bitacora.FechaCreacion = DateTime.Now;
 				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
-				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.TipoEvento = SistemaManager.BitacoraManager.GetBitacoraTipoEvento((int)TiposEventos.ERROR);
 				bitacora.Descripcion = string.Format("FrmGestionEmpresa-BtnAgregar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
 				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
 				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -225,7 +226,7 @@ namespace TalentFinder.GUI
 				Bitacora bitacora = new Bitacora();
 				bitacora.FechaCreacion = DateTime.Now;
 				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
-				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.TipoEvento = SistemaManager.BitacoraManager.GetBitacoraTipoEvento((int)TiposEventos.ERROR);
 				bitacora.Descripcion = string.Format("FrmGestionEmpresa-BtnEditar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
 				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
 				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -258,7 +259,7 @@ namespace TalentFinder.GUI
 				Bitacora bitacora = new Bitacora();
 				bitacora.FechaCreacion = DateTime.Now;
 				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
-				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.TipoEvento = SistemaManager.ListaTipoEvento.FirstOrDefault(x => x.Id == (int)TiposEventos.ERROR);
 				bitacora.Descripcion = string.Format("FrmGestionEmpresa-BtnEliminar_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
 				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
 				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);

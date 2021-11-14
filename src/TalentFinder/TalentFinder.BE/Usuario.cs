@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,8 +15,9 @@ namespace TalentFinder.BE
 		{
 			return UserName;
 		}
+
+		[JsonIgnore]
 		public List<PermisoComponent> PermisoComponent { get; set; }
-		public Int64 DVH { get; set; }
 		public Persona Persona { get; set; }
 		public bool IsInRole(int Id, IList<PermisoComponent> lista)
 		{

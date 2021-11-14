@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -61,6 +62,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return persona;
 		}
+
 		public Usuario GetUsuario(string userName)
 		{
 			Usuario usuario = null;
@@ -68,7 +70,7 @@ namespace TalentFinder.DAL
 			da.Abrir();
 			List<SqlParameter> parametros = new List<SqlParameter>();
 			parametros.Add(da.CrearParametro("@UserName", userName));
-			DataTable tabla = da.Leer("GetUsuario", parametros);
+			DataTable tabla = da.Leer("GetUsuariobByUserName", parametros);
 			if(tabla.Rows.Count > 0)
 			{
 				DataRow registro = tabla.Rows[0];
@@ -83,6 +85,34 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return usuario;
 		}
+
+		public Usuario GetUsuario(Usuario user)
+		{
+			Usuario usuario = null;
+			DataAccessManager da = new DataAccessManager();
+			da.Abrir();
+			List<SqlParameter> parametros = new List<SqlParameter>();
+			parametros.Add(da.CrearParametro("@Id", user.Id));
+			DataTable tabla = da.Leer("GetUsuario", parametros);
+			if(tabla.Rows.Count > 0)
+			{
+				DataRow registro = tabla.Rows[0];
+				usuario = new Usuario();
+				usuario.Id = int.Parse(registro["Id"].ToString());
+				usuario.UserName = registro["UserName"].ToString();
+				PerfilPermisoMapper perfilPermisoMapper = new PerfilPermisoMapper();
+				usuario.PermisoComponent = perfilPermisoMapper.GetAllPerfilesPermisosPorUsuario(usuario);
+				usuario.Persona = GetPersona(usuario);
+			}
+			da.Cerrar();
+			return usuario;
+		}
+
+		public Usuario GetUsuarioAdministrador()
+		{
+			return GetUsuario(new Usuario() { Id = int.Parse(ConfigurationManager.AppSettings["UsuarioAdministradorId"].ToString()) });
+		}
+
 		public int DeshabilitarUsuario(Usuario usuario)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -93,6 +123,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
 		public List<Usuario> GetUsuarios()
 		{
 			PerfilPermisoMapper perfilPermisoMapper = new PerfilPermisoMapper();
@@ -115,6 +146,7 @@ namespace TalentFinder.DAL
 			}
 			return lista;
 		}
+
 		public int Agregar(Usuario usuario)
 		{
 			int NewId;
@@ -152,6 +184,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return NewId;
 		}
+
 		public int Editar(Usuario usuario)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -164,6 +197,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
 		public int Eliminar(Usuario usuario)
 		{
 			DataAccessManager da = new DataAccessManager();

@@ -8,6 +8,7 @@ namespace TalentFinder.BE
 {
 	public class Backup
 	{
-		public string PathBackupFile { get; set; }
+		public DateTime FechaCreacion { get; set;  }
+		public string NombreArchivo { get; set; }
 	}
 }

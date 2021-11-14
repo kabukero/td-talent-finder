@@ -8,12 +8,14 @@ namespace TalentFinder.BE
 {
 	public class AvisoLaboral : EntidadBase
 	{
+		public string Titulo { get; set; }
 		public string Descripcion { get; set; }
 		public DateTime FechaVigencia { get; set; }
 		public DateTime FechaVencimiento { get; set; }
 		public DateTime FechaCreacion { get; set; }
 		public string LugarTrabajo { get; set; }
 		public Reclutador Reclutador { get; set; }
+		public Empresa Empresa { get; set; }
 		public string FechaVigenciaDisplay
 		{
 			get

@@ -13,6 +13,7 @@ namespace TalentFinder.BLL
 		public static UsuarioManager UsuarioManager = new UsuarioManager();
 		public static SessionManager SessionManager;
 		public static BitacoraManager BitacoraManager = new BitacoraManager();
+		public static BackupManager BackupManager = new BackupManager();
 		public static PerfilPermisoManager PerfilPermisoManager = new PerfilPermisoManager();
 		public static TipoPermisoManager TipoPermisoManager = new TipoPermisoManager();
 		public static DigitoVerificadorManager DigitoVerificadorManager = new DigitoVerificadorManager();
@@ -22,6 +23,7 @@ namespace TalentFinder.BLL
 		public static AvisoLaboralManager AvisoLaboralManager = new AvisoLaboralManager();
 		public static ProfesionalManager ProfesionalManager = new ProfesionalManager();
 		public static ReclutadorManager ReclutadorManager = new ReclutadorManager();
+		public static List<TipoEvento> ListaTipoEvento = new List<TipoEvento>();
 
 		static SistemaManager()
 		{
@@ -29,6 +31,7 @@ namespace TalentFinder.BLL
 			Idioma idiomaDefault = IdiomaManager.GetIdioma(Idiomas.ESPAÑOL); // idioma por defecto
 			SessionManager.IdiomaSession = idiomaDefault;
 			SessionManager.IdiomaSession.IdiomaSelected = idiomaDefault;
+			ListaTipoEvento = BitacoraManager.GetBitacoraTipoEventos();
 		}
 	}
 }

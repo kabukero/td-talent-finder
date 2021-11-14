@@ -28,10 +28,12 @@ namespace TalentFinder.GUI
 		{
 			GUIHelper.CargarMenuIdiomas(toolStripDropDownButtonIdioma, SistemaManager.IdiomaManager.GetAllIdiomas());
 		}
+
 		public void Update(Idioma idioma)
 		{
 			GUIHelper.CambiarTextoControlFormSegunIdioma(this, idioma);
 		}
+
 		private void FrmPanelControl_Load(object sender, EventArgs e)
 		{
 			// iniciar controles de formulario
@@ -48,6 +50,7 @@ namespace TalentFinder.GUI
 
 			ShowFrmHome();
 		}
+
 		private void FrmPanelControl_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			IdiomaSubject.RemoveObserver(this);

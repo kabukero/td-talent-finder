@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
@@ -48,21 +51,13 @@
     <Compile Include="Bitacora.cs" />
     <Compile Include="Compilador.cs" />
     <Compile Include="DigitoVerificadorVertical.cs" />
-    <Compile Include="Ejercicio.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="EjercicioCodigoFuenteFactory.cs" />
     <Compile Include="Evaluacion.cs" />
     <Compile Include="MetodoDetalle.cs" />
     <Compile Include="PostulacionEstado.cs" />
     <Compile Include="PostulacionEstados.cs" />
-    <Compile Include="PostulacionEvalucion.cs" />
+    <Compile Include="PostulacionEvaluacion.cs" />
     <Compile Include="ProgramRunner.cs" />
     <Compile Include="Tecnologia.cs" />
-    <Compile Include="TestEjercicio1.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
-    <Compile Include="TestEjercicioFactory.cs" />
     <Compile Include="Empresa.cs" />
     <Compile Include="EntidadBase.cs" />
     <Compile Include="Frase.cs" />
@@ -70,10 +65,7 @@
     <Compile Include="IdiomaFrase.cs" />
     <Compile Include="Idiomas.cs" />
     <Compile Include="IdiomaSubject.cs" />
-    <Compile Include="IEjercicio.cs" />
-    <Compile Include="ITestEjercicio.cs" />
     <Compile Include="IIdiomaObserver.cs" />
-    <Compile Include="TestItem.cs" />
     <Compile Include="Parser.cs" />
     <Compile Include="Perfil.cs" />
     <Compile Include="Permiso.cs" />
@@ -83,26 +75,20 @@
     <Compile Include="Persona.cs" />
     <Compile Include="Postulacion.cs" />
     <Compile Include="Profesional.cs" />
-    <Compile Include="TestProgramEntryPoint.cs" />
     <Compile Include="Reclutador.cs" />
     <Compile Include="ResultadoEjecucion.cs" />
     <Compile Include="ResultadoEjecucionEstado.cs" />
-    <Compile Include="TestResultado.cs" />
     <Compile Include="TablaSistema.cs" />
     <Compile Include="TablasSistema.cs" />
     <Compile Include="TipoEvento.cs" />
     <Compile Include="TipoPermiso.cs" />
     <Compile Include="TiposEventos.cs" />
     <Compile Include="TiposPermiso.cs" />
-    <Compile Include="TipoUsuario.cs" />
     <Compile Include="Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TalentFinder.Service\TalentFinder.Service.csproj">
-      <Project>{719BA543-8B74-4FA1-B7C6-555C5F57D286}</Project>
-      <Name>TalentFinder.Service</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

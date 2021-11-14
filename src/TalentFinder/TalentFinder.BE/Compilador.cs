@@ -11,20 +11,25 @@ namespace TalentFinder.BE
 {
 	public class Compilador
 	{
-		private Parser Parser = new Parser();
-		private string UserId;
-		private string carpetaUser;
-		private string carpetaUserProgram;
+		public Usuario Usuario { get; }
+		public Parser Parser { get; }
+		public string CarpetaTalenFinder { get; }
+		public string CarpetaUsuario { get; }
+		public string CarpetaUsuarioEvaluaciones { get; }
+
 		private string CrearPrograma(MetodoDetalle MetodoDetalle)
 		{
-			if(!Directory.Exists(carpetaUser))
-				Directory.CreateDirectory(carpetaUser);
+			if(!Directory.Exists(CarpetaTalenFinder))
+				Directory.CreateDirectory(CarpetaTalenFinder);
 
-			if(!Directory.Exists(carpetaUserProgram))
-				Directory.CreateDirectory(carpetaUserProgram);
+			if(!Directory.Exists(CarpetaUsuario))
+				Directory.CreateDirectory(CarpetaUsuario);
+
+			if(!Directory.Exists(CarpetaUsuarioEvaluaciones))
+				Directory.CreateDirectory(CarpetaUsuarioEvaluaciones);
 
 			string codigoPrograma = Parser.GetCodigoFuente(MetodoDetalle);
-			string nombreArchivoPrograma = Path.Combine(carpetaUserProgram, string.Format("{0}_{1}.cs", "examen_programa", DateTime.Now.ToString("ddMMyyyy")));
+			string nombreArchivoPrograma = Path.Combine(CarpetaUsuarioEvaluaciones, string.Format("{0}_{1}.cs", "programa_fuente", DateTime.Now.ToString("yyyyMMddhhmmssmmm")));
 			FileStream archivo = new FileStream(nombreArchivoPrograma, FileMode.Create);
 			StreamWriter escritor = new StreamWriter(archivo);
 			escritor.WriteLine(codigoPrograma);
@@ -32,21 +37,27 @@ namespace TalentFinder.BE
 			archivo.Close();
 			return nombreArchivoPrograma;
 		}
+
 		public ResultadoEjecucion CompilarPrograma(MetodoDetalle metodoDetalle)
 		{
 			ResultadoEjecucion ResultadoEjecucion = new ResultadoEjecucion();
 			ResultadoEjecucion.NombreArchivoPrograma = CrearPrograma(metodoDetalle);
-			ResultadoEjecucion.NombreProgramaEjecutable = ResultadoEjecucion.NombreArchivoPrograma.Substring(0, ResultadoEjecucion.NombreArchivoPrograma.Length - 3) + ".exe";
 
 			//Create process
-			Process proceso = new System.Diagnostics.Process();
+			Process proceso = new Process();
 
 			//strCommand is path and file name of command to run
-			//proceso.StartInfo.FileName = ConfigurationManager.AppSettings["CommandCSharpCompiler"].ToString();
-			proceso.StartInfo.FileName = "csc.exe";
+			proceso.StartInfo.FileName = ConfigurationManager.AppSettings["CommandCSharpCompiler"].ToString();
+			//string cmd = string.Format("c:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319\\csc.exe /out:{0} {1}", ResultadoEjecucion.NombreProgramaEjecutable, ResultadoEjecucion.NombreArchivoPrograma);
+			//string cmd = string.Format("csc.exe /out:{0} {1}", ResultadoEjecucion.NombreProgramaEjecutable, ResultadoEjecucion.NombreArchivoPrograma);
+			//string cmd = "csc.exe /out:d:\\Academico\\uai\\materias\\trabajo-diploma\\trabajo-diploma-proyecto\\src\\TalentFinder\\TalentFinder.GUI\\bin\\Debug\\1\\21112019\\examen_programa_21112019.exe d:\\Academico\\uai\\materias\\trabajo-diploma\\trabajo-diploma-proyecto\\src\\TalentFinder\\TalentFinder.GUI\\bin\\Debug\\1\\21112019\\examen_programa_21112019.cs";
+			//string cmd = @"csc.exe /out:examen_programa_21112019.exe examen_programa_21112019.cs";
+			//proceso.StartInfo.FileName = cmd;
+			//proceso.StartInfo.FileName = "csc.exe";
 
 			//strCommandParameters are parameters to pass to program
-			proceso.StartInfo.Arguments = string.Format("/out:{0} {1}", ResultadoEjecucion.NombreProgramaEjecutable, ResultadoEjecucion.NombreArchivoPrograma);
+			string cmdArguments = string.Format("/out:{0} {1}", ResultadoEjecucion.NombreProgramaEjecutable, ResultadoEjecucion.NombreArchivoPrograma);
+			proceso.StartInfo.Arguments = cmdArguments;
 
 			proceso.StartInfo.UseShellExecute = false;
 
@@ -55,6 +66,7 @@ namespace TalentFinder.BE
 
 			//Optional
 			//proceso.StartInfo.WorkingDirectory = ConfigurationManager.AppSettings["PathPrograms"].ToString();
+			proceso.StartInfo.WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory;
 
 			// not show black console window
 			proceso.StartInfo.CreateNoWindow = true;
@@ -76,11 +88,14 @@ namespace TalentFinder.BE
 				ResultadoEjecucion.ResultadoEjecucionEstado = ResultadoEjecucionEstado.COMPILED;
 			return ResultadoEjecucion;
 		}
+
 		public Compilador(Usuario usuario)
 		{
-			UserId = usuario.Id.ToString();
-			carpetaUser = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, UserId);
-			carpetaUserProgram = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, UserId, DateTime.Now.ToString("ddMMyyyy"));
+			Usuario = usuario;
+			Parser = new Parser();
+			CarpetaTalenFinder = Environment.ExpandEnvironmentVariables(ConfigurationManager.AppSettings["CarpetaTalentFinder"].ToString());
+			CarpetaUsuario = Path.Combine(CarpetaTalenFinder, "usuarios", Usuario.Id.ToString());
+			CarpetaUsuarioEvaluaciones = Path.Combine(CarpetaUsuario, "evaluaciones", DateTime.Now.ToString("ddMMyyyy"));
 		}
 	}
 }

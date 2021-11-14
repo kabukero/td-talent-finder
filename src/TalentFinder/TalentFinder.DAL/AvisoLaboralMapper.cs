@@ -27,9 +27,10 @@ namespace TalentFinder.DAL
 			if(!string.IsNullOrEmpty(tecnologias))
 				queryFiltros = " AND (SELECT COUNT(*) FROM AvisoLaboralTecnologia t WHERE t.AvisoLaboralId=a.Id AND t.TecnologiaId IN (" + tecnologias + ")) > 0";
 
-			string query = "SELECT a.Id,a.Descripcion,a.FechaVigencia,a.FechaVencimiento,a.FechaCreacion,a.LugarTrabajo,a.ReclutadorId" +
+			string query = "SELECT a.Id,a.Titulo,a.Descripcion,a.FechaVigencia,a.FechaVencimiento,a.FechaCreacion,a.LugarTrabajo,a.ReclutadorId" +
 			" FROM AvisoLaboral a" +
-			" WHERE 1=1" + queryFiltros + " ORDER BY a.FechaVigencia DESC";
+			" WHERE 1=1" + queryFiltros +
+			" ORDER BY a.FechaVigencia DESC";
 			DataTable tabla = da.LeerCmdText(query);
 			da.Cerrar();
 
@@ -37,6 +38,7 @@ namespace TalentFinder.DAL
 			{
 				AvisoLaboral aviso = new AvisoLaboral();
 				aviso.Id = int.Parse(fila["Id"].ToString());
+				aviso.Titulo = fila["Titulo"].ToString();
 				aviso.Descripcion = fila["Descripcion"].ToString();
 				aviso.FechaVigencia = DateTime.Parse(fila["FechaVigencia"].ToString());
 				aviso.FechaVencimiento = DateTime.Parse(fila["FechaVencimiento"].ToString());

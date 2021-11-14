@@ -61,9 +61,9 @@ namespace TalentFinder.DAL
 			}
 			return postulacions;
 		}
-		public PostulacionEvalucion GetPostulacionEvaluacion(Postulacion Postulacion)
+		public PostulacionEvaluacion GetPostulacionEvaluacion(Postulacion Postulacion)
 		{
-			PostulacionEvalucion postulacion = null;
+			PostulacionEvaluacion postulacion = null;
 			DataAccessManager da = new DataAccessManager();
 			da.Abrir();
 			List<SqlParameter> parametros = new List<SqlParameter>();
@@ -74,7 +74,7 @@ namespace TalentFinder.DAL
 
 				DataRow registro = tabla.Rows[0];
 				Evaluacion evaluacion = new Evaluacion();
-				postulacion = new PostulacionEvalucion();
+				postulacion = new PostulacionEvaluacion();
 				postulacion.Id = int.Parse(registro["Id"].ToString());
 				postulacion.FechaCreacion = DateTime.Parse(registro["FechaCreacion"].ToString());
 				postulacion.Aprobo = bool.Parse(registro["Aprobo"].ToString());
@@ -98,7 +98,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
-		public void CambiarEstadoPostulacion(Postulacion postulacion, PostulacionEvalucion postulacionEvalucion)
+		public void CambiarEstadoPostulacion(Postulacion postulacion, PostulacionEvaluacion postulacionEvalucion)
 		{
 			DataAccessManager da = new DataAccessManager();
 			try

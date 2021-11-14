@@ -17,6 +17,7 @@ namespace TalentFinder.GUI
 			TxtPassword.Clear();
 			TxtPassword.Focus();
 		}
+
 		private void GoToPanelDeControl()
 		{
 			FrmPanelControl frm = new FrmPanelControl();
@@ -24,6 +25,7 @@ namespace TalentFinder.GUI
 			frm.Show();
 			this.Hide();
 		}
+
 		private void InitFormControls()
 		{
 			this.Tag = new Frase() { Tag = "ingreso_sistema" };
@@ -33,10 +35,12 @@ namespace TalentFinder.GUI
 			BtnIngresar.Tag = new Frase() { Tag = "ingresar" };
 			BtnCancelar.Tag = new Frase() { Tag = "salir" };
 		}
+
 		public void Update(Idioma idioma)
 		{
 			GUIHelper.CambiarTextoControlFormSegunIdioma(this, idioma);
 		}
+
 		private void LanzarProcesoVerificacionIntegridadDatos()
 		{
 			if(!SistemaManager.DigitoVerificadorManager.VerificarIntegridadDatosSistema())
@@ -45,10 +49,12 @@ namespace TalentFinder.GUI
 				MessageBox.Show("Error en la integridad de datos del sistema. Comuniquese con el administrador del sistema", "Ingreso sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
 		private void BtnCancelar_Click(object sender, EventArgs e)
 		{
 			Application.Exit();
 		}
+
 		private void BtnIngresar_Click(object sender, EventArgs e)
 		{
 			try
@@ -82,6 +88,7 @@ namespace TalentFinder.GUI
 				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
 		private void FrmLogin_Load(object sender, EventArgs e)
 		{
 			try
@@ -105,14 +112,14 @@ namespace TalentFinder.GUI
 			{
 				Bitacora bitacora = new Bitacora();
 				bitacora.FechaCreacion = DateTime.Now;
-				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
-				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
-				bitacora.Descripcion = ex.Message;
+				bitacora.Usuario = SistemaManager.UsuarioManager.GetUsuarioAdministrador();
+				bitacora.TipoEvento = SistemaManager.BitacoraManager.GetBitacoraTipoEvento((int)TiposEventos.ERROR);
 				bitacora.Descripcion = string.Format("FrmLogin-FrmLogin_Load: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
 				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
 				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
 		private void FrmLogin_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			IdiomaSubject.RemoveObserver(this);

@@ -18,6 +18,7 @@ namespace TalentFinder.GUI
 		{
 			InitializeComponent();
 		}
+
 		private void SetGrilla()
 		{
 			DgvAvisos.Columns.Add("FechaVigenciaDisplay", "Fecha");
@@ -42,6 +43,7 @@ namespace TalentFinder.GUI
 			DgvAvisos.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 			DgvAvisos.RowTemplate.Height = 30;
 		}
+
 		private void SetGrillaPostulaciones()
 		{
 			DgvPostulaciones.Columns.Add("FechaCreacionDisplay", "Fecha");
@@ -66,6 +68,7 @@ namespace TalentFinder.GUI
 			DgvPostulaciones.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
 			DgvPostulaciones.RowTemplate.Height = 30;
 		}
+
 		private void CargarTecnologias()
 		{
 			try
@@ -78,12 +81,13 @@ namespace TalentFinder.GUI
 				Bitacora bitacora = new Bitacora();
 				bitacora.FechaCreacion = DateTime.Now;
 				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
-				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.TipoEvento = SistemaManager.ListaTipoEvento.FirstOrDefault(x => x.Id == (int)TiposEventos.ERROR);
 				bitacora.Descripcion = string.Format("FrmGestionPostulaciones-CargarTecnologias: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
 				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
 				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
 		private string GetTecnologiasId()
 		{
 			string separador = "", ids = "";
@@ -98,6 +102,7 @@ namespace TalentFinder.GUI
 			}
 			return ids;
 		}
+
 		private void CargarAvisos()
 		{
 			try
@@ -112,12 +117,13 @@ namespace TalentFinder.GUI
 				Bitacora bitacora = new Bitacora();
 				bitacora.FechaCreacion = DateTime.Now;
 				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
-				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.TipoEvento = SistemaManager.ListaTipoEvento.FirstOrDefault(x => x.Id == (int)TiposEventos.ERROR);
 				bitacora.Descripcion = string.Format("FrmGestionPostulaciones-CargarAvisos: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
 				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
 				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
 		public void CargarPostulaciones()
 		{
 			try
@@ -137,10 +143,12 @@ namespace TalentFinder.GUI
 				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
 		private void BtnBuscarAvisos_Click(object sender, EventArgs e)
 		{
 			CargarAvisos();
 		}
+
 		private void BtnCancelar_Click(object sender, EventArgs e)
 		{
 			TxtPalabraClave.Clear();
@@ -151,6 +159,7 @@ namespace TalentFinder.GUI
 			}
 			DgvAvisos.DataSource = null;
 		}
+
 		private void BtnRealizarEvaluacion_Click(object sender, EventArgs e)
 		{
 			Postulacion Postulacion = (Postulacion)DgvPostulaciones.CurrentRow.DataBoundItem;
@@ -160,6 +169,7 @@ namespace TalentFinder.GUI
 			frm.MdiParent = this.MdiParent;
 			frm.Show();
 		}
+
 		private void BtnAplicarAviso_Click(object sender, EventArgs e)
 		{
 			try
@@ -181,12 +191,13 @@ namespace TalentFinder.GUI
 				Bitacora bitacora = new Bitacora();
 				bitacora.FechaCreacion = DateTime.Now;
 				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
-				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.TipoEvento = SistemaManager.ListaTipoEvento.FirstOrDefault(x => x.Id == (int)TiposEventos.ERROR);
 				bitacora.Descripcion = string.Format("FrmGestionPostulaciones-BtnAplicarAviso_Click: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
 				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
 				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
+
 		private void DgvPostulaciones_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			Postulacion p = (Postulacion)DgvPostulaciones.CurrentRow.DataBoundItem;
@@ -194,6 +205,7 @@ namespace TalentFinder.GUI
 				return;
 			BtnRealizarEvaluacion.Enabled = p.PostulacionEstado.Id == (int)PostulacionEstados.EN_EVALUACION;
 		}
+
 		private void DgvAvisos_CellClick(object sender, DataGridViewCellEventArgs e)
 		{
 			try
@@ -208,7 +220,7 @@ namespace TalentFinder.GUI
 				Bitacora bitacora = new Bitacora();
 				bitacora.FechaCreacion = DateTime.Now;
 				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
-				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.TipoEvento = SistemaManager.ListaTipoEvento.FirstOrDefault(x => x.Id == (int)TiposEventos.ERROR);
 				bitacora.Descripcion = string.Format("FrmGestionPostulaciones-DgvAvisos_CellClick: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
 				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
 				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -236,7 +248,7 @@ namespace TalentFinder.GUI
 				Bitacora bitacora = new Bitacora();
 				bitacora.FechaCreacion = DateTime.Now;
 				bitacora.Usuario = SistemaManager.SessionManager.UsuarioLogueado;
-				bitacora.TipoEvento = new TipoEvento() { Id = (int)TiposEventos.ERROR };
+				bitacora.TipoEvento = SistemaManager.ListaTipoEvento.FirstOrDefault(x => x.Id == (int)TiposEventos.ERROR);
 				bitacora.Descripcion = string.Format("FrmGestionPostulaciones-FrmGestionPostulaciones_Load: {0} {1} {2} {3}", ex.Source, ex.Message, ex.InnerException, ex.StackTrace);
 				SistemaManager.BitacoraManager.RegistrarEntradaJson(bitacora);
 				MessageBox.Show("Ocurrió un error interno. Vuelva a intentar más tarde", "Error interno", MessageBoxButtons.OK, MessageBoxIcon.Error);

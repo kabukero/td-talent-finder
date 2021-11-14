@@ -18,6 +18,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
 		public int CrearDVV(DigitoVerificadorVertical digitoVerificadorVertical)
 		{
 			int f = 0;
@@ -38,6 +39,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
 		public int EditarDVV(DigitoVerificadorVertical digitoVerificadorVertical)
 		{
 			int f = 0;
@@ -58,6 +60,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
 		public DigitoVerificadorVertical GetDVV(TablasSistema tablasSistema)
 		{
 			DataAccessManager da = new DataAccessManager();

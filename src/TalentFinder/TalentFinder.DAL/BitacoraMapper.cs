@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TalentFinder.BE;
 using Newtonsoft.Json;
+using System.Configuration;
 
 namespace TalentFinder.DAL
 {
@@ -15,6 +16,7 @@ namespace TalentFinder.DAL
 	{
 		private string JsonFileName = "bitacora.js";
 		private string JsonFilePath;
+
 		public void RegistrarEntradaSql(Bitacora bitacora)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -37,11 +39,12 @@ namespace TalentFinder.DAL
 				da.Cerrar();
 			}
 		}
+
 		public void RegistrarEntradaJson(Bitacora bitacora)
 		{
 			try
 			{
-				FileStream archivo = new FileStream(JsonFilePath, FileMode.Append);
+				FileStream archivo = new FileStream(Path.Combine(JsonFilePath, JsonFileName), FileMode.Append);
 				StreamWriter escritor = new StreamWriter(archivo);
 				string linea = JsonConvert.SerializeObject(bitacora);
 				escritor.WriteLine(linea);
@@ -53,6 +56,7 @@ namespace TalentFinder.DAL
 				throw new DALException(ex.Message, ex);
 			}
 		}
+
 		public List<Bitacora> GetBitacoraEventos(Usuario usuario, TipoEvento TipoEvento, DateTime? FechaDesde, DateTime? FechaHasta)
 		{
 			List<Bitacora> lista = new List<Bitacora>();
@@ -69,8 +73,9 @@ namespace TalentFinder.DAL
 				lista = null;
 				throw new DALException(ex.Message, ex);
 			}
-			return lista;
+			return lista.OrderByDescending(x => x.FechaCreacion).ToList();
 		}
+
 		public List<Bitacora> GetBitacoraEventosFromSql(Usuario usuario, TipoEvento TipoEvento, DateTime? FechaDesde, DateTime? FechaHasta)
 		{
 			List<Bitacora> lista = new List<Bitacora>();
@@ -107,14 +112,15 @@ namespace TalentFinder.DAL
 
 			return lista;
 		}
+
 		public List<Bitacora> GetBitacoraEventosFromJson(Usuario usuario, TipoEvento TipoEvento, DateTime? FechaDesde, DateTime? FechaHasta)
 		{
 			List<Bitacora> lista = new List<Bitacora>();
 
-			if(!File.Exists(JsonFilePath))
+			if(!File.Exists(Path.Combine(JsonFilePath, JsonFileName)))
 				return null;
 
-			FileStream archivo = new FileStream(JsonFilePath, FileMode.Open);
+			FileStream archivo = new FileStream(Path.Combine(JsonFilePath, JsonFileName), FileMode.Open);
 			StreamReader lector = new StreamReader(archivo);
 			string linea;
 
@@ -126,13 +132,21 @@ namespace TalentFinder.DAL
 			lector.Close();
 			archivo.Close();
 
-			lista = lista.Where(x => (usuario == null || x.Usuario.Id == usuario.Id) &&
-								(TipoEvento == null || x.TipoEvento.Id == TipoEvento.Id) &&
-								(!FechaDesde.HasValue || x.FechaCreacion >= FechaDesde.Value) &&
-								(!FechaHasta.HasValue || x.FechaCreacion <= FechaHasta.Value))
-								.ToList();
+			if(usuario != null && usuario.Id != 0)
+				lista = lista.Where(x => x.Usuario.Id == usuario.Id).ToList();
+
+			if(TipoEvento != null && TipoEvento.Id != 0)
+				lista = lista.Where(x => x.TipoEvento.Id == TipoEvento.Id).ToList();
+
+			if(FechaDesde.HasValue)
+				lista = lista.Where(x => x.FechaCreacion >= FechaDesde.Value).ToList();
+
+			if(FechaHasta.HasValue)
+				lista = lista.Where(x => x.FechaCreacion <= FechaHasta.Value).ToList();
+
 			return lista;
 		}
+
 		public List<TipoEvento> GetBitacoraTipoEventos()
 		{
 			List<TipoEvento> lista = new List<TipoEvento>();
@@ -157,9 +171,42 @@ namespace TalentFinder.DAL
 			}
 			return lista;
 		}
+
+		public TipoEvento GetBitacoraTipoEvento(int id)
+		{
+			TipoEvento tipoEvento = null;
+			try
+			{
+				DataAccessManager da = new DataAccessManager();
+				da.Abrir();
+				List<SqlParameter> parametros = new List<SqlParameter>();
+				parametros.Add(da.CrearParametro("@Id", id));
+				DataTable tabla = da.Leer("GetBitacoraTipoEvento", parametros);
+				da.Cerrar();
+				foreach(DataRow fila in tabla.Rows)
+				{
+					tipoEvento = new TipoEvento();
+					tipoEvento.Id = int.Parse(fila["Id"].ToString());
+					tipoEvento.Nombre = fila["Nombre"].ToString();
+				}
+			}
+			catch(Exception ex)
+			{
+				throw new DALException(ex.Message, ex);
+			}
+			return tipoEvento;
+		}
+
+		private void CrearCarpetaBitacora(string path)
+		{
+			if(!Directory.Exists(path))
+				Directory.CreateDirectory(path);
+		}
+
 		public BitacoraMapper()
 		{
-			JsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, JsonFileName);
+			JsonFilePath = Environment.ExpandEnvironmentVariables(ConfigurationManager.AppSettings["BitacoraPath"].ToString());
+			CrearCarpetaBitacora(JsonFilePath);
 		}
 	}
 }

@@ -13,52 +13,54 @@ namespace TalentFinder.BE
 	public class ProgramRunner
 	{
 		private Usuario usuario;
-		private Compilador Compilador;
+		public Compilador Compilador { get; }
+
 		public ResultadoEjecucion EjecutarPrograma(MetodoDetalle metodoDetalle)
 		{
-			ResultadoEjecucion ResultadoEjecucion = Compilador.CompilarPrograma(metodoDetalle);
+			ResultadoEjecucion ResultadoEjecucion = null;
+			try
+			{
+				ResultadoEjecucion = Compilador.CompilarPrograma(metodoDetalle);
 
-			if(ResultadoEjecucion.ResultadoEjecucionEstado == ResultadoEjecucionEstado.ERROR_COMPILE)
-				return ResultadoEjecucion;
+				if(ResultadoEjecucion.ResultadoEjecucionEstado == ResultadoEjecucionEstado.ERROR_COMPILE)
+					return ResultadoEjecucion;
 
-			//Create process
-			Process proceso = new System.Diagnostics.Process();
+				// Crear proceso
+				Process proceso = Process.Start(ObtenerProcesoConfiguracion(ResultadoEjecucion.NombreProgramaEjecutable));
 
-			//strCommand is path and file name of command to run
-			proceso.StartInfo.FileName = ResultadoEjecucion.NombreProgramaEjecutable;
+				// Obtener salida del programa
+				string strOutput = proceso.StandardOutput.ReadToEnd();
+				string strError = proceso.StandardError.ReadToEnd();
 
-			//strCommandParameters are parameters to pass to program
-			//proceso.StartInfo.Arguments = string.Format("-out:{0} {1}", nombreProgramaEjecutable, nombreArchivoPrograma);
+				// Esperar que el proceso finalice
+				proceso.WaitForExit();
 
-			proceso.StartInfo.UseShellExecute = false;
+				ResultadoEjecucion.Descripcion = strOutput;
 
-			//Set output of program to be written to process output stream
-			proceso.StartInfo.RedirectStandardOutput = true;
-
-			//Optional
-			//proceso.StartInfo.WorkingDirectory = ConfigurationManager.AppSettings["PathPrograms"].ToString();
-
-			// not show black console window
-			proceso.StartInfo.CreateNoWindow = true;
-
-			//Start the process
-			proceso.Start();
-
-			//Get program output
-			string strOutput = proceso.StandardOutput.ReadToEnd();
-
-			//Wait for process to finish
-			proceso.WaitForExit();
-
-			ResultadoEjecucion.Descripcion = strOutput;
-
-			if(ResultadoEjecucion.Descripcion.Contains("error"))
-				ResultadoEjecucion.ResultadoEjecucionEstado = ResultadoEjecucionEstado.ERROR_EXECUTE;
-			else
-				ResultadoEjecucion.ResultadoEjecucionEstado = ResultadoEjecucionEstado.EXECUTED;
+				ResultadoEjecucion.ResultadoEjecucionEstado = ResultadoEjecucion.Descripcion.Contains("error") ? ResultadoEjecucionEstado.ERROR_EXECUTE : ResultadoEjecucionEstado.EXECUTED;
+			}
+			catch(Exception ex)
+			{
+				throw new Exception("error ejecucion: " + ex.Message);
+			}
 
 			return ResultadoEjecucion;
 		}
+
+		private ProcessStartInfo ObtenerProcesoConfiguracion(string RutaNombreProgramaEjecutable)
+		{
+			ProcessStartInfo configuracion = new ProcessStartInfo();
+			//configuracion.WorkingDirectory = @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\";
+			//configuracion.FileName = @"c:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe";
+			//configuracion.Arguments = RutaNombreProgramaEjecutable;
+			configuracion.FileName = RutaNombreProgramaEjecutable;
+			configuracion.CreateNoWindow = true;
+			configuracion.RedirectStandardOutput = true;
+			configuracion.RedirectStandardError = true;
+			configuracion.UseShellExecute = false;
+			return configuracion;
+		}
+
 		public ProgramRunner(Usuario usuario)
 		{
 			this.usuario = usuario;

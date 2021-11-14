@@ -9,15 +9,21 @@ geozed
 4096:wizXm5gjr+/o4kk0vwSJvAEQSSwMBYGG0M5avlZbZYU=:6S4KgHmnH3rucUPNjXxBR4F8kK96EijJYXMOS+pcmZM=
 
 
+// profesionales
 kabuki
-spike
-asdf1234
-4096:ADvO1JWHEZqtwpwTRdZdStiuZebrV/0ysG/LGgr7Gek=:2zhzMWHyuDGg9GJ8z/2XGcl8NOYR8RQ92l1vOhVZWGQ=
-
 snowden
-diploma
-4096:Cwcm4DvqmrbyRb7cWy9AFkWGc/NCDbQA34kJ8fbyXLg=:/N2jXxz7WyAFoxOpw/M7y5/tcYxtrN6y8VBefdtpsPA=
+123456
+4096:wizXm5gjr+/o4kk0vwSJvAEQSSwMBYGG0M5avlZbZYU=:6S4KgHmnH3rucUPNjXxBR4F8kK96EijJYXMOS+pcmZM=
+
+// reclutadores
+spike
+123456
+4096:wizXm5gjr+/o4kk0vwSJvAEQSSwMBYGG0M5avlZbZYU=:6S4KgHmnH3rucUPNjXxBR4F8kK96EijJYXMOS+pcmZM=
 
 UPDATE Usuario SET Habilitado=0 WHERE Id=1
 UPDATE Usuario SET Habilitado=0 WHERE Id=2
 UPDATE Usuario SET Habilitado=0 WHERE Id=3
+
+
+
+Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\.NETFramework

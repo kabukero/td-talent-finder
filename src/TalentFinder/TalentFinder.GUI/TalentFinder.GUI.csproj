@@ -76,6 +76,12 @@
     <Compile Include="FrmExamenEjercicioProgamacion.Designer.cs">
       <DependentUpon>FrmExamenEjercicioProgamacion.cs</DependentUpon>
     </Compile>
+    <Compile Include="FrmGestionAvisoLaboral.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmGestionAvisoLaboral.Designer.cs">
+      <DependentUpon>FrmGestionAvisoLaboral.cs</DependentUpon>
+    </Compile>
     <Compile Include="FrmGestionBackup.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -144,6 +150,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FrmExamenEjercicioProgamacion.resx">
       <DependentUpon>FrmExamenEjercicioProgamacion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmGestionAvisoLaboral.resx">
+      <DependentUpon>FrmGestionAvisoLaboral.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmGestionBackup.resx">
       <DependentUpon>FrmGestionBackup.cs</DependentUpon>

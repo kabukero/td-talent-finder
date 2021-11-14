@@ -11,22 +11,37 @@ namespace TalentFinder.BLL
 		private const int USUARIO_ADMINISTRADOR_ID = 5;
 		private const int CantidadMaximaIntentos = 3;
 		public int CantidadIntentosLogin { get; set; }
+
 		private UsuarioMapper usuarioMapper = new UsuarioMapper();
+
 		public UsuarioManager()
 		{
 			CantidadIntentosLogin = 0;
 		}
+
 		public List<Usuario> GetUsuarios()
 		{
 			List<Usuario> lista = usuarioMapper.GetUsuarios().Where(x => x.Id != USUARIO_ADMINISTRADOR_ID).ToList();
 			return lista;
 		}
+
+		public Usuario GetUsuario(Usuario usuario)
+		{
+			return  usuarioMapper.GetUsuario(usuario);
+		}
+
+		public Usuario GetUsuarioAdministrador()
+		{
+			return usuarioMapper.GetUsuarioAdministrador();
+		}
+
 		public List<Usuario> GetUsuariosToDropDownList()
 		{
 			List<Usuario> lista = usuarioMapper.GetUsuarios();
 			lista.Insert(0, new Usuario() { Id = 0, UserName = "Seleccione" });
 			return lista;
 		}
+
 		public bool ValidarUsuario(Usuario usuario)
 		{
 			CantidadIntentosLogin++;
@@ -59,10 +74,12 @@ namespace TalentFinder.BLL
 
 			return true;
 		}
+
 		public Usuario CrearUsuarioLogin(string usuario, string password)
 		{
 			return new Usuario() { UserName = usuario, UserPassword = password };
 		}
+
 		public bool ValidarLogin(Usuario usuario)
 		{
 			if(string.IsNullOrEmpty(usuario.UserName) || usuario.UserName.Length > 50)
@@ -76,6 +93,7 @@ namespace TalentFinder.BLL
 
 			return true;
 		}
+
 		public bool SuperoMaximoIntentosLogin(Usuario usuario)
 		{
 			bool r = CantidadIntentosLogin == CantidadMaximaIntentos;
@@ -83,6 +101,7 @@ namespace TalentFinder.BLL
 				DeshabilitarUsuario(usuario);
 			return r;
 		}
+
 		public int DeshabilitarUsuario(Usuario usuario)
 		{
 			int f = usuarioMapper.ExisteUsuario(usuario);
@@ -90,17 +109,20 @@ namespace TalentFinder.BLL
 				f = usuarioMapper.DeshabilitarUsuario(usuario);
 			return f;
 		}
+
 		public int Agregar(Usuario usuario)
 		{
 			usuario.UserPassword = EncryptorManager.GetPasswordHash(usuario.UserPassword);
 			return usuarioMapper.Agregar(usuario);
 		}
+
 		public void Editar(Usuario usuario, string userPassword)
 		{
 			if(!string.IsNullOrEmpty(userPassword))
 				usuario.UserPassword = EncryptorManager.GetPasswordHash(userPassword);
 			usuarioMapper.Editar(usuario);
 		}
+
 		public void Eliminar(Usuario usuario)
 		{
 			usuarioMapper.Eliminar(usuario);

@@ -32,7 +32,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,8 +46,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CloneHelper.cs" />
+    <Compile Include="BLL\PerfilPermisoManager.cs" />
+    <Compile Include="DAL\PerfilPermisoMapper.cs" />
+    <Compile Include="BLL\UsuarioManager.cs" />
+    <Compile Include="DAL\DataAccessManager.cs" />
+    <Compile Include="DAL\UsuarioMapper.cs" />
+    <Compile Include="Domain\Empresa.cs" />
+    <Compile Include="Domain\EntidadBase.cs" />
+    <Compile Include="Domain\Idioma.cs" />
+    <Compile Include="Domain\IdiomaFrase.cs" />
+    <Compile Include="Domain\IdiomaSubject.cs" />
+    <Compile Include="Domain\IIdiomaObserver.cs" />
+    <Compile Include="Domain\Perfil.cs" />
+    <Compile Include="Domain\Permiso.cs" />
+    <Compile Include="Domain\PermisoComponent.cs" />
+    <Compile Include="Domain\PermisoPermiso.cs" />
+    <Compile Include="Domain\Permisos.cs" />
+    <Compile Include="Domain\Persona.cs" />
+    <Compile Include="Domain\Profesional.cs" />
+    <Compile Include="Domain\TiposPermiso.cs" />
+    <Compile Include="Domain\Usuario.cs" />
+    <Compile Include="Helpers\EncryptorManager.cs" />
+    <Compile Include="Helpers\SessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -16,6 +16,10 @@ namespace TalentFinder.BLL
 			Bitacora bitacora = GetBitacora(usuario, TipoEvento, descripcion);
 			bitacoraMapper.RegistrarEntradaSql(bitacora);
 		}
+		public void RegistrarEntradaJson(Bitacora bitacora)
+		{
+			bitacoraMapper.RegistrarEntradaJson(bitacora);
+		}
 		public List<Bitacora> GetBitacoraEventos(Usuario usuario, TipoEvento TipoEvento, DateTime? FechaDesde, DateTime? FechaHasta)
 		{
 			return bitacoraMapper.GetBitacoraEventos(usuario, TipoEvento, FechaDesde, FechaHasta);
@@ -35,9 +39,10 @@ namespace TalentFinder.BLL
 			lista.Insert(0, new TipoEvento() { Id = 0, Nombre = "Seleccione" });
 			return lista;
 		}
-		public void RegistrarEntradaJson(Bitacora bitacora)
+
+		public TipoEvento GetBitacoraTipoEvento(int id)
 		{
-			bitacoraMapper.RegistrarEntradaJson(bitacora);
+			return  bitacoraMapper.GetBitacoraTipoEvento(id);
 		}
 	}
 }
