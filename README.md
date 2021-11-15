@@ -4,7 +4,7 @@
 
 ### Talent Finder
 
-Sistema para el reclutamiento, evalución y selección interna de profesionales
+Sistema para el reclutamiento, evaluación y selección interna de profesionales
 en el área de IT.
 
 ### Profesores ###
