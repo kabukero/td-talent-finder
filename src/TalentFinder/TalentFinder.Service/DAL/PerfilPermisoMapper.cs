@@ -9,9 +9,17 @@ using TalentFinder.Service.Domain;
 
 namespace TalentFinder.Service.DAL
 {
+	/// <summary>
+	/// Entidad de negocio para gestionar los perfiles y permisos del sistema
+	/// </summary>
 	public class PerfilPermisoMapper
 	{
 		private const int RootId = 1;
+
+		/// <summary>
+		/// Método para obtener las familias y patentes disponibles en el sistema
+		/// </summary>
+		/// <returns></returns>
 		public List<PermisoComponent> GetAllPerfilesPermisos()
 		{
 			List<PermisoComponent> permisoComponents = new List<PermisoComponent>();
@@ -38,6 +46,12 @@ namespace TalentFinder.Service.DAL
 			da.Cerrar();
 			return permisoComponents;
 		}
+
+		/// <summary>
+		/// Método para obtener las familias y patentes por usuario disponibles en el sistema 
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>Lista de familias y patentes</returns>
 		public List<PermisoComponent> GetAllPerfilesPermisosPorUsuario(Usuario usuario)
 		{
 			List<PermisoComponent> permisoComponents = new List<PermisoComponent>();
@@ -48,7 +62,7 @@ namespace TalentFinder.Service.DAL
 			DataTable tabla = da.Leer("GetUsuarioPerfilesPermisos", parametros);
 			foreach(DataRow fila in tabla.Rows)
 			{
-				PermisoComponent permisoComponent = new	Perfil();
+				PermisoComponent permisoComponent = new Perfil();
 				permisoComponent.Id = int.Parse(fila["Id"].ToString());
 				permisoComponent.Nombre = fila["Nombre"].ToString();
 				permisoComponents.Add(permisoComponent);
@@ -56,6 +70,13 @@ namespace TalentFinder.Service.DAL
 			da.Cerrar();
 			return permisoComponents;
 		}
+
+		/// <summary>
+		/// Método para guardar las familias y patentes asociadas a un usuario
+		/// </summary>
+		/// <param name="perfilesPermisos"></param>
+		/// <param name="usuario"></param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int GuardarUsuarioPerfilesPermisos(List<PermisoComponent> perfilesPermisos, Usuario usuario)
 		{
 			int f = 0;
@@ -85,6 +106,11 @@ namespace TalentFinder.Service.DAL
 			da.Cerrar();
 			return f;
 		}
+
+		/// <summary>
+		/// Mëtodo para obtener las patentes del sistema
+		/// </summary>
+		/// <returns>Lista de patentes</returns>
 		public List<Permiso> GetAllPermisos()
 		{
 			List<Permiso> permisos = new List<Permiso>();
@@ -101,6 +127,11 @@ namespace TalentFinder.Service.DAL
 			da.Cerrar();
 			return permisos;
 		}
+
+		/// <summary>
+		/// Mëtodo para obtener las familias del sistema
+		/// </summary>
+		/// <returns>Lista de patentes</returns>
 		public List<Perfil> GetAllPerfiles()
 		{
 			List<Perfil> perfiles = new List<Perfil>();
@@ -117,6 +148,12 @@ namespace TalentFinder.Service.DAL
 			da.Cerrar();
 			return perfiles;
 		}
+
+		/// <summary>
+		/// Método para agregar una relación familia - patente
+		/// </summary>
+		/// <param name="permisoPermiso">Una familia patente</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int AgregarPermisoPermiso(PermisoPermiso permisoPermiso)
 		{
 			int f = 0;
@@ -136,6 +173,12 @@ namespace TalentFinder.Service.DAL
 			da.Cerrar();
 			return f;
 		}
+
+		/// <summary>
+		/// Método para agregar una familia al sistema
+		/// </summary>
+		/// <param name="perfil">Una familia</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int AgregarPerfil(Perfil perfil)
 		{
 			int f = 0;
@@ -155,6 +198,12 @@ namespace TalentFinder.Service.DAL
 			da.Cerrar();
 			return f;
 		}
+
+		/// <summary>
+		/// Método para editar una relación familia - patente
+		/// </summary>
+		/// <param name="permisoPermiso">Una familia patente</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int EditarPerfil(Perfil perfil)
 		{
 			int f = 0;
@@ -177,6 +226,12 @@ namespace TalentFinder.Service.DAL
 			}
 			return f;
 		}
+
+		/// <summary>
+		/// Método para eliminar una relación familia - patente
+		/// </summary>
+		/// <param name="permisoPermiso">Una familia patente</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int EliminarPerfil(Perfil perfil)
 		{
 			int f = 0;
@@ -195,6 +250,12 @@ namespace TalentFinder.Service.DAL
 			da.Cerrar();
 			return f;
 		}
+
+		/// <summary>
+		/// Método para quitar una relación familia - patente a una familia
+		/// </summary>
+		/// <param name="permisoPermiso">Una lista de familias patentes</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int QuitarPermisoPermiso(List<PermisoPermiso> permisoPermisos)
 		{
 			int f = 0;

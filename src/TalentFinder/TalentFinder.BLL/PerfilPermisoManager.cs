@@ -127,7 +127,7 @@ namespace TalentFinder.BLL
 		/// <summary>
 		/// Método para obtener las familias del sistema
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Lista de familias</returns>
 		public List<Perfil> GetAllPerfiles()
 		{
 			return perfilPermisoMapper.GetAllPerfiles();

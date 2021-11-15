@@ -51,7 +51,6 @@
     <Compile Include="BLL\UsuarioManager.cs" />
     <Compile Include="DAL\DataAccessManager.cs" />
     <Compile Include="DAL\UsuarioMapper.cs" />
-    <Compile Include="Domain\Empresa.cs" />
     <Compile Include="Domain\EntidadBase.cs" />
     <Compile Include="Domain\Idioma.cs" />
     <Compile Include="Domain\IdiomaFrase.cs" />
@@ -62,15 +61,18 @@
     <Compile Include="Domain\PermisoComponent.cs" />
     <Compile Include="Domain\PermisoPermiso.cs" />
     <Compile Include="Domain\Permisos.cs" />
-    <Compile Include="Domain\Persona.cs" />
-    <Compile Include="Domain\Profesional.cs" />
     <Compile Include="Domain\TiposPermiso.cs" />
     <Compile Include="Domain\Usuario.cs" />
     <Compile Include="Helpers\EncryptorManager.cs" />
     <Compile Include="Helpers\SessionManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\TalentFinder.BE\TalentFinder.BE.csproj">
+      <Project>{151A542B-48B2-4B0C-AEBA-9704112D576E}</Project>
+      <Name>TalentFinder.BE</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
