@@ -1,3 +1,4 @@
+// Contar palabras de una frase
 public int MiMetodo(string input)
 {
   int count = 0;
@@ -18,13 +19,13 @@ public int MiMetodo(string input)
   return count;
 }
 
-
+// suma de un array de enteros
 public int MiMetodo(int[] input)
 {
   return input.Sum();
 }
 
-
+// suma de un array de enteros
 public int MiMetodo(int[] input)
 {
   int sum = 0;
@@ -35,7 +36,7 @@ public int MiMetodo(int[] input)
   return sum;
 }
 
-
+// factorial de un número recursivo
 public int MiMetodo(int n)
 {
   if(n == 0 || n == 1)
@@ -44,7 +45,7 @@ public int MiMetodo(int n)
     return MiMetodo(n - 1) * n;
 }
 
-
+// factorial de un número iterativo
 public int MiMetodo(int n)
 {
   int factorial = 1;

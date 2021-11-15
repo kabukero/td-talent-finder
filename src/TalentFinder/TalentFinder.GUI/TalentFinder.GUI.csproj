@@ -234,6 +234,10 @@
       <Project>{3AF91E98-D073-427E-8EF4-9AE7357E713E}</Project>
       <Name>TalentFinder.Seguridad</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TalentFinder.Service\TalentFinder.Service.csproj">
+      <Project>{719ba543-8b74-4fa1-b7c6-555c5f57d286}</Project>
+      <Name>TalentFinder.Service</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
