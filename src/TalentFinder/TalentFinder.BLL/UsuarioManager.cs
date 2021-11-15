@@ -6,12 +6,22 @@ using TalentFinder.Seguridad;
 
 namespace TalentFinder.BLL
 {
+	/// <summary>
+	/// Clase para gestionar los usuarios del sistema
+	/// </summary>
 	public class UsuarioManager
 	{
 		private const int USUARIO_ADMINISTRADOR_ID = 5;
 		private const int CantidadMaximaIntentos = 3;
+
+		/// <summary>
+		/// Property que contiene la cantidad intentos de login de un usuario
+		/// </summary>
 		public int CantidadIntentosLogin { get; set; }
 
+		/// <summary>
+		/// Atributo que contiene el mapper del usuario para gestionar la gestión de la persistencia en el sistema
+		/// </summary>
 		private UsuarioMapper usuarioMapper = new UsuarioMapper();
 
 		public UsuarioManager()
@@ -19,22 +29,39 @@ namespace TalentFinder.BLL
 			CantidadIntentosLogin = 0;
 		}
 
+		/// <summary>
+		/// Método para obtener los usuarios del sistema
+		/// </summary>
+		/// <returns></returns>
 		public List<Usuario> GetUsuarios()
 		{
 			List<Usuario> lista = usuarioMapper.GetUsuarios().Where(x => x.Id != USUARIO_ADMINISTRADOR_ID).ToList();
 			return lista;
 		}
 
+		/// <summary>
+		/// Método para obtener un usuario por id
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>El usuario buscado</returns>
 		public Usuario GetUsuario(Usuario usuario)
 		{
 			return  usuarioMapper.GetUsuario(usuario);
 		}
 
+		/// <summary>
+		/// Método para obtener el usuario administrador del sistema
+		/// </summary>
+		/// <returns>El usuario encontrado</returns>
 		public Usuario GetUsuarioAdministrador()
 		{
 			return usuarioMapper.GetUsuarioAdministrador();
 		}
 
+		/// <summary>
+		/// Método para obtener la lista de usuarios
+		/// </summary>
+		/// <returns>Lista de usuarios</returns>
 		public List<Usuario> GetUsuariosToDropDownList()
 		{
 			List<Usuario> lista = usuarioMapper.GetUsuarios();
@@ -42,6 +69,11 @@ namespace TalentFinder.BLL
 			return lista;
 		}
 
+		/// <summary>
+		/// Método para validar un usuario
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>Resultado de la validación</returns>
 		public bool ValidarUsuario(Usuario usuario)
 		{
 			CantidadIntentosLogin++;
@@ -75,11 +107,22 @@ namespace TalentFinder.BLL
 			return true;
 		}
 
+		/// <summary>
+		/// Método para crear un usuario login
+		/// </summary>
+		/// <param name="usuario">Un nombre de usuario</param>
+		/// <param name="password">Una clave</param>
+		/// <returns>Un objeto usuario</returns>
 		public Usuario CrearUsuarioLogin(string usuario, string password)
 		{
 			return new Usuario() { UserName = usuario, UserPassword = password };
 		}
 
+		/// <summary>
+		/// Método para validar el login de un usuario
+		/// </summary>
+		/// <param name="usuario"></param>
+		/// <returns></returns>
 		public bool ValidarLogin(Usuario usuario)
 		{
 			if(string.IsNullOrEmpty(usuario.UserName) || usuario.UserName.Length > 50)
@@ -94,6 +137,11 @@ namespace TalentFinder.BLL
 			return true;
 		}
 
+		/// <summary>
+		/// Método para validar si un usuario superó el número máximos de intentos de login
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>Resultado de la validación</returns>
 		public bool SuperoMaximoIntentosLogin(Usuario usuario)
 		{
 			bool r = CantidadIntentosLogin == CantidadMaximaIntentos;
@@ -102,6 +150,11 @@ namespace TalentFinder.BLL
 			return r;
 		}
 
+		/// <summary>
+		/// Método para deshabilitar un usuario
+		/// </summary>
+		/// <param name="usuario"Un usuario></param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int DeshabilitarUsuario(Usuario usuario)
 		{
 			int f = usuarioMapper.ExisteUsuario(usuario);
@@ -110,12 +163,22 @@ namespace TalentFinder.BLL
 			return f;
 		}
 
+		/// <summary>
+		/// Método para crear un usuario en el sistemam
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int Agregar(Usuario usuario)
 		{
 			usuario.UserPassword = EncryptorManager.GetPasswordHash(usuario.UserPassword);
 			return usuarioMapper.Agregar(usuario);
 		}
 
+		/// <summary>
+		/// Método para editar un usuario en el sistemam
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public void Editar(Usuario usuario, string userPassword)
 		{
 			if(!string.IsNullOrEmpty(userPassword))
@@ -123,6 +186,11 @@ namespace TalentFinder.BLL
 			usuarioMapper.Editar(usuario);
 		}
 
+		/// <summary>
+		/// Método para eliminar un usuario en el sistemam
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public void Eliminar(Usuario usuario)
 		{
 			usuarioMapper.Eliminar(usuario);

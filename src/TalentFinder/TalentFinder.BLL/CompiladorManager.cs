@@ -10,10 +10,23 @@ using TalentFinder.BE;
 
 namespace TalentFinder.BLL
 {
+	/// <summary>
+	/// Entidad de negocio que representa el compilador del sistema
+	/// </summary>
 	public class CompiladorManager
 	{
+		/// <summary>
+		/// Atributo que contiene la entidad de negocio compilador
+		/// </summary>
 		private Compilador Compilador;
 
+
+		/// <summary>
+		/// Método que permite crear un programa a partir del codigo fuente
+		/// del usuario evaluado
+		/// </summary>
+		/// <param name="MetodoDetalle">Codigo fuente escrito por el usuario</param>
+		/// <returns>Nombre del programa creado</returns>
 		private string CrearPrograma(MetodoDetalle MetodoDetalle)
 		{
 			if(!Directory.Exists(Compilador.CarpetaTalenFinder))
@@ -35,6 +48,11 @@ namespace TalentFinder.BLL
 			return nombreArchivoPrograma;
 		}
 
+		/// <summary>
+		/// Método para compilar el programa y generar el assembly
+		/// </summary>
+		/// <param name="metodoDetalle">Código fuente del programa</param>
+		/// <returns>Resultado de la compilación del programa</returns>
 		public ResultadoEjecucion CompilarPrograma(MetodoDetalle metodoDetalle)
 		{
 			ResultadoEjecucion ResultadoEjecucion = new ResultadoEjecucion();
@@ -87,6 +105,10 @@ namespace TalentFinder.BLL
 			return ResultadoEjecucion;
 		}
 
+		/// <summary>
+		/// Constructor de la clase para iniciar el compilador
+		/// </summary>
+		/// <param name="compilador">Compilador del sistema</param>
 		public CompiladorManager(Compilador compilador)
 		{
 			Compilador = compilador;

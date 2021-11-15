@@ -8,6 +8,9 @@ using TalentFinder.DAL;
 
 namespace TalentFinder.BLL
 {
+	/// <summary>
+	/// Clase para gestionar las tecnologías del sistema
+	/// </summary>
 	public class TecnologiaManager
 	{
 		private TecnologiaMapper TecnologiaMapper = new TecnologiaMapper();

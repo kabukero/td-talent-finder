@@ -9,10 +9,21 @@ using TalentFinder.DAL;
 
 namespace TalentFinder.BLL
 {
+	/// <summary>
+	/// Entidad de negocio que permite gestionar los digitos verificadores del sistema
+	/// </summary>
 	public class DigitoVerificadorManager
 	{
+		/// <summary>
+		/// Atributo que contiene el mapper del digito verificador para persistir en el sistema
+		/// </summary>
 		DigitoVerificadorMapper DigitoVerificadorMapper = new DigitoVerificadorMapper();
 
+		/// <summary>
+		/// Método que permite guardar un digito verificador en el sistema
+		/// </summary>
+		/// <param name="tablasSistema"></param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int GuardarDigitoVerificador(TablasSistema tablasSistema)
 		{
 			int f = 0;
@@ -43,6 +54,11 @@ namespace TalentFinder.BLL
 			return f;
 		}
 
+		/// <summary>
+		/// Método para calcular el digito verificador horizontal
+		/// </summary>
+		/// <param name="empresa">Entidad empresa</param>
+		/// <returns>Valor del digito verificador</returns>
 		public Int64 CalcularDVH(Empresa empresa)
 		{
 			Int64 digitoVerificadorHorizontal = 0, digitoVerificadorCampo;
@@ -74,6 +90,11 @@ namespace TalentFinder.BLL
 			return digitoVerificadorHorizontal;
 		}
 
+		/// <summary>
+		/// Método para calcular el digito verificador vertical
+		/// </summary>
+		/// <param name="empresas">Entidad empresa</param>
+		/// <returns>Valor del digito verificador</returns>
 		public Int64 CalcularDVV(List<Empresa> empresas)
 		{
 			Int64 dvv = 0;
@@ -82,6 +103,10 @@ namespace TalentFinder.BLL
 			return dvv;
 		}
 
+		/// <summary>
+		/// Método para verificar la integridad de datos del sistema
+		/// </summary>
+		/// <returns>Resultado de la verificación</returns>
 		public bool VerificarIntegridadDatosSistema()
 		{
 			List<Empresa> empresas = SistemaManager.EmpresaManager.GetAllEmpresas();
@@ -105,6 +130,11 @@ namespace TalentFinder.BLL
 			return true;
 		}
 
+		/// <summary>
+		/// Método para verificar la integridad de datos de la entidad empresa
+		/// </summary>
+		/// <param name="empresa">Entidad empresa</param>
+		/// <returns>Resultado de la verificación</returns>
 		public bool VerificarIntegridadDatosEmpresa(Empresa empresa)
 		{
 			Empresa empresaActual = SistemaManager.EmpresaManager.GetEmpresa(empresa.Id);

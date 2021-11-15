@@ -8,6 +8,9 @@ using TalentFinder.Seguridad;
 
 namespace TalentFinder.BLL
 {
+	/// <summary>
+	/// Clase contenedor de las clases managers de la capa de negocio
+	/// </summary>
 	public class SistemaManager
 	{
 		public static UsuarioManager UsuarioManager = new UsuarioManager();

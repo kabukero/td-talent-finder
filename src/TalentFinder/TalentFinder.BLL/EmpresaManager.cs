@@ -8,9 +8,21 @@ using TalentFinder.DAL;
 
 namespace TalentFinder.BLL
 {
+	/// <summary>
+	/// Entidad de negocio para gestionar las empresas del sistema
+	/// </summary>
 	public class EmpresaManager
 	{
+		/// <summary>
+		/// Atributo que contiene el mapper de la empresa para gestionar la persistencia
+		/// </summary>
 		private EmpresaMapper empresaMapper = new EmpresaMapper();
+
+		/// <summary>
+		/// Método para crear una empresa
+		/// </summary>
+		/// <param name="empresa">Entidad empresa</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int Crear(Empresa empresa)
 		{
 			empresa.FechaCreacion = DateTime.Now;
@@ -33,6 +45,12 @@ namespace TalentFinder.BLL
 			}
 			return f;
 		}
+
+		/// <summary>
+		/// Método para editar una empresa
+		/// </summary>
+		/// <param name="empresa">Entidad empresa</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int Editar(Empresa empresa)
 		{
 			Empresa empresaActual = GetEmpresa(empresa.Id);
@@ -56,6 +74,12 @@ namespace TalentFinder.BLL
 			}
 			return f;
 		}
+
+		/// <summary>
+		/// Método para eliminar una empresa
+		/// </summary>
+		/// <param name="empresa">Entidad empresa</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int Eliminar(Empresa empresa)
 		{
 			int f = empresaMapper.Eliminar(empresa);
@@ -63,10 +87,22 @@ namespace TalentFinder.BLL
 				f = SistemaManager.DigitoVerificadorManager.GuardarDigitoVerificador(TablasSistema.TABLA_EMPRESA);
 			return f;
 		}
+
+		/// <summary>
+		/// Método para obtener las empresas del sistema
+		/// </summary>
+		/// <param name="empresa">Entidad empresa</param>
+		/// <returns>Lista de empresas</returns>
 		public List<Empresa> GetAllEmpresas()
 		{
 			return empresaMapper.GetAllEmpresas();
 		}
+
+		/// <summary>
+		/// Método para obtener una empresa del sistema por id
+		/// </summary>
+		/// <param name="Id">Identificador de la empresa</param>
+		/// <returns>Entidad empresa encontrada</returns>
 		public Empresa GetEmpresa(int Id)
 		{
 			return empresaMapper.GetEmpresa(Id);
