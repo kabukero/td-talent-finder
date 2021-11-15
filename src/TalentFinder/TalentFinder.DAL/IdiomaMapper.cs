@@ -9,6 +9,9 @@ using TalentFinder.BE;
 
 namespace TalentFinder.DAL
 {
+	/// <summary>
+	/// Entidad de negocio para gestionar los idiomas del sistema
+	/// </summary>
 	public class IdiomaMapper
 	{
 		public IList<Idioma> GetAllIdiomas()
@@ -42,6 +45,11 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return lista;
 		}
+
+		/// <summary>
+		/// Método para agregar un idioma en el sistema
+		/// </summary>
+		/// <param name="idioma"></param>
 		public void AgregarIdioma(Idioma idioma)
 		{
 			int f = 0;
@@ -59,6 +67,11 @@ namespace TalentFinder.DAL
 			}
 			da.Cerrar();
 		}
+
+		/// <summary>
+		/// Método para editar un idioma en el sistema
+		/// </summary>
+		/// <param name="idioma">Un idioma</param>
 		public void EditarIdioma(Idioma idioma)
 		{
 			int f = 0;
@@ -77,6 +90,11 @@ namespace TalentFinder.DAL
 			}
 			da.Cerrar();
 		}
+
+		/// <summary>
+		/// Método para eliminar un idioma en el sistema
+		/// </summary>
+		/// <param name="idioma">Un idioma</param>
 		public void EliminarIdioma(Idioma idioma)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -101,6 +119,11 @@ namespace TalentFinder.DAL
 			}
 			da.Cerrar();
 		}
+
+		/// <summary>
+		/// Método para guardar las traducciones de un idioma
+		/// </summary>
+		/// <param name="idiomaFrases">Lista de traducciones</param>
 		public void GuardarTraducciones(IList<IdiomaFrase> idiomaFrases)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -130,6 +153,11 @@ namespace TalentFinder.DAL
 				throw;
 			}
 		}
+
+		/// <summary>
+		/// Método para obtener las frases del sistema
+		/// </summary>
+		/// <returns></returns>
 		public IList<Frase> GetAllFrases()
 		{
 			IList<Frase> lista = new List<Frase>();

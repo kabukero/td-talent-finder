@@ -33,7 +33,7 @@ namespace TalentFinder.BLL
 		/// <summary>
 		/// Método para obtener todos los backups
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>Lista de backups</returns>
 		public List<Backup> GetAllBackups()
 		{
 			return backupMapper.GetAllBackups();
@@ -42,7 +42,7 @@ namespace TalentFinder.BLL
 		/// <summary>
 		/// Método para crear un backup
 		/// </summary>
-		/// <param name="backup"></param>
+		/// <param name="backup">Un backup</param>
 		/// <returns>valor que indica si se realizó el backup correctamente</returns>
 		public int RelizarBackup(Backup backup)
 		{

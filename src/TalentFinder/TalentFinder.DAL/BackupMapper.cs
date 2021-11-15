@@ -8,11 +8,21 @@ using TalentFinder.BE;
 
 namespace TalentFinder.DAL
 {
+	/// <summary>
+	/// Entidad de negocio para gestionar los backups del sistema
+	/// </summary>
 	public class BackupMapper
 	{
+		/// <summary>
+		/// Abributo que contiene el formato de fecha con el que se creara el archivo de backup
+		/// </summary>
 		private const string DATE_FORMAT_FOR_FILE = "yyyy_MM_dd_HH_mm_ss";
 		private string RUTA_BACKUPS;
 
+		/// <summary>
+		/// Método para obtener todos los backups
+		/// </summary>
+		/// <returns>Lista de backups</returns>
 		public List<Backup> GetAllBackups()
 		{
 			string[] archivos = Directory.GetFiles(RUTA_BACKUPS, "*.bak");
@@ -33,6 +43,11 @@ namespace TalentFinder.DAL
 			return backups;
 		}
 
+		/// <summary>
+		/// Método para crear un backup
+		/// </summary>
+		/// <param name="backup">Un backup</param>
+		/// <returns>valor que indica si se realizó el backup correctamente</returns>
 		public int RelizarBackup(Backup backup)
 		{
 			int f = 0;
@@ -47,6 +62,11 @@ namespace TalentFinder.DAL
 			return f;
 		}
 
+		/// <summary>
+		/// Mëtodo para realizar un restore de un backup
+		/// </summary>
+		/// <param name="backup">Un backup del cual se realizará un restore</param>
+		/// <returns>valor que indica si se realizó el restore correctamente</returns>
 		public int RelizarRestore(Backup backup)
 		{
 			int f = 0;
@@ -65,6 +85,7 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
 
 		private void CrearCarpetaBackup(string path)
 		{

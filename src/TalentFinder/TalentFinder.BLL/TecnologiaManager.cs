@@ -14,6 +14,11 @@ namespace TalentFinder.BLL
 	public class TecnologiaManager
 	{
 		private TecnologiaMapper TecnologiaMapper = new TecnologiaMapper();
+
+		/// <summary>
+		/// Método para obtener las tecnologías del sistema
+		/// </summary>
+		/// <returns>Lista de tecnologías</returns>
 		public List<Tecnologia> GetAllTecnologias()
 		{
 			return TecnologiaMapper.GetAllTecnologias();

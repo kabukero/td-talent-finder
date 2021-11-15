@@ -9,8 +9,16 @@ using TalentFinder.BE;
 
 namespace TalentFinder.DAL
 {
+	/// <summary>
+	/// Entidad de negocio para gestionar las empresas del sistema
+	/// </summary>
 	public class EmpresaMapper
 	{
+		/// <summary>
+		/// Método para crear una empresa
+		/// </summary>
+		/// <param name="empresa">Entidad empresa</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int Crear(Empresa empresa)
 		{
 			int f = 0;
@@ -36,6 +44,11 @@ namespace TalentFinder.DAL
 			return f;
 		}
 
+		/// <summary>
+		/// Método para editar una empresa
+		/// </summary>
+		/// <param name="empresa">Entidad empresa</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int Editar(Empresa empresa)
 		{
 			int f = 0;
@@ -62,6 +75,11 @@ namespace TalentFinder.DAL
 			return f;
 		}
 
+		/// <summary>
+		/// Método para editar el DVH de una empresa
+		/// </summary>
+		/// <param name="empresa">Entidad empresa</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int EditarDVHEmpresa(Empresa empresa)
 		{
 			int f = 0;
@@ -82,6 +100,11 @@ namespace TalentFinder.DAL
 			return f;
 		}
 
+		/// <summary>
+		/// Método para eliminar una empresa
+		/// </summary>
+		/// <param name="empresa">Entidad empresa</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int Eliminar(Empresa empresa)
 		{
 			int f = 0;
@@ -101,6 +124,11 @@ namespace TalentFinder.DAL
 			return f;
 		}
 
+		/// <summary>
+		/// Método para obtener las empresas del sistema
+		/// </summary>
+		/// <param name="empresa">Entidad empresa</param>
+		/// <returns>Lista de empresas</returns>
 		public List<Empresa> GetAllEmpresas()
 		{
 			List<Empresa> lista = new List<Empresa>();
@@ -130,6 +158,11 @@ namespace TalentFinder.DAL
 			return lista;
 		}
 
+		/// <summary>
+		/// Método para obtener una empresa del sistema por id
+		/// </summary>
+		/// <param name="Id">Identificador de la empresa</param>
+		/// <returns>Entidad empresa encontrada</returns>
 		public Empresa GetEmpresa(int Id)
 		{
 			Empresa empresa = null;
@@ -157,6 +190,11 @@ namespace TalentFinder.DAL
 			return empresa;
 		}
 
+		/// <summary>
+		/// Método para crear un histórico de una empresa
+		/// </summary>
+		/// <param name="empresa">Una empresa</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int CrearHistorico(Empresa empresa)
 		{
 			int f = 0;

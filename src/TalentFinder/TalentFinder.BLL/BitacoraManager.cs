@@ -59,7 +59,7 @@ namespace TalentFinder.BLL
 		/// <param name="usuario">El autor de la entrada de la bitácora</param>
 		/// <param name="TipoEvento">El tipo de evento generado en el sistema</param>
 		/// <param name="descripcion">La descripción de la entrada de la bitácora</param>
-		/// <returns></returns>
+		/// <returns>Una bitacora</returns>
 		private Bitacora GetBitacora(Usuario usuario, TipoEvento TipoEvento, string descripcion = null)
 		{
 			Bitacora bitacora = new Bitacora();

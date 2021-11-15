@@ -8,8 +8,18 @@ using TalentFinder.BE;
 
 namespace TalentFinder.DAL
 {
+	/// <summary>
+	/// Entidad de negocio para gestionar los avisos laborales
+	/// </summary>
 	public class AvisoLaboralMapper
 	{
+		/// <summary>
+		/// Método para obtener los avisos laborales filtrado por criterio de búsqueda
+		/// </summary>
+		/// <param name="palabraClave">Palabra clave a filtrar</param>
+		/// <param name="lugarTrabajo">Lugar de trabajo para filtrar</param>
+		/// <param name="tecnologias">Tecnologías a filtrar</param>
+		/// <returns>Lista de avisos laborales</returns>
 		public List<AvisoLaboral> GetAvisos(string palabraClave, string lugarTrabajo, string tecnologias)
 		{
 			List<AvisoLaboral> lista = new List<AvisoLaboral>();

@@ -12,11 +12,18 @@ using System.Configuration;
 
 namespace TalentFinder.DAL
 {
+	/// <summary>
+	/// Entidad de negocio para gestionar la bitacora del sistema
+	/// </summary>
 	public class BitacoraMapper
 	{
 		private string JsonFileName = "bitacora.js";
 		private string JsonFilePath;
 
+		/// <summary>
+		/// Método para registrar una entreda en el base de datos del sistema
+		/// </summary>
+		/// <param name="bitacora">Una bitacora</param>
 		public void RegistrarEntradaSql(Bitacora bitacora)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -40,6 +47,10 @@ namespace TalentFinder.DAL
 			}
 		}
 
+		/// <summary>
+		/// Método para serializar una entrada en el sistema
+		/// </summary>
+		/// <param name="bitacora">Una bitacora</param>
 		public void RegistrarEntradaJson(Bitacora bitacora)
 		{
 			try
@@ -57,6 +68,15 @@ namespace TalentFinder.DAL
 			}
 		}
 
+		/// <summary>
+		/// Método que obtiene los eventos del sistama registrados en la bitácora
+		/// por criterio de búsqueda
+		/// </summary>
+		/// <param name="usuario">El autor del evento generado en el sistema</param>
+		/// <param name="TipoEvento">El tipo de evento generado en el sistema</param>
+		/// <param name="FechaDesde">La fecha desde</param>
+		/// <param name="FechaHasta">La fecha hasta</param>
+		/// <returns>Lista de eventos generados en el sistema</returns>
 		public List<Bitacora> GetBitacoraEventos(Usuario usuario, TipoEvento TipoEvento, DateTime? FechaDesde, DateTime? FechaHasta)
 		{
 			List<Bitacora> lista = new List<Bitacora>();
@@ -76,6 +96,15 @@ namespace TalentFinder.DAL
 			return lista.OrderByDescending(x => x.FechaCreacion).ToList();
 		}
 
+		/// <summary>
+		/// Método que obtiene los eventos de la base de datos del sistama registrados en la bitácora
+		/// por criterio de búsqueda
+		/// </summary>
+		/// <param name="usuario">El autor del evento generado en el sistema</param>
+		/// <param name="TipoEvento">El tipo de evento generado en el sistema</param>
+		/// <param name="FechaDesde">La fecha desde</param>
+		/// <param name="FechaHasta">La fecha hasta</param>
+		/// <returns>Lista de eventos generados en el sistema</returns>
 		public List<Bitacora> GetBitacoraEventosFromSql(Usuario usuario, TipoEvento TipoEvento, DateTime? FechaDesde, DateTime? FechaHasta)
 		{
 			List<Bitacora> lista = new List<Bitacora>();
@@ -113,6 +142,15 @@ namespace TalentFinder.DAL
 			return lista;
 		}
 
+		/// <summary>
+		/// Método que obtiene los eventos serializados en formato json del sistama registrados en la bitácora
+		/// por criterio de búsqueda
+		/// </summary>
+		/// <param name="usuario">El autor del evento generado en el sistema</param>
+		/// <param name="TipoEvento">El tipo de evento generado en el sistema</param>
+		/// <param name="FechaDesde">La fecha desde</param>
+		/// <param name="FechaHasta">La fecha hasta</param>
+		/// <returns>Lista de eventos generados en el sistema</returns>
 		public List<Bitacora> GetBitacoraEventosFromJson(Usuario usuario, TipoEvento TipoEvento, DateTime? FechaDesde, DateTime? FechaHasta)
 		{
 			List<Bitacora> lista = new List<Bitacora>();
@@ -147,6 +185,10 @@ namespace TalentFinder.DAL
 			return lista;
 		}
 
+		/// <summary>
+		/// Método para obtener los tipos eventos del sistema
+		/// </summary>
+		/// <returns>Lista de tipo de eventos</returns>
 		public List<TipoEvento> GetBitacoraTipoEventos()
 		{
 			List<TipoEvento> lista = new List<TipoEvento>();
@@ -172,6 +214,11 @@ namespace TalentFinder.DAL
 			return lista;
 		}
 
+		/// <summary>
+		/// Método para obtener el tipo de evento de la bitácora por id
+		/// </summary>
+		/// <param name="id">Un id</param>
+		/// <returns>Un tipo de evento</returns>
 		public TipoEvento GetBitacoraTipoEvento(int id)
 		{
 			TipoEvento tipoEvento = null;
@@ -197,6 +244,10 @@ namespace TalentFinder.DAL
 			return tipoEvento;
 		}
 
+		/// <summary>
+		/// Método para crear la carpeta donde se guardarn los json de la bitacora
+		/// </summary>
+		/// <param name="path">Path del archivo json</param>
 		private void CrearCarpetaBitacora(string path)
 		{
 			if(!Directory.Exists(path))

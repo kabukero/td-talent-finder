@@ -6,8 +6,16 @@ using TalentFinder.BE;
 
 namespace TalentFinder.DAL
 {
+	/// <summary>
+	/// Entidad de negocio que permite gestionar los digitos verificadores del sistema
+	/// </summary>
 	public class DigitoVerificadorMapper
 	{
+		/// <summary>
+		/// Método para verificar si existe entrada en la tabla de sistema
+		/// </summary>
+		/// <param name="tablasSistema">Una tabla de sistema</param>
+		/// <returns></returns>
 		public int ExisteDVV(TablasSistema tablasSistema)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -18,6 +26,12 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
+		/// <summary>
+		/// Método para crear un digito verificador vertical
+		/// </summary>
+		/// <param name="digitoVerificadorVertical">Un digito verificador</param>
+		/// <returns>Resultado de la ejecución</returns>
 
 		public int CrearDVV(DigitoVerificadorVertical digitoVerificadorVertical)
 		{
@@ -40,6 +54,11 @@ namespace TalentFinder.DAL
 			return f;
 		}
 
+		/// <summary>
+		/// Método para editar un digito verificador vertical
+		/// </summary>
+		/// <param name="digitoVerificadorVertical">Un digito verificador</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int EditarDVV(DigitoVerificadorVertical digitoVerificadorVertical)
 		{
 			int f = 0;
@@ -61,6 +80,11 @@ namespace TalentFinder.DAL
 			return f;
 		}
 
+		/// <summary>
+		/// Método para obtener un digito verificador vertical
+		/// </summary>
+		/// <param name="tablasSistema">Una tabla de sistema</param>
+		/// <returns>Un digito verificador vertical</returns>
 		public DigitoVerificadorVertical GetDVV(TablasSistema tablasSistema)
 		{
 			DataAccessManager da = new DataAccessManager();

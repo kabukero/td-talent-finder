@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace TalentFinder.DAL
 {
+	/// <summary>
+	/// Excepción de la capa DAL
+	/// </summary>
 	public class DALException : Exception
 	{
 		public DALException()

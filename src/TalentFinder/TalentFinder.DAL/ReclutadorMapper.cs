@@ -9,8 +9,16 @@ using TalentFinder.BE;
 
 namespace TalentFinder.DAL
 {
+	/// <summary>
+	/// Clase para gestionar los reclutadores del sistema
+	/// </summary>
 	public class ReclutadorMapper
 	{
+		/// <summary>
+		/// Método para obtener un reclutador asociado a un usuario
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>El reclutador encontrado</returns>
 		public Reclutador GetReclutador(Usuario usuario)
 		{
 			Reclutador reclutador = null;

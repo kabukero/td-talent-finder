@@ -67,7 +67,7 @@ namespace TalentFinder.BLL
 		/// </summary>
 		/// <param name="perfilesPermisos"></param>
 		/// <param name="usuario"></param>
-		/// <returns></returns>
+		/// <returns>Resultado de la ejecución</returns>
 		public int GuardarUsuarioPerfilesPermisos(List<PermisoComponent> perfilesPermisos, Usuario usuario)
 		{
 			return perfilPermisoMapper.GuardarUsuarioPerfilesPermisos(perfilesPermisos, usuario);

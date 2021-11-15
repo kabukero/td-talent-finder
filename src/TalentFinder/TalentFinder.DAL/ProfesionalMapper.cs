@@ -9,8 +9,16 @@ using TalentFinder.BE;
 
 namespace TalentFinder.DAL
 {
+	/// <summary>
+	/// Entidad de negocio para gestionar los profesionales del sistema
+	/// </summary>
 	public class ProfesionalMapper
 	{
+		/// <summary>
+		/// Método para obtener el profesional asociado a un usuario
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>Un profesional encontrado</returns>
 		public Profesional GetProfesional(Usuario usuario)
 		{
 			Profesional profesional = null;
@@ -31,6 +39,12 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return profesional;
 		}
+
+		/// <summary>
+		/// Método para obtener las postulaciones de un profesional
+		/// </summary>
+		/// <param name="Profesional">Un profesional</param>
+		/// <returns>Lista de postulaciones de un profesional</returns>
 		public IList<Postulacion> GetPostulaciones(Profesional Profesional)
 		{
 			IList<Postulacion> postulacions = new List<Postulacion>();
@@ -61,6 +75,12 @@ namespace TalentFinder.DAL
 			}
 			return postulacions;
 		}
+
+		/// <summary>
+		/// Método para obtener las evaluaciones de las postulaciones
+		/// </summary>
+		/// <param name="Postulacion">Una postulación</param>
+		/// <returns>Una postulación evaluación</returns>
 		public PostulacionEvaluacion GetPostulacionEvaluacion(Postulacion Postulacion)
 		{
 			PostulacionEvaluacion postulacion = null;
@@ -88,6 +108,12 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return postulacion;
 		}
+
+		/// <summary>
+		/// Método para verificar si un profesional se postulo a un aviso laboral
+		/// </summary>
+		/// <param name="avisoLaboral">Un aviso laboral</param>
+		/// <returns>Resultado de la validación</returns>
 		public int YaSePostulo(AvisoLaboral avisoLaboral)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -98,6 +124,12 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
+		/// <summary>
+		/// Método el estado a una postulación
+		/// </summary>
+		/// <param name="postulacion">Una postulación</param>
+		/// <param name="postulacionEvalucion">Una postulación evaluación</param>
 		public void CambiarEstadoPostulacion(Postulacion postulacion, PostulacionEvaluacion postulacionEvalucion)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -124,6 +156,11 @@ namespace TalentFinder.DAL
 			}
 			da.Cerrar();
 		}
+
+		/// <summary>
+		/// Método para postularse a un aviso laboral
+		/// </summary>
+		/// <param name="postulacion">Una postulación</param>
 		public void Postularse(Postulacion postulacion)
 		{
 			DataAccessManager da = new DataAccessManager();

@@ -8,8 +8,16 @@ using TalentFinder.BE;
 
 namespace TalentFinder.DAL
 {
+	/// <summary>
+	/// Clase para gestionar los usuarios del sistema
+	/// </summary>
 	public class UsuarioMapper
 	{
+		/// <summary>
+		/// Método para verificar si existe un usuario en el sistema
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>Resultado de la validación</returns>
 		public int ExisteUsuario(Usuario usuario)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -20,6 +28,12 @@ namespace TalentFinder.DAL
 			da.Cerrar();
 			return f;
 		}
+
+		/// <summary>
+		/// Método para obtener una persoa asociada a un usuario
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>La persona asociada</returns>
 		private Persona GetPersona(Usuario usuario)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -63,6 +77,11 @@ namespace TalentFinder.DAL
 			return persona;
 		}
 
+		/// <summary>
+		/// Método para obtener un usuario
+		/// </summary>
+		/// <param name="userName">un nombre de usuario</param>
+		/// <returns>El usuario encontrado</returns>
 		public Usuario GetUsuario(string userName)
 		{
 			Usuario usuario = null;
@@ -86,6 +105,11 @@ namespace TalentFinder.DAL
 			return usuario;
 		}
 
+		/// <summary>
+		/// Método para obtener un usuario por id
+		/// </summary>
+		/// <param name="user">Un usuario con id</param>
+		/// <returns>El usuario encontrado</returns>
 		public Usuario GetUsuario(Usuario user)
 		{
 			Usuario usuario = null;
@@ -108,11 +132,20 @@ namespace TalentFinder.DAL
 			return usuario;
 		}
 
+		/// <summary>
+		/// Método para obtener el usuario administrador del sistema
+		/// </summary>
+		/// <returns>El usuario encontrado</returns>
 		public Usuario GetUsuarioAdministrador()
 		{
 			return GetUsuario(new Usuario() { Id = int.Parse(ConfigurationManager.AppSettings["UsuarioAdministradorId"].ToString()) });
 		}
 
+		/// <summary>
+		/// Método para deshabilitar un usuario
+		/// </summary>
+		/// <param name="usuario"Un usuario></param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int DeshabilitarUsuario(Usuario usuario)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -147,6 +180,11 @@ namespace TalentFinder.DAL
 			return lista;
 		}
 
+		/// <summary>
+		/// Método para crear un usuario en el sistemam
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int Agregar(Usuario usuario)
 		{
 			int NewId;
@@ -185,6 +223,11 @@ namespace TalentFinder.DAL
 			return NewId;
 		}
 
+		/// <summary>
+		/// Método para editar un usuario en el sistemam
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int Editar(Usuario usuario)
 		{
 			DataAccessManager da = new DataAccessManager();
@@ -198,6 +241,11 @@ namespace TalentFinder.DAL
 			return f;
 		}
 
+		/// <summary>
+		/// Método para eliminar un usuario en el sistemam
+		/// </summary>
+		/// <param name="usuario">Un usuario</param>
+		/// <returns>Resultado de la ejecución</returns>
 		public int Eliminar(Usuario usuario)
 		{
 			DataAccessManager da = new DataAccessManager();

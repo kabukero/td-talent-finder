@@ -8,8 +8,15 @@ using TalentFinder.BE;
 
 namespace TalentFinder.DAL
 {
+	/// <summary>
+	/// Clase para gestionar las tecnologías del sistema
+	/// </summary>
 	public class TecnologiaMapper
 	{
+		/// <summary>
+		/// Método para obtener las tecnologías del sistema
+		/// </summary>
+		/// <returns>Lista de tecnologías</returns>
 		public List<Tecnologia> GetAllTecnologias()
 		{
 			List<Tecnologia> lista = new List<Tecnologia>();
